@@ -20,7 +20,7 @@ public class PetServiceImpl implements PetService {
 	}
 
 	@Override
-	public void registerPet(Pet pet) {
+	public void insertPet(Pet pet) {
 		repository.save(pet);
 	}
 

@@ -1,8 +1,8 @@
-package com.example.pet.model;
+package com.example.pet.form;
 
 import java.sql.Date;
 
-import org.springframework.data.annotation.Id;
+import javax.validation.constraints.NotBlank;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,17 +11,26 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Pet {
+public class PetForm {
 
-	@Id
 	private Integer id;
+	
+	@NotBlank
 	private String name;
-	private Integer age;
+	
+	@NotBlank
+	private Integer age; 
+	
+	@NotBlank
 	private Boolean sex;
+	
 	private String post_cord;
 	private String address;
 	private String comment;
+	
+	@NotBlank
 	private String contact;
+	
 	private String sub_contact;
 	// private 調査中 image;
 	private Date created_at;

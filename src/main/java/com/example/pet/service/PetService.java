@@ -6,5 +6,5 @@ public interface PetService {
 	
 	Iterable<Pet> selectAll();
 	
-	void registerPet(Pet pet);
+	void insertPet(Pet pet);
 }
