@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div th:if="${selectMessage}" th:text="*{selectMessage}" style="color: red"></div>
+
+	<form method="POST" th:action="@{/update}" th:object="${petForm}">
+
+		
+
+		<br>
+		<label>名前</label>
+		<input th:field="*{name}">
+		
+		<br>
+		<label>年齢</label>
+		<input type="number" th:field="*{age}">
+		
+		<!--
+		<br>
+		<label>性別</label>
+		<th:block th:if="*{sex}">
+	    	<input type="radio" value="true" th:field="*{sex}" checked="checked">♂
+			<input type="radio" value="false" th:field="*{sex}">♀
+		</th:block>
+		<th:block th:unless="*{sex}">
+		    <input type="radio" value="true" th:field="*{sex}">♂
+			<input type="radio" value="false" th:field="*{sex}" checked="checked">♀
+		</th:block>
+		-->
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<br>
+		<label>連絡先</label>
+		<input th:field="*{contact}">
+		
+		<input type="hidden" name="id" th:value="*{id}">
+		<input type="hidden" name="sex" th:value="*{sex}">
+		
+		<input type="submit" value="送信">
+	</form>
+
+</body>
+</html>
