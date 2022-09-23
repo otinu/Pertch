@@ -20,6 +20,9 @@
 <td th:text="${obj.id}"></td>
 <td th:text="${obj.name}" align="left"></td>
 <td th:text="${obj.age}"></td>
+
+
+<!-- <img th:src="${obj.image}"/>  -->
 <!--/*編集ボタン*/-->
 <td>
 
@@ -38,8 +41,11 @@
 </tr>
 </table>
 
+
+<p th:if="${insertMessage}" th:text="${insertMessage}" style="color:green"></p>
+
 <h3>ここからフォーム送信テスト用-----------------------------</h3>
-<form method="POST" th:action="@{/pet/insert}" th:object="${petForm}">
+<form method="POST" th:action="@{/pet/insert}" th:object="${petForm}" enctype="multipart/form-data">
 
 <br>
 <label>名前</label>
@@ -51,12 +57,16 @@
 
 <br>
 <label>性別</label>
-<input type="radio" value=true th:field="*{sex}">♂
-<input type="radio" value=false th:field="*{sex}">♀
+<input type="radio" value="true" th:field="*{sex}">♂
+<input type="radio" value="false" th:field="*{sex}">♀
 
 <br>
 <label>連絡先</label>
 <input th:field="*{contact}">
+
+<br>
+<input type="file" name="upload_file">
+
 
 <br>
 <input type="submit" value="送信">

@@ -3,6 +3,7 @@ package com.example.pet.form;
 import java.sql.Date;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,10 +19,10 @@ public class PetForm {
 	@NotBlank
 	private String name;
 	
-	@NotBlank
+	@NotNull
 	private Integer age; 
 	
-	@NotBlank
+	@NotNull
 	private Boolean sex;
 	
 	private String post_cord;
@@ -32,7 +33,7 @@ public class PetForm {
 	private String contact;
 	
 	private String sub_contact;
-	// private 調査中 image;
+	private String image;
 	private Date created_at;
 	private Date updated_at;
 }

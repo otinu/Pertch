@@ -23,7 +23,10 @@ public class Pet {
 	private String comment;
 	private String contact;
 	private String sub_contact;
-	// private 調査中 image;
+	
+	
+	private String image;
+	
 	private Date created_at;
 	private Date updated_at;
 }
