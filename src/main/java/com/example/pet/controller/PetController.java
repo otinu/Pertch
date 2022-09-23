@@ -146,7 +146,7 @@ public class PetController {
 	
 	@PostMapping("/delete")	
 	public String delete(@RequestParam("id") String id, Model model, RedirectAttributes redirectAttributes) {
-		service.deletePetById(Integer.parseInt(id));
+		service.deleteById(Integer.parseInt(id));
 		redirectAttributes.addFlashAttribute("deleteMessage", "削除が完了しました");
 		return "redirect:/index";
 	}

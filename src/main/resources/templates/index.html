@@ -21,9 +21,6 @@
 <td th:text="${obj.name}" align="left"></td>
 <td th:text="${obj.age}"></td>
 
-
-<!-- <img th:src="${obj.image}"/>  -->
-<!--/*編集ボタン*/-->
 <td>
 
 <form method="GET" th:action="@{/edit/{id}(id=${obj.id})}">

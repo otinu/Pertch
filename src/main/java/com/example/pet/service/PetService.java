@@ -14,5 +14,5 @@ public interface PetService {
 	
 	void updatePet(Pet pet);
 	
-	void deletePetById(Integer id);
+	void deleteById(Integer id);
 }
