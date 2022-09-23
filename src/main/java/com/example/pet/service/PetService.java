@@ -13,4 +13,6 @@ public interface PetService {
 	Optional<Pet> selectById(Integer id);
 	
 	void updatePet(Pet pet);
+	
+	void deletePetById(Integer id);
 }

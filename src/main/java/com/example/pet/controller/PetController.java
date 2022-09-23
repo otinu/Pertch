@@ -143,6 +143,13 @@ public class PetController {
 		pet.setContact(petForm.getContact());
 		return pet;
 	}
+	
+	@PostMapping("/delete")	
+	public String delete(@RequestParam("id") String id, Model model, RedirectAttributes redirectAttributes) {
+		service.deletePetById(Integer.parseInt(id));
+		redirectAttributes.addFlashAttribute("deleteMessage", "削除が完了しました");
+		return "redirect:/index";
+	}
 }
 
 

@@ -32,7 +32,7 @@
 </td>
 <!--/*削除ボタン*/-->
 <td>
-<form method="POST" th:action="@{/pet/delete}">
+<form method="POST" th:action="@{/delete}">
 <input type="hidden" name="id" th:value="${obj.id}">
 <input type="submit" value="削除">
 </form>
@@ -44,6 +44,7 @@
 
 <p th:if="${insertMessage}" th:text="${insertMessage}" style="color:green"></p>
 <p th:if="${updateMessage}" th:text="*{updateMessage}" style="color:green"></p>
+<p th:if="${deleteMessage}" th:text="*{deleteMessage}" style="color:green"></p>
 
 <h3>ここからフォーム送信テスト用-----------------------------</h3>
 <form method="POST" th:action="@{/pet/insert}" th:object="${petForm}" enctype="multipart/form-data">

@@ -35,5 +35,10 @@ public class PetServiceImpl implements PetService {
 	public void updatePet(Pet pet) {
 		repository.save(pet);
 	}
+	
+	@Override
+	public void deletePetById(Integer id) {
+		repository.deleteById(id);
+	}
 
 }
