@@ -33,6 +33,11 @@ public class PetController {
 		return form;
 	}
 	
+	@GetMapping("/login")
+	public String showLogin() {
+		return "login";
+	}
+	
 	@GetMapping("/index")
 	public String showIndex(PetForm petForm, Model model) {
 		Iterable<Pet> list = service.selectAll();
