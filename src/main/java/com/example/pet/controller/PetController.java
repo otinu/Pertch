@@ -70,17 +70,17 @@ public class PetController {
 			if (!bindingResult.hasErrors()) {
 				service.insertPet(pet);
 				redirectAttributes.addFlashAttribute("insertMessage", "登録が完了しました");
-				return "redirect:/pet";
+				return "redirect:/index";
 			} else {
 				// System.out.println(petForm.getImage());
 				System.out.println(bindingResult.getFieldError().getDefaultMessage());
 				redirectAttributes.addFlashAttribute("insertMessage", "登録に失敗しました");
-				return "redirect:/pet";
+				return "redirect:/index";
 			}
 		} catch (IOException e) {
 			System.out.println("イメージデータのエンコーディング時に問題が発生しました。");
 			e.printStackTrace();
-			return "redirect:/pet";
+			return "redirect:/index";
 		}
 		
 		

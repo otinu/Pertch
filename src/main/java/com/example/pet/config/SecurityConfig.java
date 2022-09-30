@@ -1,9 +1,12 @@
+/***
 package com.example.pet.config;
 
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+***/
 
 /*	Security5.7から推奨されたひな形 
 
@@ -20,6 +23,8 @@ public class SecurityConfig {
 }
 */
 
+/***
+
 @Configuration
 public class SecurityConfig {
 
@@ -32,14 +37,20 @@ public class SecurityConfig {
 				.defaultSuccessUrl("index")		// ログイン成功後のリダイレクト先URL
 				.failureUrl("/login?error")		// ログイン失敗後のリダイレクト先URL
 				.permitAll()
-			).logout(logout -> logout.logoutSuccessUrl("/"));
+			).logout(logout -> logout.logoutSuccessUrl("/")
+			).authorizeHttpRequests(authz -> authz
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // /css/** などの静的ファイルにログインなしでもアクセス可能
+                .mvcMatchers("/").permitAll() 		//「/」はログインなしでもアクセス可能
+                // .mvcMatchers("/admin").hasRole("ADMIN") 	// ADMINユーザーのみ、「/admin」にアクセス可能
+                .anyRequest().authenticated() 		//その他のURLはログイン後にアクセス可能
+	        );
 			
 			return http.build();
 		}
 }
 
 
-
+***/
 
 
 
