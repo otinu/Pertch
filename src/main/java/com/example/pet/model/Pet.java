@@ -20,7 +20,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "pet")
-public class Pet {
+public class Pet { //★
+	
+	/* ★
+	 * Java16以上なら、「class」ではなく、「record」が使えるなら便利なため活用していくべき。
+	 * ただし、今回は下記の理由からrecordは使わない
+	 * ①現状はrecordとJPAなどを組み合わせる方法が双方で用意されていない。
+	 * ②recordはgetter()やtoString()などを自動生成してくれるが、setter()は用意されない
+	 * 　⇒Spring使うなら現状はlombok活用の方が情報量多い
+	 * 
+	 */
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // これを付けるカラムSerialにする必要がある

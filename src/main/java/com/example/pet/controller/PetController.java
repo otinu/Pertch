@@ -54,7 +54,6 @@ public class PetController {
 		pet.setName(petForm.getName());
 		pet.setAge(petForm.getAge());
 		pet.setSex(petForm.getSex());
-		pet.setContact(petForm.getContact());
 		
 		try {
 			String base64 = new String(Base64.encodeBase64(multipartFile.getBytes()),"ASCII");
@@ -120,7 +119,6 @@ public class PetController {
 		form.setName(pet.getName());
 		form.setAge(pet.getAge());
 		form.setSex(pet.getSex());
-		form.setContact(pet.getContact());
 		return form;
 	}
 	
@@ -145,7 +143,6 @@ public class PetController {
 		pet.setName(petForm.getName());
 		pet.setAge(petForm.getAge());
 		pet.setSex(petForm.getSex());
-		pet.setContact(petForm.getContact());
 		return pet;
 	}
 	

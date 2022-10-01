@@ -1,5 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+
+<!-- ここでspring-securityを読み込ませることで、認証の有無やロールの種類で表示内容を切り分けることができるようになる
+	 Adminの時だけ「管理ページへログイン」など -->>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
