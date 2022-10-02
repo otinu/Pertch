@@ -24,7 +24,7 @@ public class Pet { //★
 	
 	/* ★
 	 * Java16以上なら、「class」ではなく、「record」が使えるなら便利なため活用していくべき。
-	 * ただし、今回は下記の理由からrecordは使わない
+	 * ただし、今回は下記の理由からrecordは使わない。
 	 * ①現状はrecordとJPAなどを組み合わせる方法が双方で用意されていない。
 	 * ②recordはgetter()やtoString()などを自動生成してくれるが、setter()は用意されない
 	 * 　⇒Spring使うなら現状はlombok活用の方が情報量多い
@@ -57,6 +57,7 @@ public class Pet { //★
 	@Column(name = "sex")
 	private Boolean sex;
 	
+	@Column(name = "charm_point")
 	private String charm_point; // 目視でないと確認しにくい情報などを共有できるようにする
 	
 	@Column(name = "post_cord") // おばあちゃんの犬を別居の娘が代わりに探している場合など、Userに郵便番号もたせると不便になりそう
