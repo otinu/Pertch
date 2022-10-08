@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.example.pet.model.User;
 
 @Repository
-public interface UserRepository extends CrudRepository<User, Integer>, CustomizedUserRepository {
+public interface UserRepository extends CrudRepository<User, Integer> {
 
 	// ※更新系のカスタムクエリには、@Query + @Modifying が必要
 	

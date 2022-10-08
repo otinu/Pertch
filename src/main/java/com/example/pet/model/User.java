@@ -11,14 +11,13 @@ import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "user")
-@ToString(exclude = "petList")
+//@ToString(exclude = "petList")
 public class User {
 
 	@Id
