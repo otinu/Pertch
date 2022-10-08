@@ -3,6 +3,7 @@ package com.example.pet.service;
 import java.util.Optional;
 
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,7 @@ import com.example.pet.model.User;
 import com.example.pet.repository.UserRepository;
 
 @Service
-public class UserSecurityDetailsService {
+public class UserSecurityDetailsService implements UserDetailsService {
 
 	private final UserRepository userRepository;
 
@@ -21,7 +22,7 @@ public class UserSecurityDetailsService {
 	
 	@Override
 	public UserDetails loadUserByUsername(String mail) throws UsernameNotFoundException {
-		Optional<User> userOptional = userRepository.findBy();
+		Optional<User> userOptional = userRepository.findByEmail(mail);
 		
 		return userOptional.map(user -> new UserSecurityDetails(user))
 				.orElseThrow(() -> new UsernameNotFoundException("該当のユーザーが見つかりませんでした"));
