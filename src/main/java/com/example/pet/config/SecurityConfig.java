@@ -1,12 +1,14 @@
-/***
+
 package com.example.pet.config;
 
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-***/
+
 
 /*	Security5.7から推奨されたひな形 
 
@@ -23,7 +25,7 @@ public class SecurityConfig {
 }
 */
 
-/***
+
 
 @Configuration
 public class SecurityConfig {
@@ -53,9 +55,6 @@ public class SecurityConfig {
 			return new BCryptPasswordEncoder();
 		}
 }
-
-
-***/
 
 
 

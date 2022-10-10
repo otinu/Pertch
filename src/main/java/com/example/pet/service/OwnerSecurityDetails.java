@@ -1,45 +1,39 @@
-package com.example.pet;
+package com.example.pet.service;
 
 import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.example.pet.model.User;
+import com.example.pet.model.Owner;
 
 // ログイン機能詳細のクラス
-public class UserSecurityDetails implements UserDetails { // SpringSecurityのインタフェースを継承
+public class OwnerSecurityDetails implements UserDetails { // SpringSecurityのインタフェースを具体化
 
-	private final User user;
-	private final Collection<? extends GrantedAuthority> authorities;
-	
-	public UserSecurityDetails(User user) {
-		this.user = user;
-		this.authorities = user.getRoleList()
-				.stream()
-				.map(role -> new SimpleGrantedAuthority(role))
-				.toList();
+	private final Owner owner;
+
+	public OwnerSecurityDetails(Owner owner) {
+		this.owner = owner;
 	}
 	
-	public User getLoginUser() {
-        return user;
+	public Owner getLoginOwner() {
+        return owner;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
+        return null ;
     }
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return owner.getPassword();
     }
 
     // 認証に利用するユーザーのアカウント名を取得
     @Override
     public String getUsername() {
-        return user.getEmail();
+        return owner.getEmail();
     }
 
     @Override

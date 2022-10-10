@@ -45,8 +45,8 @@ public class Pet { //★
 	//private Integer user_id;
 	
 	@ManyToOne
-	@JoinColumn(name = "user_id")
-	private User user;
+	@JoinColumn(name = "owner_id")
+	private Owner owner;
 	
 	@Column(name = "name")
 	private String name;
