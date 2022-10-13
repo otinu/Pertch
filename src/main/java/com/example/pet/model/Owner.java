@@ -45,7 +45,7 @@ public class Owner {
 	@Column(name = "updated_at")
 	private Date updated_at;
 	
-	// List<String> roleList; // ログイン機能(ロール設定用)
+	// List<String> roleList; // ログイン機能(ロール設定用) ⇒ N:Nの中間テーブル用
 	
 	/*
 

@@ -29,8 +29,8 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	
-	// 公式通りの「compile」ではNG。「compileOnly」で通った
-	compileOnly "org.springframework.boot:spring-boot-starter-security"
+	//// 公式通りの「compile」ではNG。「compileOnly」で通った
+	//compileOnly "org.springframework.boot:spring-boot-starter-security"
 	// implementation group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-springsecurity5'
 }
 
