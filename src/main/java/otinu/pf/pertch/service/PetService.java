@@ -1,8 +1,8 @@
-package com.example.pet.service;
+package otinu.pf.pertch.service;
 
 import java.util.Optional;
 
-import com.example.pet.model.Pet;
+import otinu.pf.pertch.model.Pet;
 
 public interface PetService {
 	

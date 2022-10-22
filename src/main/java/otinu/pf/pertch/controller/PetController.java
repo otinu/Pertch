@@ -1,4 +1,4 @@
-package com.example.pet.controller;
+package otinu.pf.pertch.controller;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -13,39 +13,36 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.example.pet.form.PetForm;
-import com.example.pet.model.Pet;
-import com.example.pet.service.PetService;
+import otinu.pf.pertch.form.PetForm;
+import otinu.pf.pertch.model.Pet;
+import otinu.pf.pertch.service.PetService;
 
 @Controller
+@RequestMapping("/pet")
 public class PetController {
 
 	@Autowired
 	PetService service;
 	
 	@ModelAttribute
-	public PetForm setUpFprm() {
+	public PetForm setUpForm() {
 		PetForm form = new PetForm();
 		return form;
-	}
-	
-	@GetMapping("/login")
-	public String showLogin() {
-		return "login";
 	}
 	
 	@GetMapping("/index")
 	public String showIndex(PetForm petForm, Model model) {
 		Iterable<Pet> list = service.selectAll();
 		model.addAttribute("list", list);
-		return "index";
+		return "/pet/index";
 	}
 	
-	@PostMapping("insert")
+	@PostMapping("/insert")
 	public String registerPet(@Validated PetForm petForm, BindingResult bindingResult, Model model, 
 								@RequestParam("upload_file") MultipartFile multipartFile, 
 								RedirectAttributes redirectAttributes){
@@ -69,23 +66,18 @@ public class PetController {
 			if (!bindingResult.hasErrors()) {
 				service.insertPet(pet);
 				redirectAttributes.addFlashAttribute("insertMessage", "登録が完了しました");
-				return "redirect:/index";
+				return "redirect:/pet/index";
 			} else {
 				// System.out.println(petForm.getImage());
 				System.out.println(bindingResult.getFieldError().getDefaultMessage());
 				redirectAttributes.addFlashAttribute("insertMessage", "登録に失敗しました");
-				return "redirect:/index";
+				return "redirect:/pet/index";
 			}
 		} catch (IOException e) {
 			System.out.println("イメージデータのエンコーディング時に問題が発生しました。");
 			e.printStackTrace();
-			return "redirect:/index";
+			return "redirect:/pet/index";
 		}
-		
-		
-		
-		
-		
 	}
 	
 	@GetMapping("/edit/{id}")
@@ -109,8 +101,7 @@ public class PetController {
 		} else {
 			model.addAttribute("selectMessage", "該当のデータが見つかりませんでした");
 		}
-
-		return "edit";
+		return "pet/edit";
 	}
 	
 	private PetForm makePetForm(Pet pet) {
@@ -134,7 +125,7 @@ public class PetController {
 			System.out.println(bindingResult.getFieldError().getDefaultMessage());
 			redirectAttributes.addFlashAttribute("updateMessage", "更新に失敗しました");
 		}
-		return "redirect:/index";
+		return "redirect:/pet/index";
 	}
 	
 	private Pet makePet(PetForm petForm) {
@@ -150,7 +141,7 @@ public class PetController {
 	public String delete(@RequestParam("id") String id, Model model, RedirectAttributes redirectAttributes) {
 		service.deleteById(Integer.parseInt(id));
 		redirectAttributes.addFlashAttribute("deleteMessage", "削除が完了しました");
-		return "redirect:/index";
+		return "redirect:/pet/index";
 	}
 }
 

@@ -1,4 +1,4 @@
-package com.example.pet.service;
+package otinu.pf.pertch.service;
 
 import java.util.Optional;
 
@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.pet.model.Pet;
-import com.example.pet.repository.PetRepository;
+import otinu.pf.pertch.model.Pet;
+import otinu.pf.pertch.repository.PetRepository;
 
 @Service
 @Transactional

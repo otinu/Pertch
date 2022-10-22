@@ -1,0 +1,25 @@
+package otinu.pf.pertch.securityconfig;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+import otinu.pf.pertch.model.Owner;
+import otinu.pf.pertch.repository.OwnerRepository;
+
+@Service
+public class UserDetailsServiceImpl implements UserDetailsService {
+	@Autowired
+	private OwnerRepository ownerRepository;
+    
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
+		Owner owner = ownerRepository.findByUsername(username);
+		if(owner == null) {
+			throw new UsernameNotFoundException("Not Found");
+		}
+		return new UserDetailsImpl(owner);
+	}
+}
