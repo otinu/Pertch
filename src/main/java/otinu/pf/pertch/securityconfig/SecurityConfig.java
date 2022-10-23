@@ -36,7 +36,7 @@ public class SecurityConfig {
 				.loginPage("/login")			// ログイン画面のURL
 				.usernameParameter("username")  // HTML上のUserNameのname属性を任意に変更可能(デフォルトは「username」)
 				.passwordParameter("password")	// HTML上のPasswordのname属性を任意に変更可能(デフォルトは「password」)
-				.defaultSuccessUrl("/index")		// ログイン成功後のリダイレクト先URL
+				.defaultSuccessUrl("/pet/index")		// ログイン成功後のリダイレクト先URL
 				.failureUrl("/login?error")		// ログイン失敗後のリダイレクト先URL
 				.permitAll()
 			)
