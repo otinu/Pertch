@@ -1,9 +1,11 @@
-package com.example.pet.model;
+package otinu.pf.pertch.model;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -21,11 +23,12 @@ public class Owner {
 
 	@Id
 	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
 	// @Column(unique = true)
-	@Column(name = "email")
-	private String email;		// ログインにも利用。代わりにsub_contactは削除
+	@Column(name = "username")
+	private String username;		// ログインにも利用。代わりにsub_contactは削除
 	
 	@Column(name = "password")
 	private String password;
@@ -40,12 +43,22 @@ public class Owner {
 	private String contact;		// Petから持ち越し
 
 	@Column(name = "created_at")
-	private Date created_at;
+	private Timestamp created_at;
 	
 	@Column(name = "updated_at")
-	private Date updated_at;
+	private Timestamp updated_at;
 	
-	// List<String> roleList; // ログイン機能(ロール設定用)
+	public Owner(String username, String password, String name, String message, String contact, Timestamp created_at, Timestamp updated_at) {
+		this.username = username;
+		this.password = password;
+		this.name = name;
+		this.message = message;
+		this.contact = contact;
+		this.created_at = created_at;
+		this.updated_at = updated_at;
+	}
+	
+	// List<String> roleList; // ログイン機能(ロール設定用) ⇒ N:Nの中間テーブル用
 	
 	/*
 

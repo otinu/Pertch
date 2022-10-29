@@ -1,6 +1,6 @@
-package com.example.pet.model;
+package otinu.pf.pertch.model;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,8 +29,8 @@ public class PetComment {
 	private String text;
 	
 	@Column(name = "created_at")
-	private Date created_at;
+	private Timestamp created_at;
 	
 	@Column(name = "updated_at")
-	private Date updated_at;
+	private Timestamp updated_at;
 }
