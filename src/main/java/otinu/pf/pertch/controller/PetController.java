@@ -1,6 +1,7 @@
 package otinu.pf.pertch.controller;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Optional;
 
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -16,14 +17,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import otinu.pf.pertch.entity.Pet;
 import otinu.pf.pertch.form.PetForm;
-import otinu.pf.pertch.model.Pet;
 import otinu.pf.pertch.service.PetService;
 
 @Controller
-@RequestMapping("/pet")
+@RequestMapping("pet")
 public class PetController {
 
 	@Autowired
@@ -36,14 +38,16 @@ public class PetController {
 	}
 	
 	@GetMapping("/index")
-	public String showIndex(PetForm petForm, Model model) {
+	public ModelAndView showIndex(PetForm petForm) {
+		ModelAndView mv = new ModelAndView("pet/index");   
 		Iterable<Pet> list = service.selectAll();
-		model.addAttribute("list", list);
-		return "/pet/index";
+	    mv.addObject("list", list); 
+	    mv.addObject("pet", new Pet());	// リレーション付きPetを作成するための準備
+	    return mv;  
 	}
 	
 	@PostMapping("/insert")
-	public String registerPet(@Validated PetForm petForm, BindingResult bindingResult, Model model, 
+	public ModelAndView registerPet(@Validated PetForm petForm, BindingResult bindingResult, ModelAndView mv, 
 								@RequestParam("upload_file") MultipartFile multipartFile, 
 								RedirectAttributes redirectAttributes){
 		
@@ -51,32 +55,40 @@ public class PetController {
 		pet.setName(petForm.getName());
 		pet.setAge(petForm.getAge());
 		pet.setSex(petForm.getSex());
+		pet.setCharmPoint(petForm.getCharmPoint());
+		pet.setPostCord(petForm.getPostCord());
+		pet.setAddress(petForm.getAddress());
 		
+		Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
+		pet.setCreatedAt(timeStamp);
+		pet.setUpdatedAt(timeStamp);
+		
+		ModelAndView model = new ModelAndView("redirect:index"); 
 		try {
 			String base64 = new String(Base64.encodeBase64(multipartFile.getBytes()),"ASCII");
 			String imageType = multipartFile.getContentType();
-			if(imageType == "image/png") {
+			if(imageType.equals("image/png")) {
 				pet.setImage("data:image/png;base64," + base64);
-			} else if(imageType == "image/jpeg") {
+			} else if(imageType.equals("image/jpeg")) {
 				pet.setImage("data:image/jpeg," + base64);
-			} else if(imageType == "image/gif") {
+			} else if(imageType.equals("image/gif")) {
 				pet.setImage("data:image/gif;base64," + base64);
 			}
 			
 			if (!bindingResult.hasErrors()) {
 				service.insertPet(pet);
 				redirectAttributes.addFlashAttribute("insertMessage", "登録が完了しました");
-				return "redirect:/pet/index";
+				return model;
 			} else {
 				// System.out.println(petForm.getImage());
 				System.out.println(bindingResult.getFieldError().getDefaultMessage());
 				redirectAttributes.addFlashAttribute("insertMessage", "登録に失敗しました");
-				return "redirect:/pet/index";
+				return model;
 			}
 		} catch (IOException e) {
 			System.out.println("イメージデータのエンコーディング時に問題が発生しました。");
 			e.printStackTrace();
-			return "redirect:/pet/index";
+			return model;
 		}
 	}
 	
@@ -110,6 +122,12 @@ public class PetController {
 		form.setName(pet.getName());
 		form.setAge(pet.getAge());
 		form.setSex(pet.getSex());
+		form.setCharmPoint(pet.getCharmPoint());
+		form.setPostCord(pet.getPostCord());
+		form.setAddress(pet.getAddress());
+		form.setImage(pet.getImage());
+		form.setCreatedAt(pet.getCreatedAt());
+		form.setUpdatedAt(pet.getUpdatedAt());
 		return form;
 	}
 	

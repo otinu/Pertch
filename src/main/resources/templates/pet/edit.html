@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -7,7 +8,7 @@
 <body>
 	<div th:if="${selectMessage}" th:text="*{selectMessage}" style="color: red"></div>
 
-	<form method="POST" th:action="@{/update}" th:object="${petForm}">
+	<form method="POST" th:action="@{/pet/update}" th:object="${petForm}">
 
 		<br>
 		<label>名前</label>
@@ -31,8 +32,30 @@
 		-->
 		
 		<br>
-		<label>連絡先</label>
-		<input th:field="*{contact}">
+		<label>特徴</label>
+		<input th:field="*{charmPoint}">
+		
+		<br>
+		<label>郵便番号</label>
+		<input th:field="*{postCord}">
+		
+		<br>
+		<label>住所</label>
+		<input th:field="*{address}">
+		
+		<br>
+		<label>登録日時</label>
+		<p th:text="*{createdAt}"></p>
+		
+		<br>
+		<label>更新日時</label>
+		<p th:text="*{UpdatedAt}"></p>
+		
+		<br>
+		<label>【現在画像】</label>
+		<img th:src="*{image}">
+		<input type="file" name="*{image}">
+		
 		
 		<input type="hidden" name="id" th:value="*{id}">
 		<input type="hidden" name="sex" th:value="*{sex}">

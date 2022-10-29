@@ -2,7 +2,7 @@ package otinu.pf.pertch.service;
 
 import java.util.Optional;
 
-import otinu.pf.pertch.model.Pet;
+import otinu.pf.pertch.entity.Pet;
 
 public interface PetService {
 	

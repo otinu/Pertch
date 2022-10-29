@@ -1,4 +1,4 @@
-package otinu.pf.pertch.model;
+package otinu.pf.pertch.entity;
 
 import java.sql.Timestamp;
 
@@ -36,18 +36,6 @@ public class Pet { //★
 	@Column(name = "id")
 	private Integer id;
 	
-	/*
-	 *  User has many Pet にするための外部キー
-	 *  外部キー制約をもたせたい
-	 *  ⇒UserId 1番を「no_owner」などに設定し、目撃情報を投稿する際はno_ownerと結びつける
-	 *  　⇒⇒no_ownerのデータ群は「eyewitness report」テーブルと見なして扱いたい
-	 */
-	//private Integer user_id;
-	
-	@ManyToOne
-	@JoinColumn(name = "owner_id")
-	private Owner owner;
-	
 	@Column(name = "name")
 	private String name;
 	
@@ -58,10 +46,10 @@ public class Pet { //★
 	private Boolean sex;
 	
 	@Column(name = "charm_point")
-	private String charm_point; // 目視でないと確認しにくい情報などを共有できるようにする
+	private String charmPoint; // 目視でないと確認しにくい情報などを共有できるようにする
 	
 	@Column(name = "post_cord") // おばあちゃんの犬を別居の娘が代わりに探している場合など、Userに郵便番号もたせると不便になりそう
-	private String post_cord;
+	private String postCord;
 	
 	@Column(name = "address")
 	private String address;
@@ -70,8 +58,20 @@ public class Pet { //★
 	private String image;
 	
 	@Column(name = "created_at")
-	private Timestamp created_at;
+	private Timestamp createdAt;
 	
 	@Column(name = "updated_at")
-	private Timestamp updated_at;
+	private Timestamp updatedAt;
+	
+	
+	/*
+	 *  Owner has many Pet にするための外部キー
+	 *  外部キー制約をもたせたい
+	 *  ⇒OwnerId 1番を「no_owner」などに設定し、目撃情報を投稿する際はno_ownerと結びつける
+	 *  　⇒⇒no_ownerのデータ群は「eyewitness report」テーブルと見なして扱いたい
+	 */
+	
+	@ManyToOne
+	@JoinColumn(name = "owner_id")
+	private Owner owner;
 }
