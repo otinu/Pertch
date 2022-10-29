@@ -1,6 +1,7 @@
 package otinu.pf.pertch.controller;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.sql.Timestamp;
 import java.util.Optional;
 
@@ -20,8 +21,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import otinu.pf.pertch.entity.Owner;
 import otinu.pf.pertch.entity.Pet;
 import otinu.pf.pertch.form.PetForm;
+import otinu.pf.pertch.service.OwnerService;
 import otinu.pf.pertch.service.PetService;
 
 @Controller
@@ -29,7 +32,10 @@ import otinu.pf.pertch.service.PetService;
 public class PetController {
 
 	@Autowired
-	PetService service;
+	PetService petService;
+	
+	@Autowired
+	OwnerService ownerService;
 	
 	@ModelAttribute
 	public PetForm setUpForm() {
@@ -40,7 +46,7 @@ public class PetController {
 	@GetMapping("/index")
 	public ModelAndView showIndex(PetForm petForm) {
 		ModelAndView mv = new ModelAndView("pet/index");   
-		Iterable<Pet> list = service.selectAll();
+		Iterable<Pet> list = petService.selectAll();
 	    mv.addObject("list", list); 
 	    mv.addObject("pet", new Pet());	// リレーション付きPetを作成するための準備
 	    return mv;  
@@ -49,7 +55,7 @@ public class PetController {
 	@PostMapping("/insert")
 	public ModelAndView registerPet(@Validated PetForm petForm, BindingResult bindingResult, ModelAndView mv, 
 								@RequestParam("upload_file") MultipartFile multipartFile, 
-								RedirectAttributes redirectAttributes){
+								RedirectAttributes redirectAttributes, Principal principal){
 		
 		Pet pet = new Pet();
 		pet.setName(petForm.getName());
@@ -76,7 +82,10 @@ public class PetController {
 			}
 			
 			if (!bindingResult.hasErrors()) {
-				service.insertPet(pet);
+				String loginUserName = principal.getName();
+				Owner relationOwner = ownerService.findByName(loginUserName);
+				pet.setOwner(relationOwner);
+				petService.insertPet(pet);
 				redirectAttributes.addFlashAttribute("insertMessage", "登録が完了しました");
 				return model;
 			} else {
@@ -94,7 +103,7 @@ public class PetController {
 	
 	@GetMapping("/edit/{id}")
 	public String editPet(PetForm petForm,@PathVariable Integer id, Model model) {
-		Optional<Pet> petOpt = service.findById(id);
+		Optional<Pet> petOpt = petService.findById(id);
 		Optional<PetForm> petFormOpt = petOpt.map(t -> makePetForm(t));
 		/*
 		 * ↑ここで、ラムダとmakePetForm()を使って、PetをPetFormに詰めなおしている
@@ -137,7 +146,7 @@ public class PetController {
 		
 		Pet pet = makePet(petForm);
 		if(!bindingResult.hasErrors()) {
-			service.updatePet(pet);
+			petService.updatePet(pet);
 			redirectAttributes.addFlashAttribute("updateMessage", "更新が完了しました");
 		} else {
 			System.out.println(bindingResult.getFieldError().getDefaultMessage());
@@ -157,17 +166,9 @@ public class PetController {
 	
 	@PostMapping("/delete")	
 	public String delete(@RequestParam("id") String id, Model model, RedirectAttributes redirectAttributes) {
-		service.deleteById(Integer.parseInt(id));
+		petService.deleteById(Integer.parseInt(id));
 		redirectAttributes.addFlashAttribute("deleteMessage", "削除が完了しました");
 		return "redirect:/pet/index";
 	}
+	
 }
-
-
-
-
-
-
-
-
-

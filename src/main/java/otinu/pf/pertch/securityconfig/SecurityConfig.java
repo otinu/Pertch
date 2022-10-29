@@ -34,7 +34,7 @@ public class SecurityConfig {
 			.formLogin(login -> login
 				.loginProcessingUrl("/login")	// ユーザー名・パスワードの送信先URL
 				.loginPage("/login")			// ログイン画面のURL
-				.usernameParameter("username")  // HTML上のUserNameのname属性を任意に変更可能(デフォルトは「username」)
+				.usernameParameter("name")  // HTML上のUserNameのname属性を任意に変更可能(デフォルトは「username」)
 				.passwordParameter("password")	// HTML上のPasswordのname属性を任意に変更可能(デフォルトは「password」)
 				.defaultSuccessUrl("/pet/index")		// ログイン成功後のリダイレクト先URL
 				.failureUrl("/login?error")		// ログイン失敗後のリダイレクト先URL

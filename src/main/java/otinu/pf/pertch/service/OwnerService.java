@@ -1,9 +1,10 @@
 package otinu.pf.pertch.service;
 
-import org.springframework.stereotype.Service;
+import otinu.pf.pertch.entity.Owner;
 
-@Service
 public interface OwnerService {
 	
 	public void ownerRegistration(String username, String password, String name, String message, String contact);
+	
+	public Owner findByName(String name);
 }
