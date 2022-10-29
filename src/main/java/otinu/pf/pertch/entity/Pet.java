@@ -32,9 +32,10 @@ public class Pet { //★
 	 */
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY) // これを付けるカラムSerialにする必要がある
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // これを付けるカラムはSerialにする必要がある
 	@Column(name = "id")
 	private Integer id;
+	// 個人用のため今回はInteger指定のまま。一般向けなら型はLongにするべき
 	
 	@Column(name = "name")
 	private String name;
@@ -63,7 +64,6 @@ public class Pet { //★
 	@Column(name = "updated_at")
 	private Timestamp updatedAt;
 	
-	
 	/*
 	 *  Owner has many Pet にするための外部キー
 	 *  外部キー制約をもたせたい
@@ -71,7 +71,8 @@ public class Pet { //★
 	 *  　⇒⇒no_ownerのデータ群は「eyewitness report」テーブルと見なして扱いたい
 	 */
 	
-	@ManyToOne
+	// optional有効で、n:1の1側がNULLでもDB登録可能になる(デフォルトはtrue)
+	@ManyToOne(optional = false)
 	@JoinColumn(name = "owner_id")
 	private Owner owner;
 }

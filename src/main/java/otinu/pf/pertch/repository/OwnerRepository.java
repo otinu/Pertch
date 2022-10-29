@@ -3,7 +3,7 @@ package otinu.pf.pertch.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import otinu.pf.pertch.model.Owner;
+import otinu.pf.pertch.entity.Owner;
 
 @Repository
 public interface OwnerRepository extends JpaRepository<Owner, Integer> {

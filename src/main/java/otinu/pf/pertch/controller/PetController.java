@@ -94,7 +94,7 @@ public class PetController {
 	
 	@GetMapping("/edit/{id}")
 	public String editPet(PetForm petForm,@PathVariable Integer id, Model model) {
-		Optional<Pet> petOpt = service.selectById(id);
+		Optional<Pet> petOpt = service.findById(id);
 		Optional<PetForm> petFormOpt = petOpt.map(t -> makePetForm(t));
 		/*
 		 * ↑ここで、ラムダとmakePetForm()を使って、PetをPetFormに詰めなおしている

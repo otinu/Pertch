@@ -4,14 +4,11 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -55,10 +52,6 @@ public class Owner {
 	@Column(name = "updated_at")
 	private Timestamp updated_at;
 	
-	// mappedByには、1対N の1側を指定
-	// cascadeには、1対N の1側の変更(更新や削除など)に伴って、N側も同様の処理を連動させるかを指定
-	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
-	@OrderBy("id asc")
 	private List<Pet> petList = new ArrayList<>();
 	
 	public void addPet(Pet pet) {

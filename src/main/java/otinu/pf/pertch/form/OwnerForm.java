@@ -1,6 +1,7 @@
 package otinu.pf.pertch.form;
 
 import java.sql.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
@@ -36,5 +37,9 @@ public class OwnerForm {
 	
 	@Column(name = "updated_at")
 	private Date updated_at;
+	
+	private List<PetForm> petList;
+
+	private PetForm newPet;
 
 }

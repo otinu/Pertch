@@ -5,7 +5,7 @@ import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import otinu.pf.pertch.model.Owner;
+import otinu.pf.pertch.entity.Owner;
 
 public class UserDetailsImpl implements UserDetails {
 	private Owner user;

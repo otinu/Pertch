@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import otinu.pf.pertch.model.Owner;
+import otinu.pf.pertch.entity.Owner;
 import otinu.pf.pertch.repository.OwnerRepository;
 
 @Service
