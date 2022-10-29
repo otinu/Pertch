@@ -10,7 +10,7 @@ public interface PetService {
 	
 	void insertPet(Pet pet);
 	
-	Optional<Pet> selectById(Integer id);
+	Optional<Pet> findById(Integer id);
 	
 	void updatePet(Pet pet);
 	

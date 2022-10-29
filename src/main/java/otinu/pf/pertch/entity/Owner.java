@@ -32,15 +32,16 @@ public class Owner {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	// ログインに利用。代わりにsub_contactは削除し、usernameにはメールアドレスを入力
-	// @Column(unique = true)
+	// ユーザー様の画面に実際に表示させるユーザー名
 	@Column(name = "username")
 	private String username;		
 	
 	@Column(name = "password")
 	private String password;
 	
-	@Column(name = "name")
+	// ログインに利用。メールアドレスを入力
+	// ログイン中のユーザーをnameから一意に取得する必要があるため、ユニーク制約を設定
+	@Column(name = "name", unique = true)
 	private String name;
 	
 	@Column(name = "message")
@@ -75,6 +76,5 @@ public class Owner {
 		this.created_at = created_at;
 		this.updated_at = updated_at;
 	}
-	
-	
+
 }

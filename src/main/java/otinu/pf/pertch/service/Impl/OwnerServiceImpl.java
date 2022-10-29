@@ -19,13 +19,18 @@ public class OwnerServiceImpl implements OwnerService {
 	private PasswordEncoder passwordEncoder;
 	
 	@Autowired
-	private OwnerRepository ownerRepository;
+	private OwnerRepository repository;
 
 	@Override
 	public void ownerRegistration(String username, String password, String name, String message, String contact) {
 		String hashedPassword = passwordEncoder.encode(password);
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		ownerRepository.saveAndFlush(new Owner(username, hashedPassword, name, message, contact, timestamp, timestamp));
+		repository.saveAndFlush(new Owner(username, hashedPassword, name, message, contact, timestamp, timestamp));
+	}
+
+	@Override
+	public Owner findByName(String name) {
+		return repository.findByName(name);
 	}
 
 }

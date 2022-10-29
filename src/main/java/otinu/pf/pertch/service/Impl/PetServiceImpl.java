@@ -24,17 +24,17 @@ public class PetServiceImpl implements PetService {
 
 	@Override
 	public void insertPet(Pet pet) {
-		repository.save(pet);
+		repository.saveAndFlush(pet);
 	}
 	
 	@Override
-	public Optional<Pet> selectById(Integer id) {
+	public Optional<Pet> findById(Integer id) {
 		return repository.findById(id);
 	}
 	
 	@Override
 	public void updatePet(Pet pet) {
-		repository.save(pet);
+		repository.saveAndFlush(pet);
 	}
 	
 	@Override

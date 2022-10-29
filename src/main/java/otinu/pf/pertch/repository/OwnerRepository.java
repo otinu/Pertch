@@ -1,11 +1,12 @@
 package otinu.pf.pertch.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.Query;
 
-import otinu.pf.pertch.model.Owner;
+import otinu.pf.pertch.entity.Owner;
 
-@Repository
 public interface OwnerRepository extends JpaRepository<Owner, Integer> {
-	public Owner findByUsername(String username);
+	
+	@Query(value = "SELECT * FROM owner WHERE name = ?1", nativeQuery=true)
+	public Owner findByName(String name);
 }
