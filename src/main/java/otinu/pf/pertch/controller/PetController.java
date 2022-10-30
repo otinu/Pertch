@@ -5,7 +5,6 @@ import java.security.Principal;
 import java.sql.Timestamp;
 import java.util.Optional;
 
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,7 +54,7 @@ public class PetController {
 	}
 	
 	@GetMapping("/new")
-	public ModelAndView showNew(PetForm petForm) {
+	public ModelAndView showNew() {
 		ModelAndView mv = new ModelAndView("pet/new");   
 	    mv.addObject("petForm", new PetForm()); 
 	    return mv;  
@@ -80,15 +79,7 @@ public class PetController {
 		
 		ModelAndView model = new ModelAndView("redirect:index"); 
 		try {
-			String base64 = new String(Base64.encodeBase64(multipartFile.getBytes()),"ASCII");
-			String imageType = multipartFile.getContentType();
-			if(imageType.equals("image/png")) {
-				pet.setImage("data:image/png;base64," + base64);
-			} else if(imageType.equals("image/jpeg")) {
-				pet.setImage("data:image/jpeg," + base64);
-			} else if(imageType.equals("image/gif")) {
-				pet.setImage("data:image/gif;base64," + base64);
-			}
+			petService.settingImage(pet, multipartFile);
 			
 			if (!bindingResult.hasErrors()) {
 				Owner relationOwner = ownerService.getCurrentUser(principal);
@@ -144,15 +135,17 @@ public class PetController {
 		form.setAddress(pet.getAddress());
 		form.setImage(pet.getImage());
 		form.setCreatedAt(pet.getCreatedAt());
-		form.setUpdatedAt(pet.getUpdatedAt());
+		
+		Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
+		form.setUpdatedAt(timeStamp);
 		return form;
 	}
 	
 	@PostMapping("/update")
 	public String update(@Validated PetForm petForm, BindingResult bindingResult, 
-						Model model, RedirectAttributes redirectAttributes) {
+						Model model, RedirectAttributes redirectAttributes, @RequestParam("upload_file") MultipartFile multipartFile,Principal principal) {
 		
-		Pet pet = makePet(petForm);
+		Pet pet = makePet(petForm, multipartFile, principal);
 		if(!bindingResult.hasErrors()) {
 			petService.updatePet(pet);
 			redirectAttributes.addFlashAttribute("updateMessage", "更新が完了しました");
@@ -163,12 +156,31 @@ public class PetController {
 		return "redirect:/pet/index";
 	}
 	
-	private Pet makePet(PetForm petForm) {
+	private Pet makePet(PetForm petForm, MultipartFile multipartFile,Principal principal) {
 		Pet pet = new Pet();
 		pet.setId(petForm.getId());
 		pet.setName(petForm.getName());
 		pet.setAge(petForm.getAge());
 		pet.setSex(petForm.getSex());
+		pet.setCharmPoint(petForm.getCharmPoint());
+		pet.setPostCord(petForm.getPostCord());
+		pet.setAddress(petForm.getAddress());
+		
+		if(multipartFile.getOriginalFilename().isEmpty()) {
+			pet.setImage(petForm.getImage());
+		} else {
+			try {
+				petService.settingImage(pet, multipartFile);
+			} catch (IOException e) {
+				System.out.println("イメージデータのエンコーディング時に問題が発生しました。");
+				e.printStackTrace();
+				return pet;
+			}
+		}
+		
+		pet.setCreatedAt(petForm.getCreatedAt());
+		pet.setUpdatedAt(petForm.getUpdatedAt());
+		pet.setOwner(ownerService.getCurrentUser(principal));
 		return pet;
 	}
 	

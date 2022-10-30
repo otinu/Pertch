@@ -8,7 +8,7 @@
 <body>
 	<div th:if="${selectMessage}" th:text="*{selectMessage}" style="color: red"></div>
 
-	<form method="POST" th:action="@{/pet/update}" th:object="${petForm}">
+	<form method="POST" th:action="@{/pet/update}" th:object="${petForm}" enctype="multipart/form-data">
 
 		<br>
 		<label>名前</label>
@@ -46,15 +46,18 @@
 		<br>
 		<label>登録日時</label>
 		<p th:text="*{createdAt}"></p>
+		<input type="hidden" name="createdAt" th:value="*{createdAt}">
 		
 		<br>
 		<label>更新日時</label>
-		<p th:text="*{UpdatedAt}"></p>
+		<p th:text="*{updatedAt}"></p>
+		<input type="hidden" name="updatedAt" th:value="*{updatedAt}">
 		
 		<br>
 		<label>【現在画像】</label>
 		<img th:src="*{image}">
-		<input type="file" name="*{image}">
+		<input type="file" name="upload_file">
+		<input type="hidden" name="image" th:value="*{image}">
 		
 		
 		<input type="hidden" name="id" th:value="*{id}">

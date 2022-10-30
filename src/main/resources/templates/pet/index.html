@@ -28,10 +28,12 @@
 				</form>
 			</td>
 			<td>
+			<th:block th:if="${pet.owner != currentUser.id}">
 				<th:block th:if="${pet.owner.id == currentUser.id}">
 					<form method="POST" th:action="@{/pet/delete}">
 						<input type="hidden" name="id" th:value="${pet.id}"> <input type="submit" value="削除">
 					</form>
+				</th:block>
 			</td>
 		</tr>
 		
