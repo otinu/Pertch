@@ -1,7 +1,6 @@
 package otinu.pf.pertch.entity;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -56,11 +55,16 @@ public class Owner {
 	@Column(name = "updated_at")
 	private Timestamp updated_at;
 	
-	// mappedByには、1対N の1側を指定
-	// cascadeには、1対N の1側の変更(更新や削除など)に伴って、N側も同様の処理を連動させるかを指定
+	
+	/* 
+	 * mappedByには、1対N の1側を指定
+	 * 　⇒N側の更新に連動して、結び付けられたOwner側の対象オブジェクトも削除される
+	 * 　　⇒Petを削除すれば、対象Ownerも自動で削除される
+	 * 
+	 * cascadeには、1対N の1側の変更(更新や削除など)に伴って、N側も同様の処理を連動させるかを指定*/
 	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
 	@OrderBy("id asc")
-	private List<Pet> petList = new ArrayList<>();
+	private List<Pet> petList;
 	
 	public void addPet(Pet pet) {
 		pet.setOwner(this);

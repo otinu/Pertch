@@ -44,11 +44,20 @@ public class PetController {
 	}
 	
 	@GetMapping("/index")
-	public ModelAndView showIndex(PetForm petForm) {
+	public ModelAndView showIndex(PetForm petForm, Principal principal) {
 		ModelAndView mv = new ModelAndView("pet/index");   
 		Iterable<Pet> list = petService.selectAll();
 	    mv.addObject("list", list); 
-	    mv.addObject("pet", new Pet());	// リレーション付きPetを作成するための準備
+	    
+	    Owner currentUser = ownerService.getCurrentUser(principal);
+	    mv.addObject("currentUser", currentUser); 
+	    return mv;  
+	}
+	
+	@GetMapping("/new")
+	public ModelAndView showNew(PetForm petForm) {
+		ModelAndView mv = new ModelAndView("pet/new");   
+	    mv.addObject("petForm", new PetForm()); 
 	    return mv;  
 	}
 	
@@ -82,8 +91,7 @@ public class PetController {
 			}
 			
 			if (!bindingResult.hasErrors()) {
-				String loginUserName = principal.getName();
-				Owner relationOwner = ownerService.findByName(loginUserName);
+				Owner relationOwner = ownerService.getCurrentUser(principal);
 				pet.setOwner(relationOwner);
 				petService.insertPet(pet);
 				redirectAttributes.addFlashAttribute("insertMessage", "登録が完了しました");
@@ -101,7 +109,7 @@ public class PetController {
 		}
 	}
 	
-	@GetMapping("/edit/{id}")
+	@PostMapping("/edit/{id}")
 	public String editPet(PetForm petForm,@PathVariable Integer id, Model model) {
 		Optional<Pet> petOpt = petService.findById(id);
 		Optional<PetForm> petFormOpt = petOpt.map(t -> makePetForm(t));

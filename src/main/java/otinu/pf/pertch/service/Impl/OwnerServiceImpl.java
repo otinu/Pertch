@@ -1,5 +1,6 @@
 package otinu.pf.pertch.service.Impl;
 
+import java.security.Principal;
 import java.sql.Timestamp;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,12 @@ public class OwnerServiceImpl implements OwnerService {
 	@Override
 	public Owner findByName(String name) {
 		return repository.findByName(name);
+	}
+
+	@Override
+	public Owner getCurrentUser(Principal principal) {
+		String loginUserName = principal.getName();
+		return repository.findByName(loginUserName);
 	}
 
 }

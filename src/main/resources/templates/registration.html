@@ -10,31 +10,31 @@
     <main class="main">
     	<form class="form" th:action="@{/registration}" method="post" th:object="${ownerform}">
 		    <h1 class="form__title">Owner Registration</h1>
-<!-- 		    <p th:if="${#fields.hasErrors('passwordValid')}" th:errors="*{passwordValid}" class="error-message"></p> -->
+<!--/* 		    <p th:if="${#fields.hasErrors('passwordValid')}" th:errors="*{passwordValid}" class="error-message"></p> */-->
 		    <p class="form__item">
 		        <label for="username">Email</label>
-<!-- 		        <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error-message"></span> -->
+<!--/* 		        <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error-message"></span> */-->
 		        <input type="text" placeholder="Type Username" name="username" id="username">
 		    </p>
 		    <p class="form__item">
 		        <label for="password">Password</label>
-<!-- 		        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error-message"></span> -->
+<!--/* 		        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error-message"></span> */-->
 		        <input type="password" placeholder="Type Password" name="password" id="password">
 		    </p>
 		    
 		    <p class="form__item">
 		        <label for="password">Name</label>
-<!-- 		        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error-message"></span> -->
+<!--/* 		        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error-message"></span> */-->
 		        <input type="text" placeholder="Type Name" name="name" id="name">
 		    </p>
 		    <p class="form__item">
 		        <label for="password">Message</label>
-<!-- 		        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error-message"></span> -->
+<!--/* 		        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error-message"></span> */-->
 		        <textarea name="message" id="message"></textarea >
 		    </p>
 		    <p class="form__item">
 		        <label for="password">Contact</label>
-<!-- 		        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error-message"></span> -->
+<!--/* 		        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error-message"></span> */-->
 		        <input type="text" placeholder="Type Contact" name="contact" id="contact">
 		    </p>
 		    <p class="form__item">
@@ -43,4 +43,6 @@
 		</form>
     </main>
 </body>
+
+<h1><a href="/login" style="color: red;">ログイン</a></h1>
 </html>

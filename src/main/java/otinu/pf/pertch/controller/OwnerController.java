@@ -15,6 +15,11 @@ public class OwnerController {
 	@Autowired
 	private OwnerService ownerRegistrationService;
 	
+	@GetMapping("/")
+	public String redirectPetIndex() {
+		return "redirect:/pet/index";
+	}
+	
 	@GetMapping("/login")
 	public String showLogin() {
 		return "login";
