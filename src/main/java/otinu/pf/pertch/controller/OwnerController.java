@@ -38,9 +38,15 @@ public class OwnerController {
 		return "redirect:/pet/index";
 	}
 	
-	@PostMapping("/show/{id}")
+	@GetMapping("/owner/show/{id}")
 	public ModelAndView ownerShow(OwnerForm ownerForm,@PathVariable Integer id) {
-		ModelAndView mv = new ModelAndView("owner/show"); 
+		ModelAndView mv = new ModelAndView("/owner/show"); 
+		return mv;
+	}
+	
+	@GetMapping("/owner/mypage")
+	public ModelAndView ownerMyPage() {
+		ModelAndView mv = new ModelAndView("/owner/mypage"); 
 		return mv;
 	}
 

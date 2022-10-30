@@ -12,23 +12,37 @@
 
 	<table border="1" th:unless="${#lists.isEmpty(list)}" style="table-layout: fixed;">
 		<tr>
-			<th>ID</th>
 			<th>ペット名</th>
 			<th>年齢</th>
+			<th>性別</th>
+			<th>特徴</th>
+			<th>住処の郵便番号</th>
+			<th>住処の住所</th>
+			<th>飼い主</th>
 			<th>編集</th>
 			<th>削除</th>
 		</tr>
 		<tr th:each="pet:${list}" align="center">
-			<td th:text="${pet.id}"></td>
 			<td th:text="${pet.name}" align="left"></td>
 			<td th:text="${pet.age}"></td>
+			<th:block th:switch="${pet.sex}">
+				<td th:case=true>♂</td>
+				<td th:case=false>♀</td>
+			</th:block>
+			<td th:text="${pet.charmPoint}"></td>
+			<td th:text="${pet.postCord}"></td>
+			<td th:text="${pet.address}"></td>
 			<td>
-				<form method="POST" th:action="@{/pet/edit/{id}(id=${pet.id})}">
-					<input type="submit" value="編集">
-				</form>
+				<a th:href="@{/owner/show/{id}(id=${pet.owner.id})}" th:text="${pet.owner.username}"></a>
 			</td>
 			<td>
-			<th:block th:if="${pet.owner != currentUser.id}">
+				<th:block th:if="${pet.owner.id == currentUser.id}">
+					<form method="POST" th:action="@{/pet/edit/{id}(id=${pet.id})}">
+						<input type="submit" value="編集">
+					</form>
+				</th:block>
+			</td>
+			<td>
 				<th:block th:if="${pet.owner.id == currentUser.id}">
 					<form method="POST" th:action="@{/pet/delete}">
 						<input type="hidden" name="id" th:value="${pet.id}"> <input type="submit" value="削除">
@@ -36,7 +50,7 @@
 				</th:block>
 			</td>
 		</tr>
-		
+
 	</table>
 
 	<p th:if="${insertMessage}" th:text="${insertMessage}" style="color: green"></p>
@@ -49,9 +63,13 @@
 	</h1>
 
 	<br>
-	<form sec:authorize="authenticated" method="post" action="index.html" th:action="@{/logout}">
+	<form sec:authorize="authenticated" method="post" th:action="@{/logout}">
 		<button type="submit">ログアウト</button>
 	</form>
+
+
+		<div th:replace="fragment/navigation :: link"></div>
+
 
 </body>
 </html>

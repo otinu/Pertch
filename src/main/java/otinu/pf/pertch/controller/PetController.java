@@ -32,39 +32,39 @@ public class PetController {
 
 	@Autowired
 	PetService petService;
-	
+
 	@Autowired
 	OwnerService ownerService;
-	
+
 	@ModelAttribute
 	public PetForm setUpForm() {
 		PetForm form = new PetForm();
 		return form;
 	}
-	
+
 	@GetMapping("/index")
 	public ModelAndView showIndex(PetForm petForm, Principal principal) {
-		ModelAndView mv = new ModelAndView("pet/index");   
+		ModelAndView mv = new ModelAndView("pet/index");
 		Iterable<Pet> list = petService.selectAll();
-	    mv.addObject("list", list); 
-	    
-	    Owner currentUser = ownerService.getCurrentUser(principal);
-	    mv.addObject("currentUser", currentUser); 
-	    return mv;  
+		mv.addObject("list", list);
+
+		Owner currentUser = ownerService.getCurrentUser(principal);
+		mv.addObject("currentUser", currentUser);
+		return mv;
 	}
-	
+
 	@GetMapping("/new")
 	public ModelAndView showNew() {
-		ModelAndView mv = new ModelAndView("pet/new");   
-	    mv.addObject("petForm", new PetForm()); 
-	    return mv;  
+		ModelAndView mv = new ModelAndView("pet/new");
+		mv.addObject("petForm", new PetForm());
+		return mv;
 	}
-	
+
 	@PostMapping("/insert")
-	public ModelAndView registerPet(@Validated PetForm petForm, BindingResult bindingResult, ModelAndView mv, 
-								@RequestParam("upload_file") MultipartFile multipartFile, 
-								RedirectAttributes redirectAttributes, Principal principal){
-		
+	public ModelAndView registerPet(@Validated PetForm petForm, BindingResult bindingResult, ModelAndView mv,
+			@RequestParam("upload_file") MultipartFile multipartFile,
+			RedirectAttributes redirectAttributes, Principal principal) {
+
 		Pet pet = new Pet();
 		pet.setName(petForm.getName());
 		pet.setAge(petForm.getAge());
@@ -72,15 +72,15 @@ public class PetController {
 		pet.setCharmPoint(petForm.getCharmPoint());
 		pet.setPostCord(petForm.getPostCord());
 		pet.setAddress(petForm.getAddress());
-		
+
 		Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
 		pet.setCreatedAt(timeStamp);
 		pet.setUpdatedAt(timeStamp);
-		
-		ModelAndView model = new ModelAndView("redirect:index"); 
+
+		ModelAndView model = new ModelAndView("redirect:index");
 		try {
 			petService.settingImage(pet, multipartFile);
-			
+
 			if (!bindingResult.hasErrors()) {
 				Owner relationOwner = ownerService.getCurrentUser(principal);
 				pet.setOwner(relationOwner);
@@ -99,9 +99,9 @@ public class PetController {
 			return model;
 		}
 	}
-	
+
 	@PostMapping("/edit/{id}")
-	public String editPet(PetForm petForm,@PathVariable Integer id, Model model) {
+	public String editPet(PetForm petForm, @PathVariable Integer id, Model model) {
 		Optional<Pet> petOpt = petService.findById(id);
 		Optional<PetForm> petFormOpt = petOpt.map(t -> makePetForm(t));
 		/*
@@ -123,7 +123,7 @@ public class PetController {
 		}
 		return "pet/edit";
 	}
-	
+
 	private PetForm makePetForm(Pet pet) {
 		PetForm form = new PetForm();
 		form.setId(pet.getId());
@@ -135,18 +135,19 @@ public class PetController {
 		form.setAddress(pet.getAddress());
 		form.setImage(pet.getImage());
 		form.setCreatedAt(pet.getCreatedAt());
-		
+
 		Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
 		form.setUpdatedAt(timeStamp);
 		return form;
 	}
-	
+
 	@PostMapping("/update")
-	public String update(@Validated PetForm petForm, BindingResult bindingResult, 
-						Model model, RedirectAttributes redirectAttributes, @RequestParam("upload_file") MultipartFile multipartFile,Principal principal) {
-		
+	public String update(@Validated PetForm petForm, BindingResult bindingResult,
+			Model model, RedirectAttributes redirectAttributes,
+			@RequestParam("upload_file") MultipartFile multipartFile, Principal principal) {
+
 		Pet pet = makePet(petForm, multipartFile, principal);
-		if(!bindingResult.hasErrors()) {
+		if (!bindingResult.hasErrors()) {
 			petService.updatePet(pet);
 			redirectAttributes.addFlashAttribute("updateMessage", "更新が完了しました");
 		} else {
@@ -155,8 +156,8 @@ public class PetController {
 		}
 		return "redirect:/pet/index";
 	}
-	
-	private Pet makePet(PetForm petForm, MultipartFile multipartFile,Principal principal) {
+
+	private Pet makePet(PetForm petForm, MultipartFile multipartFile, Principal principal) {
 		Pet pet = new Pet();
 		pet.setId(petForm.getId());
 		pet.setName(petForm.getName());
@@ -165,8 +166,8 @@ public class PetController {
 		pet.setCharmPoint(petForm.getCharmPoint());
 		pet.setPostCord(petForm.getPostCord());
 		pet.setAddress(petForm.getAddress());
-		
-		if(multipartFile.getOriginalFilename().isEmpty()) {
+
+		if (multipartFile.getOriginalFilename().isEmpty()) {
 			pet.setImage(petForm.getImage());
 		} else {
 			try {
@@ -177,18 +178,18 @@ public class PetController {
 				return pet;
 			}
 		}
-		
+
 		pet.setCreatedAt(petForm.getCreatedAt());
 		pet.setUpdatedAt(petForm.getUpdatedAt());
 		pet.setOwner(ownerService.getCurrentUser(principal));
 		return pet;
 	}
-	
-	@PostMapping("/delete")	
+
+	@PostMapping("/delete")
 	public String delete(@RequestParam("id") String id, Model model, RedirectAttributes redirectAttributes) {
 		petService.deleteById(Integer.parseInt(id));
 		redirectAttributes.addFlashAttribute("deleteMessage", "削除が完了しました");
 		return "redirect:/pet/index";
 	}
-	
+
 }

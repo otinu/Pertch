@@ -31,15 +31,15 @@ public class Owner {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	// ユーザー様の画面に実際に表示させるユーザー名
+	// ログインに利用。メールアドレスを入力
+	// ログイン中のユーザーをnameから一意に取得する必要があるため、ユニーク制約を設定
 	@Column(name = "username")
 	private String username;		
 	
 	@Column(name = "password")
 	private String password;
 	
-	// ログインに利用。メールアドレスを入力
-	// ログイン中のユーザーをnameから一意に取得する必要があるため、ユニーク制約を設定
+	// ユーザー様の画面に実際に表示させるユーザー名
 	@Column(name = "name", unique = true)
 	private String name;
 	

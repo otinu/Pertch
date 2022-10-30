@@ -12,9 +12,9 @@
 		    <h1 class="form__title">Owner Registration</h1>
 <!--/* 		    <p th:if="${#fields.hasErrors('passwordValid')}" th:errors="*{passwordValid}" class="error-message"></p> */-->
 		    <p class="form__item">
-		        <label for="username">Email</label>
+		        <label for="username">Name</label>
 <!--/* 		        <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error-message"></span> */-->
-		        <input type="text" placeholder="Type Username" name="username" id="username">
+		        <input type="text" placeholder="Type Username" name="name" id="username">
 		    </p>
 		    <p class="form__item">
 		        <label for="password">Password</label>
@@ -23,9 +23,10 @@
 		    </p>
 		    
 		    <p class="form__item">
-		        <label for="password">Name</label>
+		    <!--/* コントローラ側で使うprincipal.getName() はprincipal内のusernameを取得する(nameではない)ため、この形に変更 */-->
+		        <label for="password">Email</label>
 <!--/* 		        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error-message"></span> */-->
-		        <input type="text" placeholder="Type Name" name="name" id="name">
+		        <input type="text" placeholder="Type Name" name="username" id="name">
 		    </p>
 		    <p class="form__item">
 		        <label for="password">Message</label>
