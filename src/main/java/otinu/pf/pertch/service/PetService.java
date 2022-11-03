@@ -1,11 +1,13 @@
 package otinu.pf.pertch.service;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.Optional;
 
 import org.springframework.web.multipart.MultipartFile;
 
 import otinu.pf.pertch.entity.Pet;
+import otinu.pf.pertch.form.PetForm;
 
 public interface PetService {
 	
@@ -20,4 +22,12 @@ public interface PetService {
 	void deleteById(Integer id);
 	
 	void settingImage(Pet pet, MultipartFile multipartFile) throws IOException;
+	
+	PetForm makePetForm(Pet pet);
+	
+	Pet makePet(Pet pet, PetForm petForm, MultipartFile multipartFile, Principal principal);
+	
+	Pet setFormToPet(Pet pet, PetForm petForm);
+	
+	PetForm setPetToForm(PetForm petForm, Pet pet);
 }
