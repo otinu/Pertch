@@ -5,6 +5,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
+<script th:src="@{/js/pet/index.js}"></script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
@@ -45,7 +46,7 @@
 			<td>
 				<th:block th:if="${pet.owner.id == currentUser.id}">
 					<form method="POST" th:action="@{/pet/delete}">
-						<input type="hidden" name="id" th:value="${pet.id}"> <input type="submit" value="削除">
+						<input type="hidden" id="delete" name="id" th:value="${pet.id}"> <input type="submit" id="deleteBtn" value="削除">
 					</form>
 				</th:block>
 			</td>
