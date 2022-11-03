@@ -26,32 +26,39 @@ import lombok.ToString;
 @ToString(exclude = "petList")
 public class Owner {
 
+	/* ID */
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	/* ログイン用メールアドレス */
 	// ログインに利用。メールアドレスを入力
 	// ログイン中のユーザーをnameから一意に取得する必要があるため、ユニーク制約を設定
 	@Column(name = "username")
 	private String username;		
 	
+	/* ログイン用パスワード */
 	@Column(name = "password")
 	private String password;
 	
-	// ユーザー様の画面に実際に表示させるユーザー名
+	/* 名前 */
 	@Column(name = "name", unique = true)
 	private String name;
 	
+	/* メッセージ */
 	@Column(name = "message")
 	private String message;		// 飼い主からの発信に一定の自由度をもたせたい
 	
+	/* 連絡先 */
 	@Column(name = "contact")
 	private String contact;		// Petから持ち越し
 
+	/* 登録日時 */
 	@Column(name = "created_at")
 	private Timestamp created_at;
 	
+	/* 更新日時 */
 	@Column(name = "updated_at")
 	private Timestamp updated_at;
 	

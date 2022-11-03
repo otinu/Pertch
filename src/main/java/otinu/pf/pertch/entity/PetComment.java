@@ -18,19 +18,24 @@ import lombok.NoArgsConstructor;
 @Table(name = "pet_comment")
 public class PetComment {
 
+	/* ID */
 	@Id
 	@Column(name = "id")
 	private Integer id;
 	
+	/* ペットID */
 	@Column(name = "pet_id")
 	private Integer pet_id;
 	
+	/* 本文 */
 	@Column(name = "text")
 	private String text;
 	
+	/* 登録日時 */
 	@Column(name = "created_at")
 	private Timestamp created_at;
 	
+	/* 更新日時 */
 	@Column(name = "updated_at")
 	private Timestamp updated_at;
 }
