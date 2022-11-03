@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 
-<!-- ここでspring-securityを読み込ませることで、認証の有無やロールの種類で表示内容を切り分けることができるようになる
-	 Adminの時だけ「管理ページへログイン」など -->
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<!--/* ここでspring-securityを読み込ませることで、認証の有無やロールの種類で表示内容を切り分けることができるようになる
+	 Adminの時だけ「管理ページへログイン」など */-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
 <meta charset="UTF-8">
@@ -11,78 +10,66 @@
 </head>
 <body>
 
+	<table border="1" th:unless="${#lists.isEmpty(list)}" style="table-layout: fixed;">
+		<tr>
+			<th>ペット名</th>
+			<th>年齢</th>
+			<th>性別</th>
+			<th>特徴</th>
+			<th>住処の郵便番号</th>
+			<th>住処の住所</th>
+			<th>飼い主</th>
+			<th>編集</th>
+			<th>削除</th>
+		</tr>
+		<tr th:each="pet:${list}" align="center">
+			<td th:text="${pet.name}" align="left"></td>
+			<td th:text="${pet.age}"></td>
+			<th:block th:switch="${pet.sex}">
+				<td th:case=true>♂</td>
+				<td th:case=false>♀</td>
+			</th:block>
+			<td th:text="${pet.charmPoint}"></td>
+			<td th:text="${pet.postCord}"></td>
+			<td th:text="${pet.address}"></td>
+			<td>
+				<a th:href="@{/owner/show/{id}(id=${pet.owner.id})}" th:text="${pet.owner.name}"></a>
+			</td>
+			<td>
+				<th:block th:if="${pet.owner.id == currentUser.id}">
+					<form method="POST" th:action="@{/pet/edit/{id}(id=${pet.id})}">
+						<input type="submit" value="編集">
+					</form>
+				</th:block>
+			</td>
+			<td>
+				<th:block th:if="${pet.owner.id == currentUser.id}">
+					<form method="POST" th:action="@{/pet/delete}">
+						<input type="hidden" name="id" th:value="${pet.id}"> <input type="submit" value="削除">
+					</form>
+				</th:block>
+			</td>
+		</tr>
 
-<table border="1" th:unless="${#lists.isEmpty(list)}" style="table-layout:fixed;">
-<tr>
-<th>ID</th>
-<th>内容</th>
-<th>解答</th>
-<th>作成者</th>
-<th>編集</th>
-<th>削除</th>
-</tr>
-<tr th:each="obj:${list}" align="center">
-<td th:text="${obj.id}"></td>
-<td th:text="${obj.name}" align="left"></td>
-<td th:text="${obj.age}"></td>
+	</table>
 
-<td>
+	<p th:if="${insertMessage}" th:text="${insertMessage}" style="color: green"></p>
+	<p th:if="${updateMessage}" th:text="*{updateMessage}" style="color: green"></p>
+	<p th:if="${deleteMessage}" th:text="*{deleteMessage}" style="color: green"></p>
 
-<form method="GET" th:action="@{/pet/edit/{id}(id=${obj.id})}">
-<input type="submit" value="編集">
-</form>
-</td>
-<!--/*削除ボタン*/-->
-<td>
-<form method="POST" th:action="@{/pet/delete}">
-<input type="hidden" name="id" th:value="${obj.id}">
-<input type="submit" value="削除">
-</form>
+	<br>
+	<h1>
+		<a href="/pet/new" style="color: red;">ペット登録</a>
+	</h1>
 
-</td>
-</tr>
-</table>
+	<br>
+	<form sec:authorize="authenticated" method="post" th:action="@{/logout}">
+		<button type="submit">ログアウト</button>
+	</form>
 
-<p th:if="${insertMessage}" th:text="${insertMessage}" style="color:green"></p>
-<p th:if="${updateMessage}" th:text="*{updateMessage}" style="color:green"></p>
-<p th:if="${deleteMessage}" th:text="*{deleteMessage}" style="color:green"></p>
 
-<h3>ここからフォーム送信テスト用-----------------------------</h3>
-<form method="POST" th:action="@{/pet/insert}" th:object="${petForm}" enctype="multipart/form-data">
+	<div th:replace="fragment/navigation :: link"></div>
 
-<br>
-<label>名前</label>
-<input th:field="*{name}">
-
-<br>
-<label>年齢</label>
-<input type="number" th:field="*{age}">
-
-<br>
-<label>性別</label>
-<input type="radio" value="true" th:field="*{sex}">♂
-<input type="radio" value="false" th:field="*{sex}">♀
-
-<br>
-<label>特徴</label>
-<input th:field="*{charmPoint}">
-
-<br>
-<label>郵便番号</label>
-<input th:field="*{postCord}">
-
-<br>
-<label>住所</label>
-<input th:field="*{address}">
-
-<br>
-<label>写真</label>
-<input type="file" name="upload_file">
-
-<br>
-<input type="submit" value="送信">
-
-</form>
 
 </body>
 </html>

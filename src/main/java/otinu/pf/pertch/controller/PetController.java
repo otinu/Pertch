@@ -5,7 +5,6 @@ import java.security.Principal;
 import java.sql.Timestamp;
 import java.util.Optional;
 
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,30 +32,39 @@ public class PetController {
 
 	@Autowired
 	PetService petService;
-	
+
 	@Autowired
 	OwnerService ownerService;
-	
+
 	@ModelAttribute
 	public PetForm setUpForm() {
 		PetForm form = new PetForm();
 		return form;
 	}
-	
+
 	@GetMapping("/index")
-	public ModelAndView showIndex(PetForm petForm) {
-		ModelAndView mv = new ModelAndView("pet/index");   
+	public ModelAndView showIndex(PetForm petForm, Principal principal) {
+		ModelAndView mv = new ModelAndView("pet/index");
 		Iterable<Pet> list = petService.selectAll();
-	    mv.addObject("list", list); 
-	    mv.addObject("pet", new Pet());	// リレーション付きPetを作成するための準備
-	    return mv;  
+		mv.addObject("list", list);
+
+		Owner currentUser = ownerService.getCurrentUser(principal);
+		mv.addObject("currentUser", currentUser);
+		return mv;
 	}
-	
+
+	@GetMapping("/new")
+	public ModelAndView showNew() {
+		ModelAndView mv = new ModelAndView("pet/new");
+		mv.addObject("petForm", new PetForm());
+		return mv;
+	}
+
 	@PostMapping("/insert")
-	public ModelAndView registerPet(@Validated PetForm petForm, BindingResult bindingResult, ModelAndView mv, 
-								@RequestParam("upload_file") MultipartFile multipartFile, 
-								RedirectAttributes redirectAttributes, Principal principal){
-		
+	public ModelAndView registerPet(@Validated PetForm petForm, BindingResult bindingResult, ModelAndView mv,
+			@RequestParam("upload_file") MultipartFile multipartFile,
+			RedirectAttributes redirectAttributes, Principal principal) {
+
 		Pet pet = new Pet();
 		pet.setName(petForm.getName());
 		pet.setAge(petForm.getAge());
@@ -64,26 +72,17 @@ public class PetController {
 		pet.setCharmPoint(petForm.getCharmPoint());
 		pet.setPostCord(petForm.getPostCord());
 		pet.setAddress(petForm.getAddress());
-		
+
 		Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
 		pet.setCreatedAt(timeStamp);
 		pet.setUpdatedAt(timeStamp);
-		
-		ModelAndView model = new ModelAndView("redirect:index"); 
+
+		ModelAndView model = new ModelAndView("redirect:index");
 		try {
-			String base64 = new String(Base64.encodeBase64(multipartFile.getBytes()),"ASCII");
-			String imageType = multipartFile.getContentType();
-			if(imageType.equals("image/png")) {
-				pet.setImage("data:image/png;base64," + base64);
-			} else if(imageType.equals("image/jpeg")) {
-				pet.setImage("data:image/jpeg," + base64);
-			} else if(imageType.equals("image/gif")) {
-				pet.setImage("data:image/gif;base64," + base64);
-			}
-			
+			petService.settingImage(pet, multipartFile);
+
 			if (!bindingResult.hasErrors()) {
-				String loginUserName = principal.getName();
-				Owner relationOwner = ownerService.findByName(loginUserName);
+				Owner relationOwner = ownerService.getCurrentUser(principal);
 				pet.setOwner(relationOwner);
 				petService.insertPet(pet);
 				redirectAttributes.addFlashAttribute("insertMessage", "登録が完了しました");
@@ -100,9 +99,9 @@ public class PetController {
 			return model;
 		}
 	}
-	
-	@GetMapping("/edit/{id}")
-	public String editPet(PetForm petForm,@PathVariable Integer id, Model model) {
+
+	@PostMapping("/edit/{id}")
+	public String editPet(PetForm petForm, @PathVariable Integer id, Model model) {
 		Optional<Pet> petOpt = petService.findById(id);
 		Optional<PetForm> petFormOpt = petOpt.map(t -> makePetForm(t));
 		/*
@@ -124,7 +123,7 @@ public class PetController {
 		}
 		return "pet/edit";
 	}
-	
+
 	private PetForm makePetForm(Pet pet) {
 		PetForm form = new PetForm();
 		form.setId(pet.getId());
@@ -136,16 +135,19 @@ public class PetController {
 		form.setAddress(pet.getAddress());
 		form.setImage(pet.getImage());
 		form.setCreatedAt(pet.getCreatedAt());
-		form.setUpdatedAt(pet.getUpdatedAt());
+
+		Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
+		form.setUpdatedAt(timeStamp);
 		return form;
 	}
-	
+
 	@PostMapping("/update")
-	public String update(@Validated PetForm petForm, BindingResult bindingResult, 
-						Model model, RedirectAttributes redirectAttributes) {
-		
-		Pet pet = makePet(petForm);
-		if(!bindingResult.hasErrors()) {
+	public String update(@Validated PetForm petForm, BindingResult bindingResult,
+			Model model, RedirectAttributes redirectAttributes,
+			@RequestParam("upload_file") MultipartFile multipartFile, Principal principal) {
+
+		Pet pet = makePet(petForm, multipartFile, principal);
+		if (!bindingResult.hasErrors()) {
 			petService.updatePet(pet);
 			redirectAttributes.addFlashAttribute("updateMessage", "更新が完了しました");
 		} else {
@@ -154,21 +156,40 @@ public class PetController {
 		}
 		return "redirect:/pet/index";
 	}
-	
-	private Pet makePet(PetForm petForm) {
+
+	private Pet makePet(PetForm petForm, MultipartFile multipartFile, Principal principal) {
 		Pet pet = new Pet();
 		pet.setId(petForm.getId());
 		pet.setName(petForm.getName());
 		pet.setAge(petForm.getAge());
 		pet.setSex(petForm.getSex());
+		pet.setCharmPoint(petForm.getCharmPoint());
+		pet.setPostCord(petForm.getPostCord());
+		pet.setAddress(petForm.getAddress());
+
+		if (multipartFile.getOriginalFilename().isEmpty()) {
+			pet.setImage(petForm.getImage());
+		} else {
+			try {
+				petService.settingImage(pet, multipartFile);
+			} catch (IOException e) {
+				System.out.println("イメージデータのエンコーディング時に問題が発生しました。");
+				e.printStackTrace();
+				return pet;
+			}
+		}
+
+		pet.setCreatedAt(petForm.getCreatedAt());
+		pet.setUpdatedAt(petForm.getUpdatedAt());
+		pet.setOwner(ownerService.getCurrentUser(principal));
 		return pet;
 	}
-	
-	@PostMapping("/delete")	
+
+	@PostMapping("/delete")
 	public String delete(@RequestParam("id") String id, Model model, RedirectAttributes redirectAttributes) {
 		petService.deleteById(Integer.parseInt(id));
 		redirectAttributes.addFlashAttribute("deleteMessage", "削除が完了しました");
 		return "redirect:/pet/index";
 	}
-	
+
 }
