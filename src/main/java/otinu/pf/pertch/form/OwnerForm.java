@@ -2,9 +2,9 @@ package otinu.pf.pertch.form;
 
 import java.sql.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import lombok.Data;
 
@@ -12,37 +12,35 @@ import lombok.Data;
 public class OwnerForm {
 	
 	/* ID */
-	@Id
-	@Column(name = "id")
-	@NotBlank
 	private Integer id;
 	
 	/* ログイン用メールアドレス */
-	@Column(name = "username")
+	@NotBlank(message="Emailは入力が必要です")
+	@Email(message = "Emailにはメールアドレスの入力が必要です")
 	private String username;
 	
 	/* ログイン用パスワード */
-	@Column(name = "password")
+	@NotBlank(message="パスワードが未入力です")
 	private String password;
 	
 	/* 名前 */
-	@Column(name = "name")
+	@NotBlank(message="名前は入力が必要です")
 	private String name;
 	
 	/* メッセージ */
-	@Column(name = "message")
+	@Size(max = 200, message = "メッセージは{max}文字までです")
 	private String message;
 	
 	/* 連絡先 */
-	@Column(name = "contact")
+	@Size(max = 100, message = "連絡先は{max}文字までです")
 	private String contact;
 
 	/* 登録日時 */
-	@Column(name = "created_at")
+	
 	private Date created_at;
 	
 	/* 更新日時 */
-	@Column(name = "updated_at")
+	
 	private Date updated_at;
 	
 	// private List<PetForm> petList;

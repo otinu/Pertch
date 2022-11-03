@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,12 +34,6 @@ public class PetController {
 	@Autowired
 	OwnerService ownerService;
 
-	@ModelAttribute
-	public PetForm setUpForm() {
-		PetForm form = new PetForm();
-		return form;
-	}
-
 	@GetMapping("/index")
 	public ModelAndView showIndex(PetForm petForm, Principal principal) {
 		ModelAndView mv = new ModelAndView("pet/index");
@@ -60,14 +53,16 @@ public class PetController {
 	}
 
 	@PostMapping("/insert")
-	public ModelAndView registerPet(@Validated PetForm petForm, BindingResult bindingResult, ModelAndView mv,
-			@RequestParam("upload_file") MultipartFile multipartFile,
-			RedirectAttributes redirectAttributes, Principal principal) {
+	public ModelAndView insertPet(@Validated PetForm petForm, 
+									BindingResult bindingResult,
+									@RequestParam("upload_file") MultipartFile multipartFile,
+									RedirectAttributes redirectAttributes, 
+									Principal principal) {
 
 		Pet pet = new Pet();
 		petService.setFormToPet(pet, petForm);
 
-		ModelAndView model = new ModelAndView("redirect:index");
+		ModelAndView mv = new ModelAndView("redirect:index");
 		try {
 			petService.settingImage(pet, multipartFile);
 
@@ -76,16 +71,17 @@ public class PetController {
 				pet.setOwner(relationOwner);
 				petService.insertPet(pet);
 				redirectAttributes.addFlashAttribute("insertMessage", "登録が完了しました");
-				return model;
+				return mv;
 			} else {
 				System.out.println(bindingResult.getFieldError().getDefaultMessage());
 				redirectAttributes.addFlashAttribute("insertMessage", "登録に失敗しました");
-				return model;
+				mv.setViewName("pet/new");
+				return mv;
 			}
 		} catch (IOException e) {
 			System.out.println("イメージデータのエンコーディング時に問題が発生しました。");
 			e.printStackTrace();
-			return model;
+			return mv;
 		}
 	}
 

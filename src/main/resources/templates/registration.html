@@ -8,35 +8,40 @@
 
 <body>
     <main class="main">
-    	<form class="form" th:action="@{/registration}" method="post" th:object="${ownerform}">
+    	<form class="form" th:action="@{/registration}" method="post" th:object="${ownerForm}">
+    	
+<ul th:if="${#fields.hasErrors('*')}">
+    <li th:each="err:${#fields.errors('*')}" th:text="${err}"></li>
+</ul>
+    	
 		    <h1 class="form__title">Owner Registration</h1>
 <!--/* 		    <p th:if="${#fields.hasErrors('passwordValid')}" th:errors="*{passwordValid}" class="error-message"></p> */-->
 		    <p class="form__item">
 		        <label for="username">Name</label>
 <!--/* 		        <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error-message"></span> */-->
-		        <input type="text" placeholder="Type Username" name="name" id="username">
+		        <input type="text" placeholder="Type Username" th:field="*{name}">
 		    </p>
 		    <p class="form__item">
 		        <label for="password">Password</label>
 <!--/* 		        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error-message"></span> */-->
-		        <input type="password" placeholder="Type Password" name="password" id="password">
+		        <input type="password" placeholder="Type Password" th:field="*{password}">
 		    </p>
 		    
 		    <p class="form__item">
 		    <!--/* コントローラ側で使うprincipal.getName() はprincipal内のusernameを取得する(nameではない)ため、この形に変更 */-->
 		        <label for="password">Email</label>
 <!--/* 		        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error-message"></span> */-->
-		        <input type="text" placeholder="Type Name" name="username" id="name">
+		        <input type="text" placeholder="Type Name" th:field="*{username}">
 		    </p>
 		    <p class="form__item">
 		        <label for="password">Message</label>
 <!--/* 		        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error-message"></span> */-->
-		        <textarea name="message" id="message"></textarea >
+		        <textarea th:field="*{message}"></textarea >
 		    </p>
 		    <p class="form__item">
 		        <label for="password">Contact</label>
 <!--/* 		        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error-message"></span> */-->
-		        <input type="text" placeholder="Type Contact" name="contact" id="contact">
+		        <input type="text" placeholder="Type Contact" th:field="*{contact}">
 		    </p>
 		    <p class="form__item">
 		        <input type="submit" value="Regist Owner">
