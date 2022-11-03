@@ -2,8 +2,9 @@ package otinu.pf.pertch.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,14 +29,25 @@ public class OwnerController {
 	}
 	
 	@GetMapping("/registration")
-	public String showRegistration() {
-		return "registration";
+	public ModelAndView  showRegistration() {
+		ModelAndView mv = new ModelAndView("registration");
+		mv.addObject("ownerForm", new OwnerForm());
+		return mv;
+
 	}
-	
+		
 	@PostMapping("/registration")
-	public String ownerRegistration(@ModelAttribute("ownerform") OwnerForm form) {
+	public ModelAndView ownerRegistration(@Validated OwnerForm form, 
+									BindingResult bindingResult) {
 		ownerRegistrationService.ownerRegistration(form.getUsername(), form.getPassword(), form.getName(), form.getMessage(), form.getContact());
-		return "redirect:/pet/index";
+		ModelAndView mv = new ModelAndView("redirect:/pet/index");
+		if (!bindingResult.hasErrors()) {
+			return mv;
+		} else {
+			mv.setViewName("registration");
+			return mv;
+		}
+		
 	}
 	
 	@GetMapping("/owner/show/{id}")
