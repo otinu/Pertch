@@ -33,7 +33,7 @@
 			<td th:text="${pet.postCord}"></td>
 			<td th:text="${pet.address}"></td>
 			<td>
-				<a th:href="@{/owner/show/{id}(id=${pet.owner.id})}" th:text="${pet.owner.username}"></a>
+				<a th:href="@{/owner/show/{id}(id=${pet.owner.id})}" th:text="${pet.owner.name}"></a>
 			</td>
 			<td>
 				<th:block th:if="${pet.owner.id == currentUser.id}">
@@ -68,7 +68,7 @@
 	</form>
 
 
-		<div th:replace="fragment/navigation :: link"></div>
+	<div th:replace="fragment/navigation :: link"></div>
 
 
 </body>
