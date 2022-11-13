@@ -36,6 +36,7 @@ public class PetController {
 
 	@GetMapping("/index")
 	public ModelAndView showIndex(PetForm petForm, Principal principal) {
+
 		ModelAndView mv = new ModelAndView("pet/index");
 		Iterable<Pet> list = petService.selectAll();
 		mv.addObject("list", list);

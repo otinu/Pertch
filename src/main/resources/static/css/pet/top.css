@@ -1,0 +1,18 @@
+@charset "UTF-8";
+.dog_image {
+  height: 200px;
+  width: 250px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  margin-left: 100px;
+  /* 下記サイトで調整
+  https://codepen.io/sosuke/pen/Pjoqqp */
+  filter: invert(50%) sepia(56%) saturate(444%) hue-rotate(164deg) brightness(85%) contrast(92%);
+}
+
+.cursor_image {
+  height: 100px;
+  width: 100px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}/*# sourceMappingURL=top.css.map */

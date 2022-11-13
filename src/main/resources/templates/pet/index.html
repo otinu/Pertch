@@ -5,7 +5,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
-<script th:src="@{/js/pet/index.js}"></script>
+<link rel="stylesheet" th:href="@{/css/pet/top.css}">
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
@@ -68,10 +68,15 @@
 		<button type="submit">ログアウト</button>
 	</form>
 
-
 	<div th:replace="fragment/navigation :: link"></div>
+	
+	<h1>Sassのテスト</h1>
+    <img class="dog_image" th:src="@{/img/dog.png}">
+    <img class="cursor_image" th:src="@{/img/cursor.png}">
+    <script src="top.js"></script>
+    
 
-
+	<script th:src="@{/js/pet/index.js}"></script>
 </body>
 </html>
 
