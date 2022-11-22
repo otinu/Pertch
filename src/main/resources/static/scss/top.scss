@@ -1,0 +1,286 @@
+/* filterで画像の色変更&クリックイベントのテスト
+<img class="dog_image" src="/img/dog.png">
+
+const dog = document.querySelector('.dog_image')
+dog.addEventListener('click', colorChenge)
+dog.addEventListener('click', setTimer)
+
+.dog_image {
+  @include image(200px, 250px);
+  margin-left: 100px;
+
+  function colorChenge() {
+    this.style.filter = "invert(28%) sepia(96%) saturate(4384%) hue-rotate(2deg) brightness(100%) contrast(97%)"
+  }
+
+  //  下記サイトで調整
+      // https://codepen.io/sosuke/pen/Pjoqqp
+  filter: invert(50%) sepia(56%) saturate(444%) hue-rotate(164deg)
+    brightness(85%) contrast(92%);
+}
+*/
+
+// ----------------------------------------------------------------
+
+$common-top: 30%;
+$common-left: 30%;
+$animationFontWhite: white;
+$animationFontBlack: black;
+// $backgroundColor: #003366;
+$backgroundColor: #b0c4de;
+
+$pc: 1980px;
+$tab: 800px;
+$sp: 420px;
+
+@mixin pc {
+  @media screen and (max-width: ($pc)) {
+    @content;
+  }
+}
+
+@mixin tab {
+  @media screen and (max-width: ($tab)) {
+    @content;
+  }
+}
+
+@mixin sp {
+  @media screen and (max-width: ($sp)) {
+    @content;
+  }
+}
+
+body {
+  margin: 0;
+  background-color: $backgroundColor;
+}
+
+h4 {
+  margin: 0;
+}
+
+#container {
+  position: relative;
+  height: 100vh;
+  background-color: $backgroundColor;
+  // background-blend-mode: normal;
+  // mix-blend-mode: multiply;
+}
+
+// 視野広く見てみれば、animation(引数1, 引数2…){} とメソッドの記述になっている
+// ⇒引数はデフォルト値 をもっている
+@mixin animation(
+  $name,
+  $duration: 1s,
+  $timing-function: ease,
+  $delay: 0s,
+  $iteration-count: 1,
+  $direction: normal,
+
+  // アニメーション終了時のStyle値をキープしたままになる
+  // ⇒左から右に移動したら、アニメーション後も右側で停止
+  $fill-mode: forwards
+) {
+  animation: {
+    // CSSに変換された際、「animation-name」や「animation-duration」といった形に変換される
+    name: $name;
+    duration: $duration;
+    timing-function: $timing-function;
+    delay: $delay;
+    iteration-count: $iteration-count;
+    direction: $direction;
+    fill-mode: $fill-mode;
+  }
+}
+
+@keyframes animate_slide_in {
+  0% {
+    opacity: 0;
+    // (初期値 - 50%)からスタート
+    transform: translateX(-50%);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(-10%);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(50%);
+  }
+}
+
+@keyframes animate_flash_vanish {
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes animate_flash_keep {
+  0% {
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.3;
+  }
+  25% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.animate-title-first {
+  // topやleftはrelativeをもつ、一番近くの親要素を支点にして間隔をとっていく
+  position: absolute;
+  top: $common-top;
+  left: $common-left;
+  transform: translate(-50%, -50%);
+  color: $animationFontWhite;
+  opacity: 0;
+  font-size: 2em;
+
+  &.inview {
+    opacity: 1;
+
+    & .string {
+      // spanタグなどの場合、インライン要素のためtranslateが効かない
+      // ⇒ブロック要素へ変更してあげる
+      //display: inline-block;
+
+      @include animation(
+        $name: animate_slide_in,
+        $duration: 3s,
+        $timing-function: cubic-bezier(0, 0.63, 0.78, 0.73),
+        $fill-mode: both
+      );
+
+      @for $i from 1 through 9 {
+        &:nth-child(#{$i}) {
+          
+          @if $i == 1 {
+            padding-top: 40%;
+            animation-delay: 1.5s;
+          } @else {
+            padding-top: 20%;
+            animation-delay: $i * 2s;
+          }
+        }
+      }
+    }
+  }
+}
+
+.animate-title-second {
+  position: absolute;
+  top: $common-top;
+  left: $common-left;
+  transform: translate(-50%, -50%);
+  font-size: 1.5em;
+  .string-second {
+    position: absolute;
+    color: $animationFontBlack;
+    width: 65vw;
+    opacity: 0;
+    @include animation(
+      $name: animate_slide_in,
+      $duration: 8s,
+      $timing-function: cubic-bezier(0.37, 0.51, 0.44, 0.99),
+      $fill-mode: both
+    );
+  }
+}
+
+.animate-title-third {
+  position: absolute;
+  top: $common-top;
+  left: $common-left;
+  font-size: 1.5em;
+  background-color: $backgroundColor;
+  .string-third {
+    position: absolute;
+    color: $animationFontWhite;
+    width: 65vw;
+    opacity: 0;
+    @include animation(
+      $name: animate_flash_vanish,
+      $duration: 4s,
+      $timing-function: cubic-bezier(0.37, 0.51, 0.44, 0.99),
+      $fill-mode: both
+    );
+  }
+}
+
+// 背景と同化して紫になってる画像
+.search-cursor {
+  opacity: 1;
+  // margin-top: -70%;
+  mix-blend-mode: color-burn;
+  width: 15%;
+  // animation: search 5s;
+  object-fit: cover;
+  @include pc {
+    width: 7%;
+  }
+
+  @include tab {
+    width: 12%;
+  }
+
+  @include sp {
+    width: 20%;
+  }
+}
+
+#title-area {
+  position: relative;
+}
+#title {
+  position: absolute;
+  font-size: 3rem;
+  font-family: "Cormorant Garamond", serif;
+  font-family: "Libre Baskerville", serif;
+  font-family: "Shadows Into Light", cursive;
+}
+.found-pet {
+  position: absolute;
+  mix-blend-mode: darken;
+  @include pc {
+    width: 10%;
+  }
+
+  @include tab {
+    width: 12%;
+  }
+
+  @include sp {
+    width: 20%;
+  }
+
+  @include animation(
+    $name: animate_flash_keep,
+    $duration: 3s,
+    $timing-function: cubic-bezier(0.37, 0.51, 0.44, 0.99),
+    $fill-mode: both
+  );
+}
+ #logo {
+  @include pc {
+    width: 10%;
+  }
+
+  @include tab {
+    width: 25%;
+  }
+
+  @include sp {
+    width: 30%;
+  }
+ }

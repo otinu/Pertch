@@ -43,7 +43,7 @@ public class SecurityConfig {
 			.logout(logout -> logout.logoutSuccessUrl("/")
 			).authorizeHttpRequests(authz -> authz
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // /css/** などの静的ファイルにログインなしでもアクセス可能
-                .mvcMatchers("/login","/registration").permitAll() 		// 特別にアクセスを可能とする
+                .mvcMatchers("/top", "/login", "/registration", "/js/**", "/css/**", "/img/**").permitAll() 		// 特別にアクセスを可能とする
                 // .mvcMatchers("/admin").hasRole("ADMIN") 	// ADMINユーザーのみ、「/admin」にアクセス可能
                 .anyRequest().authenticated() 		//その他のURLはログイン後にアクセス可能
 	        );

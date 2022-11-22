@@ -19,8 +19,13 @@ public class OwnerController {
 	private OwnerService ownerRegistrationService;
 	
 	@GetMapping("/")
+	public String redirectRoot() {
+		return "redirect:/top";
+	}
+	
+	@GetMapping("/top")
 	public String redirectPetIndex() {
-		return "redirect:/pet/index";
+		return "top";
 	}
 	
 	@GetMapping("/login")
