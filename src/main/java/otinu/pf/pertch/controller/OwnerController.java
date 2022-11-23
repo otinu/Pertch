@@ -18,17 +18,22 @@ public class OwnerController {
 	@Autowired
 	private OwnerService ownerRegistrationService;
 	
-	@GetMapping("/")
-	public String redirectRoot() {
-		return "redirect:/top";
-	}
-	
 	@GetMapping("/top")
 	public String redirectPetIndex() {
 		return "top";
 	}
 	
+	@GetMapping({"", "/"})
+	public String redirectRoot() {
+		return "redirect:/top";
+	}
+	
 	@GetMapping("/login")
+	public String redirectTop() {
+		return "redirect:/top";
+	}
+	
+	@GetMapping("/loginForm")
 	public String showLogin() {
 		return "login";
 	}
