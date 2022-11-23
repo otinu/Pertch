@@ -2,7 +2,7 @@ const messageSecond = "令和3年度 環境省 統計資料「犬・猫の引取
 const messageThird = "誰か 見かけませんでしたか？"
 const cursorFilePath = "/img/cursor3.png"
 const foundPetFilePath = "/img/found_pet.png"
-
+const logoFilePath = "/img/logo2.png"
 
 const windowWidth = window.innerWidth
 const windowHeight = window.innerHeight
@@ -53,6 +53,14 @@ function compressionIntoWindow(randomPixel, imgWidth, imgHeight) {
     return randomPixel
 }
 
+// アニメーション終了時 / キャンセル時 画面上部のボタンを作成
+function makeButton() {
+    document.body.insertAdjacentHTML('beforeend', "<div id='button-area'></div>")
+    const buttonArea = document.querySelector('#button-area')
+    buttonArea.insertAdjacentHTML('beforeend', "<div class='login-button'><a href='#'>ログイン</a></div>")
+    buttonArea.insertAdjacentHTML('beforeend', "<div class='signup-button'><a href='#'>登録</a></div>")
+}
+
 // randomPixelは複数スコープに跨るため、グローバル変数で作成
 var randomPixel = []
 randomPixel = makeRandomPixel()
@@ -61,20 +69,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let timer = 10000
     const slideTitle = document.querySelector('#message-area')
-    setTimeout(() => {
+
+    function firstAnimation() {
         slideTitle.classList.remove("animate-title-first")
         slideTitle.classList.add("animate-title-second")
         slideTitle.innerHTML = "<p class='string-second'>" + messageSecond + "</p>"
-    }, timer)
-    setTimeout(() => {
+    }
+
+    // TODO firstのアニメーションは意味ない可能性あり
+    const animationInstance = setTimeout(firstAnimation, timer)
+
+    function secondAnimation() {
         slideTitle.classList.remove("animate-title-second")
         slideTitle.classList.add("animate-title-third")
         slideTitle.innerHTML = "<h2 class='string-third'>" + messageThird + "</h2>"
-    }, timer + 7000)
-    setTimeout(() => {
+    }
+    const animationInstance2 = setTimeout(secondAnimation, timer + 7000)
+
+    function thirdAnimation() {
         slideTitle.classList.remove("animate-title-second")
-        slideTitle.classList.add("animate-title-third"  )
-        slideTitle.innerHTML = "<img class='search-cursor' src='" + cursorFilePath +"'>"
+        slideTitle.classList.add("animate-title-third")
+        slideTitle.innerHTML = "<img class='search-cursor' src='" + cursorFilePath + "'>"
 
         slideTitle.remove()
         document.querySelector('#container').remove()
@@ -108,16 +123,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             )
         })
-
-    }, timer + 11000)
+    }
+    const animationInstance3 = setTimeout(thirdAnimation, timer + 11000)
 
     // !!!アイコンの表示座標
     let stringX = ""
     let stringY = ""
     // カーソルアニメーション 最終モーションでのpixelObject(座標)
-
     let lastRandomPixel = randomPixel.slice(-1)[0]
-    setTimeout(() => {
+
+    function fourthAnimation() {
         document.body.innerHTML = "<div class='fontAwesome'><i class='fa-solid fa-exclamation fa-5x fa-bounce'></i><i class='fa-solid fa-exclamation fa-5x fa-bounce'></i><i class='fa-solid fa-exclamation fa-5x fa-bounce'></i></div>"
         const exclamation = document.querySelector('.fontAwesome')
 
@@ -129,21 +144,26 @@ document.addEventListener("DOMContentLoaded", function () {
         exclamation.style.paddingTop = stringY
         exclamation.style.paddingLeft = stringX
         exclamation.style.color = "white"
-    }, timer + 15000)
+    }
+    const animationInstance4 = setTimeout(fourthAnimation, timer + 15000)
 
     // ペット発見アイコン
     let foundPet = ""
-    setTimeout(() => {
+
+    // 画面中央の座標(アニメーション後、中央への移動 / キャンセル時に利用)
+    let windowCenterX = windowWidth / 2
+    let windowCenterY = windowHeight / 2
+
+    function fifthAnimation() {
         document.body.innerHTML = ""
         document.body.innerHTML = "<div id='title-area'><img class='found-pet' src='" + foundPetFilePath + "'></div>"
         foundPet = document.querySelector('.found-pet')
         foundPet.style.paddingTop = stringY
         foundPet.style.paddingLeft = stringX
+    }
+    const animationInstance5 = setTimeout(fifthAnimation, timer + 16000)
 
-    }, timer + 16000)
-    setTimeout(() => {
-        let windowCenterX = windowWidth / 2
-        let windowCenterY = windowHeight / 2
+    function sixthAnimation() {
 
         // レスポンシブ対応(SP)
         if (windowSizeSP > windowWidth) { windowCenterX += 40 }
@@ -162,16 +182,56 @@ document.addEventListener("DOMContentLoaded", function () {
                 easing: 'ease-in-out'
             }
         )
-        
-    }, timer + 17000)
+    }
+    const animationInstance6 = setTimeout(sixthAnimation, timer + 17000)
 
-    setTimeout(() => {
+    function seventhAnimation() {
         let afterMovingImg = document.querySelector('.found-pet')
-        afterMovingImg.classList.remove('found-pet');
-        afterMovingImg.setAttribute("id","logo")
-        afterMovingImg.src = "/img/logo2.png"
-        
-        
-    }, timer + 19000)
+        afterMovingImg.classList.remove('found-pet')
+        afterMovingImg.setAttribute("id", "logo")
+        afterMovingImg.src = logoFilePath
+        makeButton()
+    }
+    const animationInstance7 = setTimeout(seventhAnimation, timer + 19000)
+
+    // アニメーションキャンセル
+    function animationCancel() {
+        clearTimeout(animationInstance)
+        clearTimeout(animationInstance2)
+        clearTimeout(animationInstance3)
+        clearTimeout(animationInstance4)
+        clearTimeout(animationInstance5)
+        clearTimeout(animationInstance6)
+        clearTimeout(animationInstance7)
+
+        document.body.innerHTML = "<img id='after-cancel' src='" + logoFilePath + "'>"
+        const afterCancel = document.querySelector('#after-cancel')
+
+        afterCancel.addEventListener('load', (e) => {
+
+            let afterCancelWidth = e.target.width
+            let afterCancelHeight = e.target.width
+            if (windowSizeSP > windowWidth) {
+                e.target.style.width = "30%"
+                afterCancelWidth = afterCancelWidth / 3
+                afterCancelHeight = e.target.height / 2
+            } else if (windowSizeTAB > windowWidth && windowWidth > windowSizeSP) {
+                e.target.style.width = "25%"
+                afterCancelWidth = afterCancelWidth / 2
+                afterCancelHeight = afterCancelHeight / 2
+            } else {
+                e.target.style.width = "10%"
+                afterCancelWidth = afterCancelWidth
+                afterCancelHeight = afterCancelHeight
+            }
+            afterCancel.style.paddingLeft = (windowCenterX - afterCancelWidth) + "px"
+            afterCancel.style.paddingTop = (windowCenterY - afterCancelHeight) + "px"
+            afterCancel.style.position = "absolute"
+        })
+        makeButton()
+    }
+    const canceller = document.querySelector('#animation-cancel')
+    canceller.addEventListener('click', animationCancel)
 
 })
+

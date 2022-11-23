@@ -251,7 +251,12 @@ h4 {
   -o-object-fit: cover;
      object-fit: cover;
 }
-@media screen and (max-width: 1980px) {
+@media screen and (max-width: 1920px) {
+  .search-cursor {
+    width: 7%;
+  }
+}
+@media screen and (max-width: 1280px) {
   .search-cursor {
     width: 7%;
   }
@@ -297,7 +302,12 @@ h4 {
   -webkit-animation-fill-mode: both;
           animation-fill-mode: both;
 }
-@media screen and (max-width: 1980px) {
+@media screen and (max-width: 1920px) {
+  .found-pet {
+    width: 10%;
+  }
+}
+@media screen and (max-width: 1280px) {
   .found-pet {
     width: 10%;
   }
@@ -313,7 +323,15 @@ h4 {
   }
 }
 
-@media screen and (max-width: 1980px) {
+#logo {
+  position: absolute;
+}
+@media screen and (max-width: 1920px) {
+  #logo {
+    width: 10%;
+  }
+}
+@media screen and (max-width: 1280px) {
   #logo {
     width: 10%;
   }
@@ -326,5 +344,262 @@ h4 {
 @media screen and (max-width: 420px) {
   #logo {
     width: 30%;
+  }
+}
+
+#cancelArea {
+  margin-top: 1%;
+  margin-right: 2%;
+  display: flex;
+  justify-content: flex-end;
+}
+#cancelArea #animation-cancel {
+  background-color: #eee;
+  border-radius: 30%;
+  border-width: 0;
+}
+#cancelArea #animation-cancel .fa-forward {
+  color: #313131;
+  --fa-animation-duration: 3.5s;
+}
+#cancelArea :hover {
+  cursor: pointer;
+}
+
+/* 下記サイト参考
+    https://dubdesign.net/download/html-css/button-design/
+*/
+#button-area {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 50vw;
+  padding-top: 1%;
+}
+
+.login-button a {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2%;
+  margin-left: 10%;
+  max-width: 45%;
+  width: 47%;
+  padding: 10px 25px 10px 50px;
+  color: #313131;
+  transition: 0.3s ease-in-out;
+  font-weight: 600;
+  background: #eee;
+  border-radius: 50px;
+  z-index: 0;
+  overflow: hidden;
+}
+.login-button a:before {
+  font-family: "Font Awesome 5 Free";
+  content: "\f2f6";
+  line-height: 1;
+  position: absolute;
+  left: 5px;
+  background: #fff;
+  padding: 12px 11px;
+  border-radius: 60px;
+  z-index: 2;
+}
+.login-button a:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  display: block;
+  background: #ccc;
+  transition: 0.3s;
+  left: 0;
+}
+.login-button a:hover:after {
+  width: 100%;
+  z-index: -1;
+}
+@media screen and (max-width: 800px) {
+  .login-button a {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2%;
+    margin-left: 30%;
+    max-width: 70%;
+    width: 50%;
+    padding: 10px 25px 10px 50px;
+    color: #313131;
+    transition: 0.3s ease-in-out;
+    font-weight: 600;
+    background: #eee;
+    border-radius: 50px;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .login-button a:before {
+    font-family: "Font Awesome 5 Free";
+    content: "\f2f6";
+    line-height: 1;
+    position: absolute;
+    left: 5px;
+    background: #fff;
+    padding: 12px 11px;
+    border-radius: 60px;
+    z-index: 2;
+  }
+  .login-button a:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 0;
+    display: block;
+    background: #ccc;
+    transition: 0.3s;
+    left: 0;
+  }
+  .login-button a:hover:after {
+    width: 100%;
+    z-index: -1;
+  }
+}
+@media screen and (max-width: 420px) {
+  .login-button a {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2%;
+    margin-left: 0%;
+    max-width: 90%;
+    width: 70%;
+    padding: 10px 25px 10px 50px;
+    color: #313131;
+    transition: 0.3s ease-in-out;
+    font-weight: 600;
+    background: #eee;
+    border-radius: 50px;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .login-button a:before {
+    font-family: "Font Awesome 5 Free";
+    content: "\f2f6";
+    line-height: 1;
+    position: absolute;
+    left: 5px;
+    background: #fff;
+    padding: 12px 11px;
+    border-radius: 60px;
+    z-index: 2;
+  }
+  .login-button a:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 0;
+    display: block;
+    background: #ccc;
+    transition: 0.3s;
+    left: 0;
+  }
+  .login-button a:hover:after {
+    width: 100%;
+    z-index: -1;
+  }
+}
+
+.signup-button a {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2%;
+  margin-left: 0%;
+  max-width: 45%;
+  width: 40%;
+  padding: 10px 25px 10px 50px;
+  color: #313131;
+  transition: 0.3s ease-in-out;
+  font-weight: 600;
+  background: #eee;
+  border-radius: 50px;
+  z-index: 0;
+  overflow: hidden;
+}
+.signup-button a:before {
+  font-family: "Font Awesome 5 Free";
+  content: "\f234";
+  line-height: 1;
+  position: absolute;
+  left: 5px;
+  background: #fff;
+  padding: 12px 11px;
+  border-radius: 60px;
+  z-index: 2;
+}
+.signup-button a:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  display: block;
+  background: #ccc;
+  transition: 0.3s;
+  left: 0;
+}
+.signup-button a:hover:after {
+  width: 100%;
+  z-index: -1;
+}
+@media screen and (max-width: 420px) {
+  .signup-button a {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2%;
+    margin-left: -20%;
+    max-width: 90%;
+    width: 35%;
+    padding: 10px 25px 10px 50px;
+    color: #313131;
+    transition: 0.3s ease-in-out;
+    font-weight: 600;
+    background: #eee;
+    border-radius: 50px;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .signup-button a:before {
+    font-family: "Font Awesome 5 Free";
+    content: "\f234";
+    line-height: 1;
+    position: absolute;
+    left: 5px;
+    background: #fff;
+    padding: 12px 11px;
+    border-radius: 60px;
+    z-index: 2;
+  }
+  .signup-button a:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 0;
+    display: block;
+    background: #ccc;
+    transition: 0.3s;
+    left: 0;
+  }
+  .signup-button a:hover:after {
+    width: 100%;
+    z-index: -1;
   }
 }/*# sourceMappingURL=top.css.map */

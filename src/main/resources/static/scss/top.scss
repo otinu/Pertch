@@ -22,19 +22,29 @@ dog.addEventListener('click', setTimer)
 
 // ----------------------------------------------------------------
 
+// アニメーション
 $common-top: 30%;
 $common-left: 30%;
 $animationFontWhite: white;
 $animationFontBlack: black;
 // $backgroundColor: #003366;
 $backgroundColor: #b0c4de;
+$buttonColor: #313131;
+$buttonBackGroungColor: #eee;
 
-$pc: 1980px;
+$pc-big: 1920px;
+$pc-small: 1280px;
 $tab: 800px;
 $sp: 420px;
 
-@mixin pc {
-  @media screen and (max-width: ($pc)) {
+@mixin pc-big {
+  @media screen and (max-width: ($pc-big)) {
+    @content;
+  }
+}
+
+@mixin pc-small {
+  @media screen and (max-width: ($pc-small)) {
     @content;
   }
 }
@@ -164,7 +174,6 @@ h4 {
 
       @for $i from 1 through 9 {
         &:nth-child(#{$i}) {
-          
           @if $i == 1 {
             padding-top: 40%;
             animation-delay: 1.5s;
@@ -226,7 +235,11 @@ h4 {
   width: 15%;
   // animation: search 5s;
   object-fit: cover;
-  @include pc {
+  @include pc-big {
+    width: 7%;
+  }
+
+  @include pc-small {
     width: 7%;
   }
 
@@ -252,7 +265,11 @@ h4 {
 .found-pet {
   position: absolute;
   mix-blend-mode: darken;
-  @include pc {
+  @include pc-big {
+    width: 10%;
+  }
+
+  @include pc-small {
     width: 10%;
   }
 
@@ -271,8 +288,13 @@ h4 {
     $fill-mode: both
   );
 }
- #logo {
-  @include pc {
+#logo {
+  position: absolute;
+  @include pc-big {
+    width: 10%;
+  }
+
+  @include pc-small {
     width: 10%;
   }
 
@@ -283,4 +305,127 @@ h4 {
   @include sp {
     width: 30%;
   }
- }
+}
+
+// アニメーションキャンセル
+#cancelArea {
+  margin-top: 1%;
+  margin-right: 2%;
+  display: flex;
+  justify-content: flex-end;
+  #animation-cancel {
+    background-color: $buttonBackGroungColor;
+    border-radius: 30%;
+    border-width: 0;
+    .fa-forward {
+      color: $buttonColor;
+      --fa-animation-duration: 3.5s;
+    }
+  }
+  :hover {
+    cursor: pointer;
+  }
+}
+
+// ログインボタン
+
+/* 下記サイト参考
+    https://dubdesign.net/download/html-css/button-design/
+*/
+
+@mixin button(
+  $margin-left: 5%,
+  $max-width: 45%,
+  $width: 45%,
+  $content: "\f111"
+) {
+  a {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2%;
+    margin-left: $margin-left;
+    max-width: $max-width;
+    width: $width;
+    padding: 10px 25px 10px 50px;
+    color: #313131;
+    transition: 0.3s ease-in-out;
+    font-weight: 600;
+    background: #eee;
+    border-radius: 50px;
+    z-index: 0;
+    overflow: hidden;
+    &:before {
+      font-family: "Font Awesome 5 Free";
+      content: $content;
+      line-height: 1;
+      position: absolute;
+      left: 5px;
+      background: #fff;
+      padding: 12px 11px;
+      border-radius: 60px;
+      z-index: 2;
+    }
+    &:after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 0;
+      display: block;
+      background: #ccc;
+      transition: 0.3s;
+      left: 0;
+    }
+    &:hover:after {
+      width: 100%;
+      z-index: -1;
+    }
+  }
+}
+
+#button-area {
+  // display: flex;
+  // justify-content: flex-start;
+
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 50vw;
+  padding-top: 1%;
+}
+
+.login-button {
+  @include button($margin-left: 10%, $width: 47%, $content: "\f2f6");
+
+  @include tab {
+    @include button(
+      $margin-left: 30%,
+      $max-width: 70%,
+      $width: 50%,
+      $content: "\f2f6"
+    );
+  }
+
+  @include sp {
+    @include button(
+      $margin-left: 0%,
+      $max-width: 90%,
+      $width: 70%,
+      $content: "\f2f6"
+    );
+  }
+}
+
+.signup-button {
+  @include button($margin-left: 0%, $width: 40%, $content: "\f234");
+
+  @include sp {
+    @include button(
+      $margin-left: -20%,
+      $max-width: 90%,
+      $width: 35%,
+      $content: "\f234"
+    );
+  }
+}
