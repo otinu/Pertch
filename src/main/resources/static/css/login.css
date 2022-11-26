@@ -9,7 +9,8 @@
 body, html {
     height: 100%;
     background-repeat: no-repeat;
-    background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));
+    /* background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33)); */
+    background-image: linear-gradient(#F0FFFF, #b0c4de);
 }
 
 .card-container.card {
@@ -109,9 +110,7 @@ body, html {
 }
 
 .btn.btn-signin {
-    /*background-color: #4d90fe; */
-    background-color: rgb(104, 145, 162);
-    /* background-color: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));*/
+    background-color:#b0c4de;
     padding: 0px;
     font-weight: 700;
     font-size: 14px;
@@ -129,5 +128,6 @@ body, html {
 .btn.btn-signin:hover,
 .btn.btn-signin:active,
 .btn.btn-signin:focus {
-    background-color: rgb(12, 97, 33);
+    background-color: rgb(104, 145, 162);
+    cursor: pointer;
 }
