@@ -117,7 +117,7 @@ h4 {
 .animate-title-first {
   position: absolute;
   top: 30%;
-  left: 30%;
+  left: 40%;
   transform: translate(-50%, -50%);
   color: white;
   opacity: 0;
@@ -191,7 +191,7 @@ h4 {
 .animate-title-second {
   position: absolute;
   top: 30%;
-  left: 30%;
+  left: 20%;
   transform: translate(-50%, -50%);
   font-size: 1.5em;
 }
@@ -200,6 +200,7 @@ h4 {
   color: black;
   width: 65vw;
   opacity: 0;
+  white-space: nowrap;
   -webkit-animation-name: animate_slide_in;
           animation-name: animate_slide_in;
   -webkit-animation-duration: 8s;

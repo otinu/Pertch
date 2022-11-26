@@ -59,12 +59,6 @@ function makeButton() {
     const buttonArea = document.querySelector('#button-area')
     buttonArea.insertAdjacentHTML('beforeend', "<div class='login-button'><a href='/loginForm'>ログイン</a></div>")
     buttonArea.insertAdjacentHTML('beforeend', "<div class='signup-button'><a href='/registration'>登録</a></div>")
-    
-    
-    
-    
-    
-
 }
 
 // randomPixelは複数スコープに跨るため、グローバル変数で作成
