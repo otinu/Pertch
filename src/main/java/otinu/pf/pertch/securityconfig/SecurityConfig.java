@@ -36,9 +36,12 @@ public class SecurityConfig {
 				.loginPage("/login")			// ログイン画面のURL
 				.usernameParameter("username")  // HTML上のUserNameのname属性を任意に変更可能(デフォルトは「username」)
 				.passwordParameter("password")	// HTML上のPasswordのname属性を任意に変更可能(デフォルトは「password」)
-				.defaultSuccessUrl("/pet/index")		// ログイン成功後のリダイレクト先URL
-				.failureUrl("/login?error")		// ログイン失敗後のリダイレクト先URL
+				.defaultSuccessUrl("/pet/index", true) // ログイン成功後のリダイレクト先URL
+				.failureUrl("/login/error")		// ログイン失敗後のリダイレクト先URL
 				.permitAll()
+				
+				// ※defaultSuccessUrl は第二引数にtrueを設定しない場合、下記の流れになる
+				// (例)Top画面 => (pet/new)※未ログインで入れない => ログイン画面(強制) => ログイン成功 => pet新規登録画面※デフォルトはpet/indexに行く設定
 			)
 			.logout(logout -> logout.logoutSuccessUrl("/")
 			).authorizeHttpRequests(authz -> authz

@@ -37,8 +37,8 @@ public class OwnerServiceImpl implements OwnerService {
 	@Override
 	public Owner getCurrentUser(Principal principal) {
 		String loginUserName = principal.getName();
-		Owner test = repository.findByName(loginUserName);
-		return test;
+		Owner owner = repository.findByName(loginUserName);
+		return owner;
 		//return repository.findByName(loginUserName);
 	}
 

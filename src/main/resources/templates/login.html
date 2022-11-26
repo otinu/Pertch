@@ -9,6 +9,10 @@
     <link rel="stylesheet" th:href="@{/css/login.css}">
 </head>
 <body>
+<th:block th:if="${not #strings.isEmpty(signUpMessage)}">
+    <script th:inline="javascript">alert(/*[[${signUpMessage}]]*/);</script>
+  </th:block>
+  
     <div class="container">
         <div class="card card-container">
             <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
