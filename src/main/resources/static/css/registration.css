@@ -66,7 +66,8 @@ input[type=submit] {
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   line-height: 40px;
 }
-.form__item > input[type=text]:hover, .form__item > input[type=password]:hover {
+.form__item > input[type=text]:hover, .form__item > input[type=password]:hover,
+.form__item > input[type=text]:focus, .form__item > input[type=password]:focus {
   width: 100%;
 }
 .form__item > input[type=text]:hover, .form__item > input[type=password]:hover {

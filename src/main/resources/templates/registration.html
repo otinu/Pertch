@@ -18,10 +18,6 @@
 
   <main class="main">
     <form class="form" th:action="@{/registration}" method="post" th:object="${ownerForm}">
-
-
-
-
       <div class="form__item">
         <label for="username">Name</label><input type="text" placeholder="お名前" th:field="*{name}" />
       </div>
@@ -42,13 +38,13 @@
         <label for="password">Contact</label><input type="text" placeholder="ご連絡先" th:field="*{contact}" />
       </div>
       <div class="form__item">
-        <input id="button" type="submit" value="Regist Owner" />
+        <input id="button" class="registration-button" type="submit" value="Sign Up" />
       </div>
 
     </form>
     <form class="form-signin top-button" method="get" th:action="@{/top}">
       <div class="form__item">
-        <input id="button" class="" type="submit" value="TOP" />
+        <input id="button" type="submit" value="TOP" />
       </div>
     </form>
   </main>
