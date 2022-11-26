@@ -3,6 +3,7 @@ package otinu.pf.pertch.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +26,7 @@ public class OwnerController {
 	
 	@GetMapping({"", "/"})
 	public String redirectRoot() {
-		return "redirect:/top";
+		return "top";
 	}
 	
 	@GetMapping("/login")
@@ -42,6 +43,7 @@ public class OwnerController {
 	public ModelAndView  showRegistration() {
 		ModelAndView mv = new ModelAndView("registration");
 		mv.addObject("ownerForm", new OwnerForm());
+		mv.addObject("errorMessages", "");
 		return mv;
 
 	}
@@ -52,8 +54,14 @@ public class OwnerController {
 		ownerRegistrationService.ownerRegistration(form.getUsername(), form.getPassword(), form.getName(), form.getMessage(), form.getContact());
 		ModelAndView mv = new ModelAndView("redirect:/pet/index");
 		if (!bindingResult.hasErrors()) {
+			mv.addObject("errorMessages", "");
 			return mv;
 		} else {
+			String errorMessages = "";
+			for(FieldError error: bindingResult.getFieldErrors()) {
+				errorMessages += error.getDefaultMessage() + "\n";
+			}
+			mv.addObject("errorMessages", errorMessages);
 			mv.setViewName("registration");
 			return mv;
 		}
