@@ -5,14 +5,13 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
-<link rel="icon" type="image/png" href="img/favicon-32x32.png">
-<!--/* Sassで後ほど作成 */-->
-<!--/*  <link rel="stylesheet" th:href="@{/css/pet/top.css}">  */-->
+<link rel="stylesheet" th:href="@{/css/header/header.css}">
+<link rel="icon" type="image/png" th:href="@{../img/favicon-32x32.png}">
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Pertch</title>
 </head>
 <body>
-
+  <th:block th:replace="fragment/header :: header"></th:block>
 	<table border="1" th:unless="${#lists.isEmpty(list)}" style="table-layout: fixed;">
 		<tr>
 			<th>ペット名</th>
@@ -61,21 +60,11 @@
 	<p th:if="${deleteMessage}" th:text="*{deleteMessage}" style="color: green"></p>
 
 	<br>
-	<h1>
-		<a href="/pet/new" style="color: red;">ペット登録</a>
-	</h1>
-
 	<br>
-	<form sec:authorize="authenticated" method="post" th:action="@{/logout}">
-		<button type="submit">ログアウト</button>
-	</form>
-
-	<!--/* フラグメントのテスト  */-->
-	<div th:replace="fragment/navigation :: link"></div>
 	
-    
-
 	<script th:src="@{/js/pet/index.js}"></script>
+  
+  <th:block th:replace="fragment/footer :: copyRight"></th:block>
 </body>
 </html>
 

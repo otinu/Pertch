@@ -2,7 +2,7 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8" />
-<link rel="stylesheet" th:href="@{/css/registration.css}">
+<link rel="stylesheet" th:href="@{/css/registration/registration.css}">
 <link rel="icon" type="image/png" href="img/favicon-32x32.png" />
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.2.1/css/all.css" />
@@ -18,15 +18,11 @@
 
   <main class="main">
     <form class="form" th:action="@{/registration}" method="post" th:object="${ownerForm}">
-
-
-
-
       <div class="form__item">
         <label for="username">Name</label><input type="text" placeholder="お名前" th:field="*{name}" />
       </div>
       <div class="form__item">
-        <label for="password">Password</label> <input type="password" placeholder="パスワード" th:field="*{password}" />
+        <label for="password">Password</label> <input type="password" placeholder="パスワード" autocomplete="off" th:field="*{password}" />
       </div>
 
       <div class="form__item">
@@ -42,13 +38,13 @@
         <label for="password">Contact</label><input type="text" placeholder="ご連絡先" th:field="*{contact}" />
       </div>
       <div class="form__item">
-        <input id="button" type="submit" value="Regist Owner" />
+        <input class="submit-button registration-button" type="submit" value="Sign Up" />
       </div>
 
     </form>
     <form class="form-signin top-button" method="get" th:action="@{/top}">
       <div class="form__item">
-        <input id="button" class="" type="submit" value="TOP" />
+        <input class="submit-button" type="submit" value="TOP" />
       </div>
     </form>
   </main>

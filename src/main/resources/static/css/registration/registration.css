@@ -66,7 +66,8 @@ input[type=submit] {
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   line-height: 40px;
 }
-.form__item > input[type=text]:hover, .form__item > input[type=password]:hover {
+.form__item > input[type=text]:hover, .form__item > input[type=password]:hover,
+.form__item > input[type=text]:focus, .form__item > input[type=password]:focus {
   width: 100%;
 }
 .form__item > input[type=text]:hover, .form__item > input[type=password]:hover {
@@ -77,9 +78,9 @@ input[type=submit] {
   width: 100%;
 }
 
-#button {
+.submit-button {
   background-color: #b0c4de;
 }
-#button:hover {
+.submit-button:hover {
   background-color: #0091a2;
 }/*# sourceMappingURL=registration.css.map */

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <th:block th:fragment="header">
+    <header>
+      <div class="header-container">
+        <button class="hamburger-menu">
+          <span></span> <span></span> <span></span>
+        </button>
+        <img id="title_logo" src='../img/title_logo.png'>
+      </div>
+      <div id='menu-area'>
+        <a href="/pet/new" style="color: red;">ペット登録</a>
+        <form sec:authorize="authenticated" method="post" th:action="@{/logout}">
+          <button type="submit">ログアウト</button>
+        </form>
+      </div>
+      <script th:src="@{/js/header.js}"></script>
+    </header>
+  </th:block>
+</html>

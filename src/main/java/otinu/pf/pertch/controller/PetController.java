@@ -37,7 +37,8 @@ public class PetController {
 	@GetMapping("/index")
 	public ModelAndView showIndex(PetForm petForm, Principal principal) {
 
-		ModelAndView mv = new ModelAndView("pet/index");
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("pet/index");
 		Iterable<Pet> list = petService.selectAll();
 		mv.addObject("list", list);
 
@@ -48,7 +49,8 @@ public class PetController {
 
 	@GetMapping("/new")
 	public ModelAndView showNew() {
-		ModelAndView mv = new ModelAndView("pet/new");
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("pet/new");
 		mv.addObject("petForm", new PetForm());
 		return mv;
 	}
@@ -63,7 +65,8 @@ public class PetController {
 		Pet pet = new Pet();
 		petService.setFormToPet(pet, petForm);
 
-		ModelAndView mv = new ModelAndView("redirect:index");
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("redirect:index");
 		try {
 			petService.settingImage(pet, multipartFile);
 
