@@ -56,6 +56,17 @@
   width: 50vw;
   height: 0;
   margin: 0 auto;
-  background: white;
+  background: unset;
   visibility: hidden;
-}/*# sourceMappingURL=header.css.map */
+  text-align: center;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+}
+#menu-area a{
+ margin-bottom: 5vh;
+ color: white;
+ text-decoration: none;
+}
+
+/*# sourceMappingURL=header.css.map */
