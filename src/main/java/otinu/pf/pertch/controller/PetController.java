@@ -88,6 +88,20 @@ public class PetController {
 			return mv;
 		}
 	}
+	
+	@PostMapping("/show/{id}")
+	public String showPet(PetForm petForm, @PathVariable Integer id, Model model) {
+		Optional<Pet> petOpt = petService.findById(id);
+		Optional<PetForm> petFormOpt = petOpt.map(t -> petService.makePetForm(t));
+
+		if (petFormOpt.isPresent()) {
+			petForm = petFormOpt.get();
+			model.addAttribute("petForm", petForm);
+		} else {
+			model.addAttribute("selectMessage", "該当のデータが見つかりませんでした");
+		}
+		return "pet/edit";
+	}
 
 	@PostMapping("/edit/{id}")
 	public String editPet(PetForm petForm, @PathVariable Integer id, Model model) {

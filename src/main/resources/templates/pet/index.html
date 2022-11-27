@@ -30,7 +30,11 @@
 			<th>削除</th>
 		</tr>
 		<tr th:each="pet:${list}" align="center">
-			<td th:text="${pet.name}" align="left"></td>
+			<td align="left">
+        <form id="pet-show" method="POST" th:action="@{/pet/show/{id}(id=${pet.id})}">
+            <a href="#" th:text="${pet.name}"></a>
+          </form>
+      </td>
 			<td th:text="${pet.age}"></td>
 			<th:block th:switch="${pet.sex}">
 				<td th:case=true>♂</td>
