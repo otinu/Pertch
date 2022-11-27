@@ -78,9 +78,9 @@ input[type=submit] {
   width: 100%;
 }
 
-#button {
+.submit-button {
   background-color: #b0c4de;
 }
-#button:hover {
+.submit-button:hover {
   background-color: #0091a2;
 }/*# sourceMappingURL=registration.css.map */
