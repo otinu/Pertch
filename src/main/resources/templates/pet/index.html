@@ -5,6 +5,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
+<link rel="stylesheet" th:href="@{/css/pet/index.css}">
 <link rel="stylesheet" th:href="@{/css/header/header.css}">
 <link rel="icon" type="image/png" th:href="@{../img/favicon-32x32.png}">
 
@@ -15,14 +16,15 @@
 </head>
 <body>
   <th:block th:replace="fragment/header :: header"></th:block>
+  <div class="table-area">
 	<table border="1" th:unless="${#lists.isEmpty(list)}" style="table-layout: fixed;">
 		<tr>
 			<th>ペット名</th>
 			<th>年齢</th>
 			<th>性別</th>
 			<th>特徴</th>
-			<th>住処の郵便番号</th>
-			<th>住処の住所</th>
+			<th>郵便番号</th>
+			<th>住所</th>
 			<th>飼い主</th>
 			<th>編集</th>
 			<th>削除</th>
@@ -55,12 +57,12 @@
 				</th:block>
 			</td>
 		</tr>
-
 	</table>
+</div>
 
-	<p th:if="${insertMessage}" th:text="${insertMessage}" style="color: green"></p>
-	<p th:if="${updateMessage}" th:text="*{updateMessage}" style="color: green"></p>
-	<p th:if="${deleteMessage}" th:text="*{deleteMessage}" style="color: green"></p>
+	<p class="action-message" th:if="${insertMessage}" th:text="${insertMessage}"></p>
+	<p class="action-message" th:if="${updateMessage}" th:text="*{updateMessage}"></p>
+	<p class="action-message" th:if="${deleteMessage}" th:text="*{deleteMessage}"></p>
 
 	<br>
 	<br>
