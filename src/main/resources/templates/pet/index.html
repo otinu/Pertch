@@ -16,6 +16,11 @@
 </head>
 <body>
   <th:block th:replace="fragment/header :: header"></th:block>
+  
+  <p class="action-message" th:if="${insertMessage}" th:text="${insertMessage}"></p>
+  <p class="action-message" th:if="${updateMessage}" th:text="*{updateMessage}"></p>
+  <p class="action-message" th:if="${deleteMessage}" th:text="*{deleteMessage}"></p>
+  
   <div class="table-area">
 	<table border="1" th:unless="${#lists.isEmpty(list)}" style="table-layout: fixed;">
 		<tr>
@@ -63,13 +68,6 @@
 		</tr>
 	</table>
 </div>
-
-	<p class="action-message" th:if="${insertMessage}" th:text="${insertMessage}"></p>
-	<p class="action-message" th:if="${updateMessage}" th:text="*{updateMessage}"></p>
-	<p class="action-message" th:if="${deleteMessage}" th:text="*{deleteMessage}"></p>
-
-	<br>
-	<br>
 	
 	<script th:src="@{/js/pet/index.js}"></script>
   
