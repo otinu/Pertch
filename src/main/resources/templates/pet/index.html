@@ -17,6 +17,7 @@
 <body>
   <th:block th:replace="fragment/header :: header"></th:block>
   
+  <div class="body-container">
   <p class="action-message" th:if="${insertMessage}" th:text="${insertMessage}"></p>
   <p class="action-message" th:if="${updateMessage}" th:text="*{updateMessage}"></p>
   <p class="action-message" th:if="${deleteMessage}" th:text="*{deleteMessage}"></p>
@@ -72,6 +73,7 @@
 	<script th:src="@{/js/pet/index.js}"></script>
   
   <th:block th:replace="fragment/footer :: copyRight"></th:block>
+  </div><!--/* body-container */-->
 </body>
 </html>
 
