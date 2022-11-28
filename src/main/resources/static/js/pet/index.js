@@ -8,12 +8,17 @@ const deleteAlert = function(event) {
 
 document.addEventListener("DOMContentLoaded", function() {
   
-  const button = document.body.querySelector("#deleteBtn")
+  const deleteButtons = document.body.querySelectorAll("#deleteBtn");
   
   // HTML 要素に対して、イベントのハンドラー関数を登録する
-  button.addEventListener('click', deleteAlert);
+  deleteButtons.forEach(function(deleteButton) {
+    deleteButton.addEventListener('click', deleteAlert);
+  });
   
-  const petShow = document.getElementById('pet-show');
-  petShow.addEventListener('click', () => { petShow.submit() })
+  const petShows = document.body.querySelectorAll('#pet-show');
+  petShows.forEach(function(petShow) {
+    petShow.addEventListener('click', () => { petShow.submit() });
+  });
+  
 
 });
