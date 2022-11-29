@@ -3,12 +3,17 @@
   justify-content: start;
   margin-top: 2vh;
   margin-bottom: 5vh;
+  position: relative;
 }
 
-#title_logo {
+#title-logo-link {
+  margin: 0 45%;
+  position: absolute;
+}
+
+#title-logo-img {
   visibility: visible;
   height: 60px;
-  margin: 0 auto;
   mix-blend-mode: multiply;
 }
 

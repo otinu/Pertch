@@ -1,20 +1,31 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-  <th:block th:fragment="header">
-    <header>
-      <div class="header-container">
-        <button class="hamburger-menu">
-          <span></span> <span></span> <span></span>
-        </button>
-        <img id="title_logo" src='../img/title_logo.png'>
-      </div>
-      <div id='menu-area'>
-          <h2><a href="/pet/new"><i class="fa-solid fa-shield-dog fa-2x" ></i>ペット登録</a></h2>
-        <form id="logout" sec:authorize="authenticated" method="post" th:action="@{/logout}">
-          <h2><a href="#"><i class="fa-solid fa-door-open fa-2x"></i>  ログアウト</a></h2>
-        </form>
-      </div>
-      <script th:src="@{/js/header.js}"></script>
-    </header>
-  </th:block>
+<th:block th:fragment="header">
+  <header>
+    <div class="header-container">
+      <button class="hamburger-menu">
+        <span></span> <span></span> <span></span>
+      </button>
+      <a id="title-logo-link" href="/pet/index"> <img id="title-logo-img" src='../img/title_logo.png'>
+      </a>
+    </div>
+    <div id='menu-area'>
+      <h2>
+        <a href="/pet/index"><i class="fa-solid fa-table-list fa-2x"></i> ペット一覧</a>
+      </h2>
+      <h2>
+        <a href="/pet/new"><i class="fa-solid fa-shield-dog fa-2x"></i> ペット登録</a>
+      </h2>
+      <h2>
+        <a href="/owner/mypage"><i class="fa-solid fa-user fa-2x"></i> マイページ</a>
+      </h2>
+      <form id="logout" sec:authorize="authenticated" method="post" th:action="@{/logout}">
+        <h2>
+          <a href="#"><i class="fa-solid fa-door-open fa-2x"></i> ログアウト</a>
+        </h2>
+      </form>
+    </div>
+    <script th:src="@{/js/header.js}"></script>
+  </header>
+</th:block>
 </html>

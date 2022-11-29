@@ -1,13 +1,24 @@
-window.addEventListener('load', () => {
-  
-  // const button = document.querySelector('#delete');
-  const button = document.getElementById('deleteBtn');
-  
-  // HTML 要素に対して、イベントのハンドラー関数を登録する
-	button.addEventListener('click', deleteAlert);
-});
-
 const deleteAlert = function(event) {
-	if(!confirm('削除しますか？')) return event.preventDefault()
+  const confirm = window.confirm("削除しますか？")
+    if (!confirm) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
 }
 
+document.addEventListener("DOMContentLoaded", function() {
+  
+  const deleteButtons = document.body.querySelectorAll("#deleteBtn");
+  
+  // HTML 要素に対して、イベントのハンドラー関数を登録する
+  deleteButtons.forEach(function(deleteButton) {
+    deleteButton.addEventListener('click', deleteAlert);
+  });
+  
+  const petShows = document.body.querySelectorAll('#pet-show');
+  petShows.forEach(function(petShow) {
+    petShow.addEventListener('click', () => { petShow.submit() });
+  });
+  
+
+});
