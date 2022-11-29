@@ -130,4 +130,6 @@ body, html {
 .btn.btn-signin:focus {
     background-color: rgb(104, 145, 162);
     cursor: pointer;
+    outline: none;
+    
 }

@@ -6,12 +6,15 @@
   position: relative;
 }
 
-#title_logo {
+#title-logo-link {
+  margin: 0 45%;
+  position: absolute;
+}
+
+#title-logo-img {
   visibility: visible;
   height: 60px;
-  margin: 0 50vw;
   mix-blend-mode: multiply;
-  position: absolute;
 }
 
 .hamburger-menu {
