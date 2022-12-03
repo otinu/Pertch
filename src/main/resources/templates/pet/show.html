@@ -1,73 +1,60 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
 <link rel="icon" type="image/png" href="img/favicon-32x32.png">
-<title>Insert title here</title>
+<link rel="stylesheet" th:href="@{/css/header/header.css}">
+<link rel="stylesheet" th:href="@{/css/pet/show.css}">
+
+<link rel="icon" type="image/png" th:href="@{../../img/favicon-32x32.png}">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.2.1/css/all.css" />
+<title>Pertch</title>
 </head>
 <body>
+  <th:block th:replace="fragment/header :: header"></th:block>
 
-  <h1>Pet-Showページ</h1>
-  <div th:if="${selectMessage}" th:text="*{selectMessage}" style="color: red"></div>
+  <div class="body-container">
 
-  <form method="POST" th:action="@{/pet/update}" th:object="${petForm}" enctype="multipart/form-data">
+    <div class="form-container">
 
-    <br>
-    <label>名前</label>
-    <input th:field="*{name}">
-    
-    <br>
-    <label>年齢</label>
-    <input type="number" th:field="*{age}">
-    
-    <!--/*
-    <br>
-    <label>性別</label>
-    <th:block th:if="*{sex}">
-        <input type="radio" value="true" th:field="*{sex}" checked="checked">♂
-      <input type="radio" value="false" th:field="*{sex}">♀
-    </th:block>
-    <th:block th:unless="*{sex}">
-        <input type="radio" value="true" th:field="*{sex}">♂
-      <input type="radio" value="false" th:field="*{sex}" checked="checked">♀
-    </th:block>
-    */-->
-    
-    <br>
-    <label>特徴</label>
-    <input th:field="*{charmPoint}">
-    
-    <br>
-    <label>郵便番号</label>
-    <input th:field="*{postCord}">
-    
-    <br>
-    <label>住所</label>
-    <input th:field="*{address}">
-    
-    <br>
-    <label>登録日時</label>
-    <p th:text="*{createdAt}"></p>
-    <input type="hidden" name="createdAt" th:value="*{createdAt}">
-    
-    <br>
-    <label>更新日時</label>
-    <p th:text="*{updatedAt}"></p>
-    <input type="hidden" name="updatedAt" th:value="*{updatedAt}">
-    
-    <br>
-    <label>【現在画像】</label>
-    <img th:src="*{image}">
-    <input type="file" name="upload_file">
-    <input type="hidden" name="image" th:value="*{image}">
-    
-    
-    <input type="hidden" name="id" th:value="*{id}">
-    <input type="hidden" name="sex" th:value="*{sex}">
-    
-    <input type="submit" value="送信">
-  </form>
+      <form id="pet-show" method="POST" th:action="@{/pet/insert}" th:object="${petForm}" enctype="multipart/form-data">
+        <h2 th:text="*{name}" style="margin: 0;"></h2>
 
+        <th:block th:if="*{image}">
+          <img id="pet-image" th:src="*{image}">
+        </th:block>
+        <th:block th:if="!*{image}">
+          <img id="pet-image" th:src="@{/img/no-image.png}">
+        </th:block>
+
+        <div class="mix-area">
+          <div class="age-area">
+            <label>年齢</label>
+            <p th:text="*{age} + '歳'"></p>
+          </div>
+          <div class="gender-area">
+            <label>性別&nbsp;</label>
+            <th:block th:if="*{sex}">
+              <p>♂</p>
+            </th:block>
+            <th:block th:if="!*{sex}">
+              <p>♀</p>
+            </th:block>
+          </div>
+        </div>
+
+        <label>特徴</label>
+        <textarea th:field="*{charmPoint}" readonly></textarea>
+        <label>郵便番号</label>
+        <p th:text="*{postCord}"></p>
+        <label>住所</label>
+        <p th:text="*{address}"></p>
+
+      </form>
+    </div>
+    <script th:src="@{/js/pet/show.js}"></script>
+    <th:block th:replace="fragment/footer :: copyRight"></th:block>
+  </div>
 </body>
+
 </html>

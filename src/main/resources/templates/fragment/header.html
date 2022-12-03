@@ -19,11 +19,11 @@
       <h2>
         <a href="/owner/mypage"><i class="fa-solid fa-user fa-2x"></i> マイページ</a>
       </h2>
-      <form id="logout" sec:authorize="authenticated" method="post" th:action="@{/logout}">
-        <h2>
+      <h2>
+        <form id="logout" sec:authorize="authenticated" method="post" th:action="@{/logout}">
           <a href="#"><i class="fa-solid fa-door-open fa-2x"></i> ログアウト</a>
-        </h2>
-      </form>
+        </form>
+      </h2>
     </div>
     <script th:src="@{/js/header.js}"></script>
   </header>
