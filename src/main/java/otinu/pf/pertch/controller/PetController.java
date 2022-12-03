@@ -100,7 +100,7 @@ public class PetController {
 		} else {
 			model.addAttribute("selectMessage", "該当のデータが見つかりませんでした");
 		}
-		return "pet/edit";
+		return "pet/show";
 	}
 
 	@PostMapping("/edit/{id}")
