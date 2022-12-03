@@ -1,54 +1,82 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
 <link rel="icon" type="image/png" href="img/favicon-32x32.png">
-<title>Insert title here</title>
+<link rel="stylesheet" th:href="@{/css/header/header.css}">
+<link rel="stylesheet" th:href="@{/css/pet/new.css}">
+
+<link rel="icon" type="image/png" th:href="@{../img/favicon-32x32.png}">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.2.1/css/all.css" />
+<title>Pertch</title>
 </head>
 <body>
+  <th:block th:replace="fragment/header :: header"></th:block>
 
-<h1>新規登録</h1>
+  <div class="body-container">
 
-<form method="POST" th:action="@{/pet/insert}" th:object="${petForm}" enctype="multipart/form-data">
+    <div class="form-container">
 
-<ul th:if="${#fields.hasErrors('*')}">
-    <li th:each="err:${#fields.errors('*')}" th:text="${err}"></li>
-</ul>
+      <form id="pet-new" method="POST" th:action="@{/pet/insert}" th:object="${petForm}" enctype="multipart/form-data">
+        <h2 style="margin: 0;"><i class="fa-solid fa-shield-dog fa-2x"></i> ペット登録</h2>
+        <ul th:if="${#fields.hasErrors('*')}">
+          <li th:each="err:${#fields.errors('*')}" th:text="${err}"></li>
+        </ul>
 
-<br>
-<label>名前</label>
-<input th:field="*{name}">
+        <br>
+        <label>名前</label>
+        <input type=text th:field="*{name}">
 
-<br>
-<label>年齢</label>
-<input type="number" th:field="*{age}">
+        <div class="mix-area">
 
-<br>
-<label>性別</label>
-<input type="radio" value="true" th:field="*{sex}">♂
-<input type="radio" value="false" th:field="*{sex}">♀
+          <div class="age-area">
+            <label>年齢</label>
+            <input type="number" th:field="*{age}">
+          </div>
 
-<br>
-<label>特徴</label>
-<input th:field="*{charmPoint}">
+          <div class="gender-area">
+            <label>性別&nbsp;</label>
+            <br>
+            <div class="radio-button">
+            &nbsp;
+              <input type="radio" value="true" th:field="*{sex}">
+              ♂&nbsp;
+            </div>
+            <div class="radio-button">
+            &nbsp;
+              <input type="radio" value="false" th:field="*{sex}">
+              ♀
+            </div>
+          </div>
+          <div class="image-area">
+            <label class="file-label">
+              <input type="file" name="upload_file">
+              ペットの写真
+            </label>
+            <small>&nbsp;未選択</small>
 
-<br>
-<label>郵便番号</label>
-<input th:field="*{postCord}">
+          </div>
 
-<br>
-<label>住所</label>
-<input th:field="*{address}">
+        </div>
 
-<br>
-<label>写真</label>
-<input type="file" name="upload_file">
+        <label>特徴</label>
+        <textarea type=text th:field="*{charmPoint}"></textarea>
+        <br>
+        <label>郵便番号</label>
+        <input type=text th:field="*{postCord}">
+        <br>
+        <label>住所</label>
+        <input type=text th:field="*{address}">
+        <br>
 
-<br>
-<input type="submit" value="送信">
+        <input type="submit" value="送信">
 
-</form>
 
+      </form>
+    </div>
+    <script th:src="@{/js/pet/new.js}"></script>
+    <th:block th:replace="fragment/footer :: copyRight"></th:block>
+  </div>
 </body>
+
 </html>
