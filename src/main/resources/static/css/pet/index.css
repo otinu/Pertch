@@ -1,3 +1,23 @@
+button:has(.fa-pen-to-square),
+button:has(.fa-trash) {
+  background: none;
+  border: none;
+  font-size: larger;
+  
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+.fa-pen-to-square {
+  color: lightseagreen;
+}
+
+.fa-trash {
+  color: lightcoral;
+}
+
 .action-message {
     color: green;
     text-align: center;

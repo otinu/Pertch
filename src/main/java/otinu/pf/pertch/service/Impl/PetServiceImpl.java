@@ -61,7 +61,7 @@ public class PetServiceImpl implements PetService {
 			if(imageType.equals("image/png")) {
 				pet.setImage("data:image/png;base64," + base64);
 			} else if(imageType.equals("image/jpeg")) {
-				pet.setImage("data:image/jpeg," + base64);
+				pet.setImage("data:image/jpeg;base64," + base64);
 			} else if(imageType.equals("image/gif")) {
 				pet.setImage("data:image/gif;base64," + base64);
 			}
