@@ -1,5 +1,5 @@
 const deleteAlert = function(event) {
-  const confirm = window.confirm("削除しますか？")
+  const confirm = window.confirm("削除します\n内容をご確認ください")
     if (!confirm) {
       event.stopPropagation();
       event.preventDefault();
