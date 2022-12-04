@@ -97,6 +97,7 @@ public class PetServiceImpl implements PetService {
 		petForm.setAddress(pet.getAddress());
 		petForm.setImage(pet.getImage());
 		petForm.setCreatedAt(pet.getCreatedAt());
+		petForm.setOwner(pet.getOwner());
 
 		Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
 		petForm.setUpdatedAt(timeStamp);

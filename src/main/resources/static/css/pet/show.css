@@ -12,9 +12,11 @@ label {
 }
 
 input,
-textarea {
+textarea,
+#owner-show-link {
   font-size: 120%;
   margin: 0;
+  text-align: start;
   outline: none;
   border: none;
   font-size: 18px;

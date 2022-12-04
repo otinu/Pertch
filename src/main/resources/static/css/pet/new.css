@@ -48,6 +48,14 @@ textarea {
   height:120px;
 }
 
+#name,
+.mix-area,
+textarea,
+#postCord,
+#address {
+  margin-bottom: 3%;
+}
+
 
 input[type="text"]:hover,
 input[type="number"]:hover,
@@ -85,12 +93,11 @@ input[name="upload_file"] {
 
 #age {
   width: 50%;
-      border-bottom: dotted 4px lightgray;
+  border-bottom: dotted 4px lightgray;
 }
 
 .mix-area {
   display: grid;
-  margin: 5% 0 3% 0;
   grid-template-columns: 1fr 1.5fr 2fr;
 }
 

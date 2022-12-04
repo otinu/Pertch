@@ -2,12 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
-<link rel="icon" type="image/png" href="img/favicon-32x32.png">
 <link rel="stylesheet" th:href="@{/css/header/header.css}">
 <link rel="stylesheet" th:href="@{/css/pet/show.css}">
 
 <link rel="icon" type="image/png" th:href="@{../../img/favicon-32x32.png}">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.2.1/css/all.css" />
+<meta charset="UTF-8">
 <title>Pertch</title>
 </head>
 <body>
@@ -43,12 +43,15 @@
           </div>
         </div>
 
+        <label>オーナー</label>
+        <a id="owner-show-link" th:href="@{/owner/show/{id}(id=*{owner.id})}" th:text="*{owner.name}"></a>
         <label>特徴</label>
         <textarea th:field="*{charmPoint}" readonly></textarea>
         <label>郵便番号</label>
         <p th:text="*{postCord}"></p>
         <label>住所</label>
         <p th:text="*{address}"></p>
+
 
       </form>
     </div>

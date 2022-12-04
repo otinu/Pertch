@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import otinu.pf.pertch.entity.Owner;
 import otinu.pf.pertch.form.OwnerForm;
 import otinu.pf.pertch.service.OwnerService;
 
@@ -19,19 +20,12 @@ import otinu.pf.pertch.service.OwnerService;
 public class OwnerController {
 	
 	@Autowired
-	private OwnerService ownerRegistrationService;
+	private OwnerService ownerService;
 	
 	@GetMapping("/top")
 	public String redirectPetIndex() {
 		return "top";
 	}
-	
-	/* 未ログイン時、このパターンは「/login」に変換されてる
-	@GetMapping({"", "/"})
-	public String redirectRoot() {
-		return "top";
-	}
-	*/
 	
 	@GetMapping("/login")
 	public String redirectTop() {
@@ -64,12 +58,9 @@ public class OwnerController {
 		
 	@PostMapping("/registration")
 	public ModelAndView ownerRegistration(@Validated OwnerForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-		ownerRegistrationService.ownerRegistration(form.getUsername(), form.getPassword(), form.getName(), form.getMessage(), form.getContact());
+		ownerService.ownerRegistration(form.getUsername(), form.getPassword(), form.getName(), form.getMessage(), form.getContact());
 		ModelAndView mv = new ModelAndView("redirect:/loginForm");
-		// ModelAndView mv = new ModelAndView("redirect:/pet/index");
 		if (!bindingResult.hasErrors()) {
-			// mv.addObject("errorMessages", "");
-			// mv.addObject("signUpMessage","登録に成功しました");
 			redirectAttributes.addFlashAttribute("signUpMessage","登録に成功しました");
 			return mv;
 		} else {
@@ -85,7 +76,9 @@ public class OwnerController {
 	
 	@GetMapping("/owner/show/{id}")
 	public ModelAndView ownerShow(OwnerForm ownerForm,@PathVariable Integer id) {
-		ModelAndView mv = new ModelAndView(); 
+		ModelAndView mv = new ModelAndView();
+		Owner owner = ownerService.findByOwnerId(id);
+		mv.addObject("owner", owner);
 		mv.setViewName("/owner/show");
 		return mv;
 	}
