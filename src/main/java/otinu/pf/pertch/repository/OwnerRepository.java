@@ -7,6 +7,9 @@ import otinu.pf.pertch.entity.Owner;
 
 public interface OwnerRepository extends JpaRepository<Owner, Integer> {
 	
+	@Query(value = "SELECT * FROM owner WHERE id = ?1", nativeQuery=true)
+	public Owner findByOwnerId(Integer id);
+	
 	@Query(value = "SELECT * FROM owner WHERE username = ?1", nativeQuery=true)
 	public Owner findByName(String name);
 	

@@ -42,4 +42,9 @@ public class OwnerServiceImpl implements OwnerService {
 		//return repository.findByName(loginUserName);
 	}
 
+	@Override
+	public Owner findByOwnerId(Integer id) {
+		return repository.findByOwnerId(id);
+	}
+
 }

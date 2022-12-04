@@ -11,6 +11,7 @@ import org.hibernate.validator.constraints.Range;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import otinu.pf.pertch.entity.Owner;
 
 @Data
 @NoArgsConstructor
@@ -54,4 +55,7 @@ public class PetForm {
 	
 	/* 更新日時 */
 	private Timestamp updatedAt;
+	
+	/* 飼い主 */
+	private Owner owner;
 }
