@@ -85,6 +85,13 @@ public class PetServiceImpl implements PetService {
 		
 		return pet;
 	}
+	
+	@Override
+	public PetForm makePetForm(Pet pet) {
+		PetForm petForm = new PetForm();
+		this.setPetToForm(petForm, pet);
+		return petForm;
+	}
 
 	@Override
 	public PetForm setPetToForm(PetForm petForm, Pet pet) {
@@ -101,13 +108,6 @@ public class PetServiceImpl implements PetService {
 
 		Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
 		petForm.setUpdatedAt(timeStamp);
-		return petForm;
-	}
-
-	@Override
-	public PetForm makePetForm(Pet pet) {
-		PetForm petForm = new PetForm();
-		this.setPetToForm(petForm, pet);
 		return petForm;
 	}
 
