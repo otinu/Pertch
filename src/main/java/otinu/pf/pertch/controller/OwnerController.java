@@ -61,7 +61,7 @@ public class OwnerController {
 		ownerService.ownerRegistration(form.getUsername(), form.getPassword(), form.getName(), form.getMessage(), form.getContact());
 		ModelAndView mv = new ModelAndView("redirect:/loginForm");
 		if (!bindingResult.hasErrors()) {
-			redirectAttributes.addFlashAttribute("signUpMessage","登録に成功しました");
+			redirectAttributes.addFlashAttribute("signUpMessage","登録が完了しました");
 			return mv;
 		} else {
 			String errorMessages = "";
