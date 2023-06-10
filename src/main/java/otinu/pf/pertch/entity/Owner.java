@@ -43,24 +43,28 @@ public class Owner {
 	private String password;
 	
 	/* 名前 */
-	@Column(name = "name", unique = true)
-	private String name;
+	@Column(name = "owner_name", unique = true)
+	private String ownerName;
 	
 	/* メッセージ */
 	@Column(name = "message")
 	private String message;		// 飼い主からの発信に一定の自由度をもたせたい
 	
-	/* 連絡先 */
+	/* 連絡先1 */
 	@Column(name = "contact")
-	private String contact;		// Petから持ち越し
+	private String contact;
+	
+	/* 連絡先2 */
+	@Column(name = "sub_contact")
+	private String subContact;
 
 	/* 登録日時 */
 	@Column(name = "created_at")
-	private Timestamp created_at;
+	private Timestamp createdAt;
 	
 	/* 更新日時 */
 	@Column(name = "updated_at")
-	private Timestamp updated_at;
+	private Timestamp updatedAt;
 	
 	
 	/* 
@@ -81,11 +85,11 @@ public class Owner {
 	public Owner(String username, String password, String name, String message, String contact, Timestamp created_at, Timestamp updated_at) {
 		this.username = username;
 		this.password = password;
-		this.name = name;
+		this.ownerName = name;
 		this.message = message;
 		this.contact = contact;
-		this.created_at = created_at;
-		this.updated_at = updated_at;
+		this.createdAt = created_at;
+		this.updatedAt = updated_at;
 	}
 
 }

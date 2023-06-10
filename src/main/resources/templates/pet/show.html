@@ -44,7 +44,7 @@
         </div>
 
         <label>オーナー</label>
-        <a id="owner-show-link" th:href="@{/owner/show/{id}(id=*{owner.id})}" th:text="*{owner.name}"></a>
+        <a id="owner-show-link" th:href="@{/owner/show/{id}(id=*{owner.id})}" th:text="*{owner.ownerName}"></a>
         <label>特徴</label>
         <textarea th:field="*{charmPoint}" readonly></textarea>
         <label>郵便番号</label>
