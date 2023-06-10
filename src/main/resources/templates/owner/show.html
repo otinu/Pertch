@@ -1,85 +1,56 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-<link rel="stylesheet" th:href="@{/css/owner/show.css}">
-<link rel="stylesheet" th:href="@{/css/header/header.css}">
-<link rel="icon" type="image/png" th:href="@{../../img/favicon-32x32.png}">
 
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.2.1/css/all.css" />
-<script defer src="https://use.fontawesome.com/releases/v6.2.1/js/all.js"></script>
-<meta charset="UTF-8">
-<title>Pertch</title>
+<head>
+  <link rel="stylesheet" th:href="@{/css/owner/show.css}">
+  <link rel="stylesheet" th:href="@{/css/header/header.css}">
+  <link rel="icon" type="image/png" th:href="@{../../img/favicon-32x32.png}">
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.2.1/css/all.css" />
+  <script defer src="https://use.fontawesome.com/releases/v6.2.1/js/all.js"></script>
+  <meta charset="UTF-8">
+  <title>Pertch</title>
 </head>
+
 <body>
   <th:block th:replace="fragment/header :: header"></th:block>
-  <div></div>
-  <div id="owner-info-area">
+  <div class="body-container">
     <div></div>
-    <div id="name-area">
-      <i class="fa-solid fa-user fa-3x"></i>
-      <h2 id="owner-name" th:text="${owner.ownerName}"></h2>
+    <div id="owner-info-area">
+      <div></div>
+      <div id="name-area">
+        <i class="fa-solid fa-user fa-3x"></i>
+        <h2 id="owner-name" th:text="${owner.ownerName}"></h2>
+      </div>
+      <div></div>
+      <p id="owner-contact" th:text="${owner.contact}"></p>
+      <div></div>
+      <textarea th:text="*{owner.message}" readonly></textarea>
     </div>
-    <div></div>
-    <p id="owner-contact" th:text="${owner.contact}"></p>
-    <div></div>
-    <textarea th:text="*{owner.message}" readonly></textarea>
-  </div>
 
-
-
-  <!-- 飼い主のペット一覧表示 -->
-  <!--  
-  <table>
-    <thead>
-      <tr>
-        <th>ペット名</th>
-        <th>ID</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr th:each="pet : ${owner.petList}">
-        <td>
-          <form id="pet-show" method="POST" th:action="@{/pet/show/{id}(id=${pet.id})}">
-            <a href="#" th:text="${pet.name}"></a>
-          </form>
-        </td>
-        <td>
-          <p th:text="${pet.id}"></p>
-        </td>
-      </tr>
-    </tbody>
-  </table>
--->
-
-
-  <!--/* 
+    <!--/* 
   参考サイト
   https://dubdesign.net/download/html-css/carddesign-6/
  */-->
-  <div id="pet-card">
-    <th:block th:each="pet : ${owner.petList}">
-      <th:block th:if="*{pet.image}">
-        <div></div>
-        <div class="l-wrapper_06">
-        <h2 th:text="*{pet.name}" style="margin: 0;"></h2>
-          <div class="card_06">
-            <form id="pet-img" method="POST" th:action="@{/pet/show/{id}(id=${pet.id})}">
-              <img class="card-img_06" th:src="${pet.image}">
-            </form>
+    <div id="pet-card">
+      <th:block th:each="pet : ${owner.petList}">
+        <th:block th:if="*{pet.image}">
+          <div></div>
+          <div class="l-wrapper_06">
+            <h2 th:text="*{pet.name}" style="margin: 0;"></h2>
+            <div class="card_06">
+              <form id="pet-img" method="POST" th:action="@{/pet/show/{id}(id=${pet.id})}">
+                <img class="card-img_06" th:src="${pet.image}">
+              </form>
+            </div>
           </div>
-        </div>
+        </th:block>
       </th:block>
-    </th:block>
+    </div>
+
+    <script th:src="@{/js/owner/show.js}"></script>
+    <th:block th:replace="fragment/footer :: copyRight"></th:block>
   </div>
-
-
-
-
-
-
-
-
-  <script th:src="@{/js/owner/show.js}"></script>
-  <th:block th:replace="fragment/footer :: copyRight"></th:block>
 </body>
+
 </html>
