@@ -23,7 +23,7 @@ public class OwnerServiceImpl implements OwnerService {
 	private OwnerRepository repository;
 
 	@Override
-	public void ownerRegistration(String username, String password, String name, String message, String contact) {
+	public void insertOwner(String username, String password, String name, String message, String contact) {
 		String hashedPassword = passwordEncoder.encode(password);
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		repository.saveAndFlush(new Owner(username, hashedPassword, name, message, contact, timestamp, timestamp));
