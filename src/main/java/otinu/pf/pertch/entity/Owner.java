@@ -82,12 +82,13 @@ public class Owner {
 		petList.add(pet);
 	}
 	
-	public Owner(String username, String password, String name, String message, String contact, Timestamp created_at, Timestamp updated_at) {
+	public Owner(String username, String password, String name, String message, String contact, String subContact, Timestamp created_at, Timestamp updated_at) {
 		this.username = username;
 		this.password = password;
 		this.ownerName = name;
 		this.message = message;
 		this.contact = contact;
+		this.subContact = subContact;
 		this.createdAt = created_at;
 		this.updatedAt = updated_at;
 	}
