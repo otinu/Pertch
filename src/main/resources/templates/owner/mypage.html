@@ -1,11 +1,48 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
-<meta charset="UTF-8">
-<link rel="icon" type="image/png" href="img/favicon-32x32.png">
-<title>Insert title here</title>
+	<link rel="stylesheet" th:href="@{/css/owner/mypage.css}">
+	<link rel="stylesheet" th:href="@{/css/header/header.css}">
+	<link rel="icon" type="image/png" th:href="@{../../img/favicon-32x32.png}">
+
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.2.1/css/all.css" />
+	<script defer src="https://use.fontawesome.com/releases/v6.2.1/js/all.js"></script>
+	<meta charset="UTF-8">
+	<title>Pertch</title>
 </head>
+
 <body>
-<h1>マイページです</h1>
+	<th:block th:replace="fragment/header :: header"></th:block>
+	<div class="body-container">
+		<div></div>
+		<div id="owner-info-area">
+			<div></div>
+			<div id="name-area">
+				<i class="fa-solid fa-user fa-3x"></i>
+				<h2 id="owner-name" th:text="${ownerForm.ownerName}"></h2>
+			</div>
+			<div></div>
+			
+			<form id="#" method="POST" th:action="@{/owner/update}" th:object="${ownerForm}">
+			<div></div>
+				<label>連絡先1</label><br>
+				<textarea th:field="*{contact}"></textarea>
+				<div></div>
+				<label>連絡先2</label><br>
+				<textarea th:field="*{subContact}"></textarea>
+				<div></div>
+				<label>目撃者へのメッセージ</label><br>
+				<textarea th:field="*{message}"></textarea>
+				<input type="submit" value="送信">
+			</form>
+			
+		</div>
+
+		<script th:src="@{/js/owner/mypage.js}"></script>
+		<th:block th:replace="fragment/footer :: copyRight"></th:block>
+
+	</div>
 </body>
+
 </html>
