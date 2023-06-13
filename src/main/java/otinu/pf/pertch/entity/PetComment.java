@@ -25,7 +25,7 @@ public class PetComment {
 	
 	/* ペットID */
 	@Column(name = "pet_id")
-	private Integer pet_id;
+	private Integer petId;
 	
 	/* 本文 */
 	@Column(name = "text")
