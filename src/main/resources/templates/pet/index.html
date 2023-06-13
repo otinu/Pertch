@@ -21,6 +21,7 @@
     <p class="action-message" th:if="${insertMessage}" th:text="${insertMessage}"></p>
     <p class="action-message" th:if="${updateMessage}" th:text="*{updateMessage}"></p>
     <p class="action-message" th:if="${deleteMessage}" th:text="*{deleteMessage}"></p>
+    <p class="alert-message" th:if="${errorMessage}" th:text="*{errorMessage}"></p>
 
     <h2 style="text-align: center;">
       <i class="fa-solid fa-table-list fa-2x"></i> ペット一覧
