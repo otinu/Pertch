@@ -1,7 +1,9 @@
 package otinu.pf.pertch.form;
 
-import java.sql.Timestamp;
+import java.util.Date;
+
 import javax.validation.constraints.Size;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,9 +38,9 @@ public class OwnerForm {
 	private String subContact;
 
 	/* 登録日時 */
-	private Timestamp createdAt;
+	private Date createdAt;
 	
 	/* 更新日時 */
-	private Timestamp updatedAt;
+	private Date updatedAt;
 
 }

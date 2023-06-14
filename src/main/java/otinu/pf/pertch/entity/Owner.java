@@ -1,6 +1,6 @@
 package otinu.pf.pertch.entity;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -60,11 +60,11 @@ public class Owner {
 
 	/* 登録日時 */
 	@Column(name = "created_at")
-	private Timestamp createdAt;
+	private Date createdAt;
 	
 	/* 更新日時 */
 	@Column(name = "updated_at")
-	private Timestamp updatedAt;
+	private Date updatedAt;
 	
 	
 	/* 
@@ -82,7 +82,7 @@ public class Owner {
 		petList.add(pet);
 	}
 	
-	public Owner(String username, String password, String name, String message, String contact, String subContact, Timestamp created_at, Timestamp updated_at) {
+	public Owner(String username, String password, String name, String message, String contact, String subContact, Date created_at, Date updated_at) {
 		this.username = username;
 		this.password = password;
 		this.ownerName = name;
