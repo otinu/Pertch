@@ -41,7 +41,7 @@
         </tr>
         <tr th:each="pet : ${list}" align="center">
           <td align="left">
-            <form id="pet-show" method="POST" th:action="@{/pet/show/{id}(id=${pet.id})}">
+            <form id="pet-show" method="GET" th:action="@{/pet/show/{id}(id=${pet.id})}">
               <a href="#" th:text="${pet.name}"></a>
             </form>
           </td>

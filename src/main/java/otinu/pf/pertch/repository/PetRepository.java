@@ -11,5 +11,8 @@ public interface PetRepository extends JpaRepository<Pet, Integer> {
 	
 	@Query(value = "SELECT * FROM pet WHERE id = ?1", nativeQuery=true)
 	public Optional<Pet> findById(Integer id);
+	
+	@Query(value = "SELECT * FROM pet WHERE id = ?1", nativeQuery=true)
+	public Pet findByIdToPet(Integer id);
 
 }
