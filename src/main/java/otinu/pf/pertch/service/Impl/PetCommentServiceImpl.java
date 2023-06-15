@@ -1,6 +1,9 @@
 package otinu.pf.pertch.service.Impl;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,9 +24,24 @@ public class PetCommentServiceImpl implements PetCommentService {
 
 	@Override
 	public PetComment makePetComment(PetCommentForm petCommentForm, Pet pet) {
+		
+		String eventTimeString = petCommentForm.getEventTime();
+		eventTimeString = eventTimeString.replace("T", " ");
+		eventTimeString = eventTimeString.replace("-", "/");
+		
+		Date eventTime = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+		try {
+			eventTime = sdf.parse(eventTimeString);
+		} catch (ParseException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
+
+		
 		PetComment petComment = new PetComment();
 		petComment.setPet(pet);
-		petComment.setEventTime(petCommentForm.getEventTime());
+		petComment.setEventTime(new Timestamp(eventTime.getTime()));
 		petComment.setEventPlace(petCommentForm.getEventPlace());
 		petComment.setEventInformation(petCommentForm.getEventInformation());
 		

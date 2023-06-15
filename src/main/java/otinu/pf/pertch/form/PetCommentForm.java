@@ -18,7 +18,7 @@ public class PetCommentForm {
 	private Pet pet;
 
 	/* 時間 */
-	private Date eventTime;
+	private String eventTime;
 
 	/* 場所 */
 	private String eventPlace;
