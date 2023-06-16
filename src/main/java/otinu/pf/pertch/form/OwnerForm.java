@@ -26,7 +26,7 @@ public class OwnerForm {
 	private String ownerName;
 	
 	/* メッセージ */
-	@Size(max = 200, message = "メッセージは{max}文字までです")
+	@Size(max = 500, message = "メッセージは{max}文字までです")
 	private String message;
 	
 	/* 連絡先1 */
