@@ -9,8 +9,6 @@ public interface OwnerService {
 
 	public void insertOwner(String username, String password, String name, String message, String contact);
 
-	// public Owner updateOwner(Integer id);
-
 	public Owner findByOwnerId(Integer id);
 
 	public Owner findByName(String name);
