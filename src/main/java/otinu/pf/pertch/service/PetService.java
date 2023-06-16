@@ -2,15 +2,17 @@ package otinu.pf.pertch.service;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.web.multipart.MultipartFile;
 
 import otinu.pf.pertch.entity.Pet;
+import otinu.pf.pertch.entity.PetComment;
 import otinu.pf.pertch.form.PetForm;
 
 public interface PetService {
-	
+
 	Iterable<Pet> selectAll();
 	
 	void insertPet(Pet pet);
@@ -30,4 +32,8 @@ public interface PetService {
 	Pet setFormToPet(Pet pet, PetForm petForm);
 	
 	PetForm setPetToForm(PetForm petForm, Pet pet);
+
+	Pet findByIdToPet(Integer id);
+
+	List<PetComment> findPetComment(Integer id);
 }

@@ -3,6 +3,7 @@ package otinu.pf.pertch.service.Impl;
 import java.io.IOException;
 import java.security.Principal;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Optional;
 
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -12,7 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import otinu.pf.pertch.entity.Pet;
+import otinu.pf.pertch.entity.PetComment;
 import otinu.pf.pertch.form.PetForm;
+import otinu.pf.pertch.repository.PetCommentRepository;
 import otinu.pf.pertch.repository.PetRepository;
 import otinu.pf.pertch.service.OwnerService;
 import otinu.pf.pertch.service.PetService;
@@ -22,34 +25,42 @@ import otinu.pf.pertch.service.PetService;
 public class PetServiceImpl implements PetService {
 	
 	@Autowired
-	PetRepository repository;
+	PetRepository petRepository;
+	
+	@Autowired
+	PetCommentRepository petCommentRepository;
 	
 	@Autowired
 	OwnerService ownerService;
 
 	@Override
 	public Iterable<Pet> selectAll() {
-		return repository.findAll();
+		return petRepository.findAll();
 	}
 
 	@Override
 	public void insertPet(Pet pet) {
-		repository.saveAndFlush(pet);
+		petRepository.saveAndFlush(pet);
 	}
 	
 	@Override
 	public Optional<Pet> findById(Integer id) {
-		return repository.findById(id);
+		return petRepository.findById(id);
+	}
+	
+	@Override
+	public Pet findByIdToPet(Integer id) {
+		return petRepository.findByIdToPet(id);
 	}
 	
 	@Override
 	public void updatePet(Pet pet) {
-		repository.saveAndFlush(pet);
+		petRepository.saveAndFlush(pet);
 	}
 	
 	@Override
 	public void deleteById(Integer id) {
-		repository.deleteById(id);
+		petRepository.deleteById(id);
 	}
 
 	@Override
@@ -85,6 +96,13 @@ public class PetServiceImpl implements PetService {
 		
 		return pet;
 	}
+	
+	@Override
+	public PetForm makePetForm(Pet pet) {
+		PetForm petForm = new PetForm();
+		this.setPetToForm(petForm, pet);
+		return petForm;
+	}
 
 	@Override
 	public PetForm setPetToForm(PetForm petForm, Pet pet) {
@@ -101,13 +119,6 @@ public class PetServiceImpl implements PetService {
 
 		Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
 		petForm.setUpdatedAt(timeStamp);
-		return petForm;
-	}
-
-	@Override
-	public PetForm makePetForm(Pet pet) {
-		PetForm petForm = new PetForm();
-		this.setPetToForm(petForm, pet);
 		return petForm;
 	}
 
@@ -137,6 +148,11 @@ public class PetServiceImpl implements PetService {
 		pet.setUpdatedAt(petForm.getUpdatedAt());
 		pet.setOwner(ownerService.getCurrentUser(principal));
 		return pet;
+	}
+
+	@Override
+	public List<PetComment> findPetComment(Integer petId) {
+		return petCommentRepository.findAllByPetId(petId);
 	}
 
 }

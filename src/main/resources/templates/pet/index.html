@@ -21,9 +21,10 @@
     <p class="action-message" th:if="${insertMessage}" th:text="${insertMessage}"></p>
     <p class="action-message" th:if="${updateMessage}" th:text="*{updateMessage}"></p>
     <p class="action-message" th:if="${deleteMessage}" th:text="*{deleteMessage}"></p>
+    <p class="alert-message" th:if="${errorMessage}" th:text="*{errorMessage}"></p>
 
     <h2 style="text-align: center;">
-      <i class="fa-solid fa-table-list fa-2x"></i> ペット一覧
+      <i class="fa-solid fa-magnifying-glass-location fa-2x"></i> ペット一覧
     </h2>
     <div class="table-area">
       <table border="1" th:unless="${#lists.isEmpty(list)}" style="table-layout: fixed;">
@@ -40,7 +41,7 @@
         </tr>
         <tr th:each="pet : ${list}" align="center">
           <td align="left">
-            <form id="pet-show" method="POST" th:action="@{/pet/show/{id}(id=${pet.id})}">
+            <form id="pet-show" method="GET" th:action="@{/pet/show/{id}(id=${pet.id})}">
               <a href="#" th:text="${pet.name}"></a>
             </form>
           </td>
@@ -53,7 +54,7 @@
           <td th:text="${pet.postCord}"></td>
           <td th:text="${pet.address}"></td>
           <td>
-            <a th:href="@{/owner/show/{id}(id=${pet.owner.id})}" th:text="${pet.owner.name}"></a>
+            <a th:href="@{/owner/show/{id}(id=${pet.owner.id})}" th:text="${pet.owner.ownerName}"></a>
           </td>
           <td>
             <th:block th:if="${pet.owner.id == currentUser.id}">

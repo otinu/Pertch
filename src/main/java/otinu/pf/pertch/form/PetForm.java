@@ -1,6 +1,6 @@
 package otinu.pf.pertch.form;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -47,14 +47,14 @@ public class PetForm {
 	@Size(max = 99, message = "住所は{max}文字までです")
 	private String address;
 	
-	/* 飼い主 */
+	/* イメージ画像 */
 	private String image;
 	
 	/* 登録日時 */
-	private Timestamp createdAt;
+	private Date createdAt;
 	
 	/* 更新日時 */
-	private Timestamp updatedAt;
+	private Date updatedAt;
 	
 	/* 飼い主 */
 	private Owner owner;

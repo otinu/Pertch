@@ -23,6 +23,11 @@ button:hover {
     text-align: center;
 }
 
+.alert-message {
+    color: red;
+    text-align: center;
+}
+
 .body-container {
   position: absolute;
   top: 15vh;

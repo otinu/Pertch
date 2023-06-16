@@ -1,5 +1,7 @@
 package otinu.pf.pertch.controller;
 
+import java.security.Principal;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -11,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import otinu.pf.pertch.entity.Owner;
 import otinu.pf.pertch.form.OwnerForm;
 import otinu.pf.pertch.service.OwnerService;
@@ -58,10 +59,10 @@ public class OwnerController {
 		
 	@PostMapping("/registration")
 	public ModelAndView ownerRegistration(@Validated OwnerForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-		ownerService.ownerRegistration(form.getUsername(), form.getPassword(), form.getName(), form.getMessage(), form.getContact());
+		ownerService.insertOwner(form.getUsername(), form.getPassword(), form.getOwnerName(), form.getMessage(), form.getContact());
 		ModelAndView mv = new ModelAndView("redirect:/loginForm");
 		if (!bindingResult.hasErrors()) {
-			redirectAttributes.addFlashAttribute("signUpMessage","登録に成功しました");
+			redirectAttributes.addFlashAttribute("signUpMessage","登録が完了しました");
 			return mv;
 		} else {
 			String errorMessages = "";
@@ -84,9 +85,43 @@ public class OwnerController {
 	}
 	
 	@GetMapping("/owner/mypage")
-	public ModelAndView ownerMyPage() {
+	public ModelAndView ownerMyPage(OwnerForm ownerForm, Principal principal, RedirectAttributes redirectAttributes) {
+		Owner currentUser = ownerService.getCurrentUser(principal);
+		Optional<Owner> ownerOpt = Optional.of(ownerService.findByOwnerId(currentUser.getId()));
+		Optional<OwnerForm> ownerFormOpt = ownerOpt.map(t -> ownerService.makeOwnerForm(t));
+		
 		ModelAndView mv = new ModelAndView(); 
-		mv.setViewName("/owner/mypage");
+		if (ownerFormOpt.isPresent()) {
+			ownerForm = ownerFormOpt.get();
+			mv.addObject("ownerId", currentUser.getId());
+			mv.addObject("ownerForm", ownerForm);
+		} else {
+		  redirectAttributes.addFlashAttribute("errorMessage", "マイページに移動できませんでした");
+		  mv.setViewName("/pet/inex");
+		  return mv;
+		}
+		
+		mv.setViewName("owner/mypage");
+		return mv;
+	}
+	
+	@PostMapping("/owner/update")
+	public ModelAndView ownerUpdate(@Validated OwnerForm ownerForm, BindingResult bindingResult, Principal principal, RedirectAttributes redirectAttributes) {
+		ModelAndView mv = new ModelAndView();
+		Owner currentUser = ownerService.getCurrentUser(principal);
+		Owner owner = ownerService.makeOwner(ownerForm, currentUser);
+		
+		if (!bindingResult.hasErrors()) {
+			ownerService.updateOwner(owner);
+			redirectAttributes.addFlashAttribute("errorMessage", "マイページの更新が完了しました");
+		} else {
+			redirectAttributes.addFlashAttribute("errorMessage", "マイページの更新に失敗しました");
+			mv.setViewName("redirect:/pet/index");
+			return mv;
+		}
+		
+		mv.addObject("owner", owner);
+		mv.setViewName("owner/show");
 		return mv;
 	}
 

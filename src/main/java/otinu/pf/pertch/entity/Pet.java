@@ -1,6 +1,6 @@
 package otinu.pf.pertch.entity;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -52,10 +52,10 @@ public class Pet { //★
 	
 	/* 特徴 */
 	@Column(name = "charm_point")
-	private String charmPoint; // 目視でないと確認しにくい情報などを共有できるようにする
+	private String charmPoint;
 	
 	/* 住処の郵便番号 */
-	@Column(name = "post_cord") // おばあちゃんの犬を別居の娘が代わりに探している場合など、Userに郵便番号もたせると不便になりそう
+	@Column(name = "post_cord")
 	private String postCord;
 	
 	/* 住処の住所 */
@@ -68,11 +68,11 @@ public class Pet { //★
 	
 	/* 登録日時 */
 	@Column(name = "created_at")
-	private Timestamp createdAt;
+	private Date createdAt;
 	
 	/* 更新日時 */
 	@Column(name = "updated_at")
-	private Timestamp updatedAt;
+	private Date updatedAt;
 	
 	/*
 	 *  Owner has many Pet にするための外部キー

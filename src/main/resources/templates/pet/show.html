@@ -1,62 +1,97 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
-<meta charset="UTF-8">
-<link rel="stylesheet" th:href="@{/css/header/header.css}">
-<link rel="stylesheet" th:href="@{/css/pet/show.css}">
+	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/header/header.css}">
+	<link rel="stylesheet" th:href="@{/css/pet/show.css}">
 
-<link rel="icon" type="image/png" th:href="@{../../img/favicon-32x32.png}">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.2.1/css/all.css" />
-<meta charset="UTF-8">
-<title>Pertch</title>
+	<link rel="icon" type="image/png" th:href="@{../../img/favicon-32x32.png}">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.2.1/css/all.css" />
+	<meta charset="UTF-8">
+	<title>Pertch</title>
 </head>
+
 <body>
-  <th:block th:replace="fragment/header :: header"></th:block>
+	<th:block th:replace="fragment/header :: header"></th:block>
 
-  <div class="body-container">
+	<div class="body-container">
 
-    <div class="form-container">
+		<div class="form-container">
 
-      <form id="pet-show" method="POST" th:action="@{/pet/insert}" th:object="${petForm}" enctype="multipart/form-data">
-        <h2 th:text="*{name}" style="margin: 0;"></h2>
+			<form id="pet-show" method="POST" th:action="@{/pet/insert}" th:object="${petForm}"
+				enctype="multipart/form-data">
+				<h2 th:text="*{name}" style="margin: 0;"></h2>
 
-        <th:block th:if="*{image}">
-          <img id="pet-image" th:src="*{image}">
-        </th:block>
-        <th:block th:if="!*{image}">
-          <img id="pet-image" th:src="@{/img/no-image.png}">
-        </th:block>
+				<th:block th:if="*{image}">
+					<img id="pet-image" th:src="*{image}">
+				</th:block>
+				<th:block th:if="!*{image}">
+					<img id="pet-image" th:src="@{/img/no-image.png}">
+				</th:block>
 
-        <div class="mix-area">
-          <div class="age-area">
-            <label>年齢</label>
-            <p th:text="*{age} + '歳'"></p>
-          </div>
-          <div class="gender-area">
-            <label>性別&nbsp;</label>
-            <th:block th:if="*{sex}">
-              <p>♂</p>
-            </th:block>
-            <th:block th:if="!*{sex}">
-              <p>♀</p>
-            </th:block>
-          </div>
-        </div>
+				<div class="mix-area">
+					<div class="age-area">
+						<label>年齢</label>
+						<p th:text="*{age} + '歳'"></p>
+					</div>
+					<div class="gender-area">
+						<label>性別&nbsp;</label>
+						<th:block th:if="*{sex}">
+							<p>♂</p>
+						</th:block>
+						<th:block th:if="!*{sex}">
+							<p>♀</p>
+						</th:block>
+					</div>
+				</div>
 
-        <label>オーナー</label>
-        <a id="owner-show-link" th:href="@{/owner/show/{id}(id=*{owner.id})}" th:text="*{owner.name}"></a>
-        <label>特徴</label>
-        <textarea th:field="*{charmPoint}" readonly></textarea>
-        <label>郵便番号</label>
-        <p th:text="*{postCord}"></p>
-        <label>住所</label>
-        <p th:text="*{address}"></p>
+				<label>オーナー</label>
+				<a id="owner-show-link" th:href="@{/owner/show/{id}(id=*{owner.id})}" th:text="*{owner.ownerName}"></a>
+				<label>特徴</label>
+				<textarea th:field="*{charmPoint}" readonly></textarea>
+				<label>郵便番号</label>
+				<p th:text="*{postCord}"></p>
+				<label>住所</label>
+				<p th:text="*{address}"></p>
+			</form>
+		</div>
+		
+		<div id="eyewitness-area">
+		<br>
+		<h2>目撃情報</h2>
+		<table border="1" th:unless="${#lists.isEmpty(petCommentList)}" style="table-layout: fixed;">
+				<tr>
+					<th class="eyewitness-table-header1">日時</th>
+					<th class="eyewitness-table-header1">場所</th>
+					<th class="eyewitness-table-header1">情報</th>
+				</tr>
+				<tr th:each="petComment : ${petCommentList}" align="center">
+					<td th:text="${petComment.eventTime}" class="show-eventTime"></td>
+					<td th:text="${petComment.eventPlace}"></td>
+					<td th:text="${petComment.eventInformation}"></td>
+				</tr>
+			</table>
+		
+			<form method="POST" id="eyewitness-posing-area" th:action="@{/petComment/insert}" th:object="${petCommentForm}">
+				<div></div>
+				<label class="eyewitness-label">時間</label><br>
+				<input type="datetime-local" class="event-text" th:field="*{eventTime}"></input>
+				<div></div>
+				<label class="eyewitness-label">場所</label><br>
+				<input type="text" class="event-text" th:field="*{eventPlace}"></input>
+				<div></div>
+				<label class="eyewitness-label">情報</label><br>
+				<textarea class="event-textarea" th:field="*{eventInformation}"></textarea>
 
-
-      </form>
-    </div>
-    <th:block th:replace="fragment/footer :: copyRight"></th:block>
-  </div>
+				<input type="hidden" name="petId" th:value="${petId}">
+				<input type="submit" id="eyewitness-button" value="投稿">
+			</form>
+			
+		</div>
+		<script th:src="@{/js/pet/show.js}"></script>
+		<th:block th:replace="fragment/footer :: copyRight"></th:block>
+	</div>
 </body>
 
 </html>
