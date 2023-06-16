@@ -55,31 +55,16 @@
 				<label>住所</label>
 				<p th:text="*{address}"></p>
 			</form>
-
-			<h2>目撃情報</h2>
-			<form id="#" method="POST" th:action="@{/petComment/insert}" th:object="${petCommentForm}">
-				<div></div>
-				<label>時間</label><br>
-				<input type="datetime-local" th:field="*{eventTime}"></input>
-				<div></div>
-				<label>場所</label><br>
-				<textarea th:field="*{eventPlace}"></textarea>
-				<div></div>
-				<label>情報</label><br>
-				<textarea th:field="*{eventInformation}"></textarea>
-
-				<input type="hidden" name="petId" th:value="${petId}">
-				<input type="submit" id="eyewitness-button" value="登録">
-			</form>
-
-
-
-
-			<table border="1" th:unless="${#lists.isEmpty(petCommentList)}" style="table-layout: fixed;">
+		</div>
+		
+		<div id="eyewitness-area">
+		<br>
+		<h2>目撃情報</h2>
+		<table border="1" th:unless="${#lists.isEmpty(petCommentList)}" style="table-layout: fixed;">
 				<tr>
-					<th>日時</th>
-					<th>場所</th>
-					<th>情報</th>
+					<th class="eyewitness-table-header1">日時</th>
+					<th class="eyewitness-table-header1">場所</th>
+					<th class="eyewitness-table-header1">情報</th>
 				</tr>
 				<tr th:each="petComment : ${petCommentList}" align="center">
 					<td th:text="${petComment.eventTime}" class="show-eventTime"></td>
@@ -87,8 +72,22 @@
 					<td th:text="${petComment.eventInformation}"></td>
 				</tr>
 			</table>
+		
+			<form method="POST" id="eyewitness-posing-area" th:action="@{/petComment/insert}" th:object="${petCommentForm}">
+				<div></div>
+				<label class="eyewitness-label">時間</label><br>
+				<input type="datetime-local" class="event-text" th:field="*{eventTime}"></input>
+				<div></div>
+				<label class="eyewitness-label">場所</label><br>
+				<input type="text" class="event-text" th:field="*{eventPlace}"></input>
+				<div></div>
+				<label class="eyewitness-label">情報</label><br>
+				<textarea class="event-textarea" th:field="*{eventInformation}"></textarea>
 
-
+				<input type="hidden" name="petId" th:value="${petId}">
+				<input type="submit" id="eyewitness-button" value="投稿">
+			</form>
+			
 		</div>
 		<script th:src="@{/js/pet/show.js}"></script>
 		<th:block th:replace="fragment/footer :: copyRight"></th:block>
