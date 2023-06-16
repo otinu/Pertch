@@ -27,14 +27,14 @@
 			<form id="#" method="POST" th:action="@{/owner/update}" th:object="${ownerForm}">
 			<div></div>
 				<label>連絡先1</label><br>
-				<textarea th:field="*{contact}"></textarea>
+				<input type="text" class="owner-contact" th:field="*{contact}"></input>
 				<div></div>
 				<label>連絡先2</label><br>
-				<textarea th:field="*{subContact}"></textarea>
+				<input type="text" class="owner-contact" th:field="*{subContact}"></input>
 				<div></div>
 				<label>目撃者へのメッセージ</label><br>
-				<textarea th:field="*{message}"></textarea>
-				<input type="submit" value="送信">
+				<textarea class="owner-message" th:field="*{message}"></textarea><br>
+				<input type="submit" class="submit-button" value="送信">
 			</form>
 			
 		</div>
