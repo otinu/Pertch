@@ -25,6 +25,8 @@
       <div></div>
       <p id="owner-contact" th:text="${owner.contact}"></p>
       <div></div>
+      <p id="owner-contact" th:text="${owner.subContact}"></p>
+      <div></div>
       <textarea th:text="*{owner.message}" readonly></textarea>
     </div>
 
@@ -39,7 +41,7 @@
           <div class="l-wrapper_06">
             <h2 th:text="*{pet.name}" style="margin: 0;"></h2>
             <div class="card_06">
-              <form id="pet-img" method="POST" th:action="@{/pet/show/{id}(id=${pet.id})}">
+              <form id="pet-img" method="GET" th:action="@{/pet/show/{id}(id=${pet.id})}">
                 <img class="card-img_06" th:src="${pet.image}">
               </form>
             </div>

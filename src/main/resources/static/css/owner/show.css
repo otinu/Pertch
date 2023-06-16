@@ -1,8 +1,20 @@
 textarea {
   resize: vertical;
   max-width: 70%;
-  min-height: 22px;
-  max-height: 120px;
+  min-height: 100px;
+  max-height: 168px;
+  padding: 1% 2%;
+  font-size: large;
+  font-family: serif;
+}
+
+textarea:focus {
+	outline: 0;
+	box-shadow: 0 0 0 0.7px red inset;
+}
+
+textarea:hover {
+	cursor: default;
 }
 
 .body-container {

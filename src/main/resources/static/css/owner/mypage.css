@@ -2,7 +2,8 @@ textarea {
 	resize: vertical;
 	max-width: 70%;
 	min-height: 22px;
-	max-height: 120px;
+	max-height: 250px;
+	font-family: serif;
 }
 
 label {
@@ -43,6 +44,7 @@ label {
 	border-radius: 5%;
 	border: none;
 	box-shadow: 0 0 0 1px #ccc inset;
+	font-size: large;
 }
 
 .owner-contact:focus {
@@ -63,6 +65,7 @@ label {
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	resize: vertical;
+	font-size: large;
 }
 
 .owner-message:focus {
