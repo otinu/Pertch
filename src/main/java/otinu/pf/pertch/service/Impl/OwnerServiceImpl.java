@@ -35,7 +35,7 @@ public class OwnerServiceImpl implements OwnerService {
 	public Owner findByName(String name) {
 		return repository.findByName(name);
 	}
-
+	
 	@Override
 	public Owner getCurrentUser(Principal principal) {
 		String loginUserName = principal.getName();
@@ -47,6 +47,11 @@ public class OwnerServiceImpl implements OwnerService {
 	@Override
 	public Owner findByOwnerId(Integer id) {
 		return repository.findByOwnerId(id);
+	}
+	
+	@Override
+	public Integer countRecordByUserName(String userName) {
+		return repository.countRecordByUserName(userName);
 	}
 	
 	public OwnerForm makeOwnerForm(Owner owner) {
