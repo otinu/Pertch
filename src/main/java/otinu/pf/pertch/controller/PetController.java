@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import otinu.pf.pertch.Constant;
 import otinu.pf.pertch.entity.Owner;
 import otinu.pf.pertch.entity.Pet;
 import otinu.pf.pertch.entity.PetComment;
@@ -67,7 +68,13 @@ public class PetController {
 		ModelAndView mv = new ModelAndView();
 		if (bindingResult.hasErrors()) {
 			System.out.println(bindingResult.getFieldError());
-			redirectAttributes.addFlashAttribute("insertMessage", "登録に失敗しました");
+			mv.setViewName("pet/new");
+			return mv;
+		}
+
+		if (multipartFile.getSize() > Constant.UPLOAD_FILE_MAX_SIZE) {
+			String errorMessages = "ファイルアップロードに失敗しました。ファイルは4MBまでです";
+			mv.addObject("errorMessages", errorMessages);
 			mv.setViewName("pet/new");
 			return mv;
 		}
@@ -126,17 +133,26 @@ public class PetController {
 	}
 
 	@PostMapping("/update")
-	public ModelAndView update(@Validated PetForm petForm, BindingResult bindingResult, RedirectAttributes redirectAttributes,
-			@RequestParam("upload_file") MultipartFile multipartFile, Principal principal, UriComponentsBuilder uriBuilder) {
+	public ModelAndView update(@Validated PetForm petForm, BindingResult bindingResult,
+			RedirectAttributes redirectAttributes, @RequestParam("upload_file") MultipartFile multipartFile,
+			Principal principal, UriComponentsBuilder uriBuilder) {
 
 		ModelAndView mv = new ModelAndView();
 		if (bindingResult.hasErrors()) {
 			System.out.println(bindingResult.getFieldError());
-			
+
 			// リダイレクト先で@PathVariableを使ってる場合、対象の変数を.addObjectで追加する
 			mv.addObject("id", petForm.getId().toString());
-	        mv.setViewName("/pet/edit");
-	        return mv;
+			mv.setViewName("/pet/edit");
+			return mv;
+		}
+		
+		if (multipartFile.getSize() > Constant.UPLOAD_FILE_MAX_SIZE) {
+			String errorMessages = "ファイルアップロードに失敗しました。ファイルは4MBまでです";
+			mv.addObject("errorMessages", errorMessages);
+			mv.addObject("id", petForm.getId().toString());
+			mv.setViewName("pet/edit");
+			return mv;
 		}
 
 		Pet pet = petService.makePet(new Pet(), petForm, multipartFile, principal);

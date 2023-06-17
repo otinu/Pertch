@@ -1,6 +1,6 @@
 package otinu.pf.pertch;
 
 public class Constant {
-	public final static String GREET = "Hello";
+	public final static Integer UPLOAD_FILE_MAX_SIZE = 4200000;
 
 }
