@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import otinu.pf.pertch.Constant;
 import otinu.pf.pertch.entity.Owner;
 import otinu.pf.pertch.form.OwnerForm;
 import otinu.pf.pertch.service.OwnerService;
@@ -39,7 +40,7 @@ public class OwnerController {
 
 	@GetMapping("/login/error")
 	public String loginFailure(RedirectAttributes redirectAttributes) {
-		redirectAttributes.addFlashAttribute("signUpMessage", "ログインに失敗しました");
+		redirectAttributes.addFlashAttribute("signUpMessage", Constant.LOGIN_ERROR);
 		return "redirect:/loginForm";
 	}
 
@@ -77,13 +78,13 @@ public class OwnerController {
 		}
 
 		if (ownerService.countRecordByUserName(form.getUsername()) > 0) {
-			mv.addObject("errorMessages", "入力のメールアドレスは登録済みでした");
+			mv.addObject("errorMessages", Constant.MAIL_ADDRESS_OVERLAPPING_ERROR);
 			return mv;
 		}
 
 		ownerService.insertOwner(form.getUsername(), form.getPassword(), form.getOwnerName(), form.getMessage(),
 				form.getContact());
-		redirectAttributes.addFlashAttribute("signUpMessage", "登録が完了しました");
+		redirectAttributes.addFlashAttribute("signUpMessage", Constant.FINISH_USER_REGISTRATION);
 		return mv;
 	}
 
@@ -108,7 +109,7 @@ public class OwnerController {
 			mv.addObject("ownerId", currentUser.getId());
 			mv.addObject("ownerForm", ownerForm);
 		} else {
-			redirectAttributes.addFlashAttribute("errorMessage", "マイページに移動できませんでした");
+			redirectAttributes.addFlashAttribute("errorMessage", Constant.MYPAGE_MOVE_ERROR);
 			mv.setViewName("/pet/inex");
 			return mv;
 		}
@@ -140,7 +141,7 @@ public class OwnerController {
 		}
 		
 		ownerService.updateOwner(owner);
-		redirectAttributes.addFlashAttribute("errorMessage", "マイページの更新が完了しました");
+		redirectAttributes.addFlashAttribute("errorMessage", Constant.FINISH_MYPAGE_UPDATE);
 
 		mv.addObject("owner", owner);
 		mv.setViewName("owner/show");

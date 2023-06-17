@@ -41,7 +41,6 @@ public class OwnerServiceImpl implements OwnerService {
 		String loginUserName = principal.getName();
 		Owner owner = repository.findByName(loginUserName);
 		return owner;
-		//return repository.findByName(loginUserName);
 	}
 
 	@Override

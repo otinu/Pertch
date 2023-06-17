@@ -73,7 +73,7 @@ public class PetController {
 		}
 
 		if (multipartFile.getSize() > Constant.UPLOAD_FILE_MAX_SIZE) {
-			String errorMessages = "ファイルアップロードに失敗しました。ファイルは4MBまでです";
+			String errorMessages = Constant.UPLOAD_FILE_SIZE_ERROR;
 			mv.addObject("errorMessages", errorMessages);
 			mv.setViewName("pet/new");
 			return mv;
@@ -88,10 +88,10 @@ public class PetController {
 			Owner relationOwner = ownerService.getCurrentUser(principal);
 			pet.setOwner(relationOwner);
 			petService.insertPet(pet);
-			redirectAttributes.addFlashAttribute("insertMessage", "登録が完了しました");
+			redirectAttributes.addFlashAttribute("insertMessage", Constant.FINISH_PET_REGISTRATION);
 			return mv;
 		} catch (IOException e) {
-			System.out.println("イメージデータのエンコーディング時に問題が発生しました。");
+			System.out.println(Constant.UPLOAD_FILE_ENCODING_ERROR);
 			e.printStackTrace();
 			return mv;
 		}
@@ -113,7 +113,7 @@ public class PetController {
 			model.addAttribute("petId", id);
 			model.addAttribute("petCommentForm", petCommentForm);
 		} else {
-			model.addAttribute("selectMessage", "該当のデータが見つかりませんでした");
+			model.addAttribute("selectMessage", Constant.NO_PET_ERROR);
 		}
 		return "pet/show";
 	}
@@ -127,7 +127,7 @@ public class PetController {
 			petForm = petFormOpt.get();
 			model.addAttribute("petForm", petForm);
 		} else {
-			model.addAttribute("selectMessage", "該当のペットデータが見つかりませんでした");
+			model.addAttribute("selectMessage", Constant.NO_PET_ERROR);
 		}
 		return "pet/edit";
 	}
@@ -148,7 +148,7 @@ public class PetController {
 		}
 		
 		if (multipartFile.getSize() > Constant.UPLOAD_FILE_MAX_SIZE) {
-			String errorMessages = "ファイルアップロードに失敗しました。ファイルは4MBまでです";
+			String errorMessages = Constant.UPLOAD_FILE_SIZE_ERROR;
 			mv.addObject("errorMessages", errorMessages);
 			mv.addObject("id", petForm.getId().toString());
 			mv.setViewName("pet/edit");
@@ -157,7 +157,7 @@ public class PetController {
 
 		Pet pet = petService.makePet(new Pet(), petForm, multipartFile, principal);
 		petService.updatePet(pet);
-		redirectAttributes.addFlashAttribute("updateMessage", "ペット情報の更新が完了しました");
+		redirectAttributes.addFlashAttribute("updateMessage", Constant.FINISH_PET_UPDATE);
 		mv.setViewName("redirect:/pet/index");
 		return mv;
 	}
@@ -165,7 +165,7 @@ public class PetController {
 	@PostMapping("/delete")
 	public String delete(@RequestParam("id") String id, Model model, RedirectAttributes redirectAttributes) {
 		petService.deleteById(Integer.parseInt(id));
-		redirectAttributes.addFlashAttribute("deleteMessage", "削除が完了しました");
+		redirectAttributes.addFlashAttribute("deleteMessage", Constant.FINISH_PET_DELETE);
 		return "redirect:/pet/index";
 	}
 
