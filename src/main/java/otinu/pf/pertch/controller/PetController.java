@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import otinu.pf.pertch.entity.Owner;
 import otinu.pf.pertch.entity.Pet;
@@ -59,39 +60,36 @@ public class PetController {
 	}
 
 	@PostMapping("/insert")
-	public ModelAndView insertPet(@Validated PetForm petForm, 
-									BindingResult bindingResult,
-									@RequestParam("upload_file") MultipartFile multipartFile,
-									RedirectAttributes redirectAttributes,
-									Principal principal) {
+	public ModelAndView insertPet(@Validated PetForm petForm, BindingResult bindingResult,
+			@RequestParam("upload_file") MultipartFile multipartFile, RedirectAttributes redirectAttributes,
+			Principal principal) {
+
+		ModelAndView mv = new ModelAndView();
+		if (bindingResult.hasErrors()) {
+			System.out.println(bindingResult.getFieldError());
+			redirectAttributes.addFlashAttribute("insertMessage", "登録に失敗しました");
+			mv.setViewName("pet/new");
+			return mv;
+		}
 
 		Pet pet = new Pet();
 		petService.setFormToPet(pet, petForm);
-
-		ModelAndView mv = new ModelAndView();
 		mv.setViewName("redirect:index");
 		try {
 			petService.settingImage(pet, multipartFile);
 
-			if (!bindingResult.hasErrors()) {
-				Owner relationOwner = ownerService.getCurrentUser(principal);
-				pet.setOwner(relationOwner);
-				petService.insertPet(pet);
-				redirectAttributes.addFlashAttribute("insertMessage", "登録が完了しました");
-				return mv;
-			} else {
-				System.out.println(bindingResult.getFieldError().getDefaultMessage());
-				redirectAttributes.addFlashAttribute("insertMessage", "登録に失敗しました");
-				mv.setViewName("pet/new");
-				return mv;
-			}
+			Owner relationOwner = ownerService.getCurrentUser(principal);
+			pet.setOwner(relationOwner);
+			petService.insertPet(pet);
+			redirectAttributes.addFlashAttribute("insertMessage", "登録が完了しました");
+			return mv;
 		} catch (IOException e) {
 			System.out.println("イメージデータのエンコーディング時に問題が発生しました。");
 			e.printStackTrace();
 			return mv;
 		}
 	}
-	
+
 	@GetMapping("/show/{id}")
 	public String showPet(PetForm petForm, @PathVariable Integer id, Model model) {
 		Optional<Pet> petOpt = petService.findById(id);
@@ -100,10 +98,10 @@ public class PetController {
 		if (petFormOpt.isPresent()) {
 			petForm = petFormOpt.get();
 			model.addAttribute("petForm", petForm);
-			
+
 			List<PetComment> petCommentList = petService.findPetComment(id);
 			model.addAttribute("petCommentList", petCommentList);
-			
+
 			PetCommentForm petCommentForm = new PetCommentForm();
 			model.addAttribute("petId", id);
 			model.addAttribute("petCommentForm", petCommentForm);
@@ -128,19 +126,24 @@ public class PetController {
 	}
 
 	@PostMapping("/update")
-	public String update(@Validated PetForm petForm, BindingResult bindingResult,
-			RedirectAttributes redirectAttributes,
-			@RequestParam("upload_file") MultipartFile multipartFile, Principal principal) {
+	public ModelAndView update(@Validated PetForm petForm, BindingResult bindingResult, RedirectAttributes redirectAttributes,
+			@RequestParam("upload_file") MultipartFile multipartFile, Principal principal, UriComponentsBuilder uriBuilder) {
+
+		ModelAndView mv = new ModelAndView();
+		if (bindingResult.hasErrors()) {
+			System.out.println(bindingResult.getFieldError());
+			
+			// リダイレクト先で@PathVariableを使ってる場合、対象の変数を.addObjectで追加する
+			mv.addObject("id", petForm.getId().toString());
+	        mv.setViewName("/pet/edit");
+	        return mv;
+		}
 
 		Pet pet = petService.makePet(new Pet(), petForm, multipartFile, principal);
-		if (!bindingResult.hasErrors()) {
-			petService.updatePet(pet);
-			redirectAttributes.addFlashAttribute("updateMessage", "ペット情報の更新が完了しました");
-		} else {
-			System.out.println(bindingResult.getFieldError().getDefaultMessage());
-			redirectAttributes.addFlashAttribute("updateMessage", "ペット情報の更新に失敗しました");
-		}
-		return "redirect:/pet/index";
+		petService.updatePet(pet);
+		redirectAttributes.addFlashAttribute("updateMessage", "ペット情報の更新が完了しました");
+		mv.setViewName("redirect:/pet/index");
+		return mv;
 	}
 
 	@PostMapping("/delete")

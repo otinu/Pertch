@@ -1,77 +1,84 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
-<meta charset="UTF-8">
-<link rel="icon" type="image/png" href="img/favicon-32x32.png">
-<link rel="stylesheet" th:href="@{/css/header/header.css}">
-<link rel="stylesheet" th:href="@{/css/pet/edit.css}">
+	<meta charset="UTF-8">
+	<link rel="icon" type="image/png" href="img/favicon-32x32.png">
+	<link rel="stylesheet" th:href="@{/css/header/header.css}">
+	<link rel="stylesheet" th:href="@{/css/pet/edit.css}">
 
-<link rel="icon" type="image/png" th:href="@{../../img/favicon-32x32.png}">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.2.1/css/all.css" />
-<title>Pertch</title>
+	<link rel="icon" type="image/png" th:href="@{../../img/favicon-32x32.png}">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.2.1/css/all.css" />
+	<title>Pertch</title>
 </head>
+
 <body>
-  <th:block th:replace="fragment/header :: header"></th:block>
+	<th:block th:replace="fragment/header :: header"></th:block>
 
-  <div class="body-container">
+	<div class="body-container">
 
-    <div class="form-container">
+		<div class="form-container">
 
-      <form id="pet-edit" method="POST" th:action="@{/pet/update}" th:object="${petForm}" enctype="multipart/form-data">
-        <h2>
-          <input type=text th:field="*{name}" style="text-align: center;">
-        </h2>
+			<form id="pet-edit" method="POST" th:action="@{/pet/update}" th:object="${petForm}"
+				enctype="multipart/form-data">
 
-        <th:block th:if="*{image}">
-          <img id="pet-image" th:src="*{image}">
-        </th:block>
-        <th:block th:if="!*{image}">
-          <img id="pet-image" th:src="@{/img/no-image.png}">
-        </th:block>
+				<ul th:if="${#fields.hasErrors('*')}">
+					<li th:each="err:${#fields.errors('*')}" th:text="${err}"></li>
+				</ul>
 
-        <div class="mix-area">
-          <div class="age-area">
-            <label>年齢</label>
-            <input type="number" th:field="*{age}">
-          </div>
-          <div class="gender-area">
-            <label>性別&nbsp;</label>
-            <th:block th:if="*{sex}">
-              <p>♂</p>
-            </th:block>
-            <th:block th:if="!*{sex}">
-              <p>♀</p>
-            </th:block>
-          </div>
-          
-          <div class="image-area">
-            <label class="file-label">
-              <input type="file" name="upload_file">
-              ペットの写真
-            </label>
-            <small>&nbsp;未選択</small>
-          </div>
-        </div>
-        
-        
+				<h2>
+					<input type=text th:field="*{name}" style="text-align: center;">
+				</h2>
+				<th:block th:if="*{image}">
+					<img id="pet-image" th:src="*{image}">
+				</th:block>
+				<th:block th:if="!*{image}">
+					<img id="pet-image" th:src="@{/img/no-image.png}">
+				</th:block>
 
-        <label>特徴</label>
-        <textarea th:field="*{charmPoint}"></textarea>
-        <label>郵便番号</label>
-        <input type=text th:field="*{postCord}">
-        <label>住所</label>
-        <input type=text th:field="*{address}">
+				<div class="mix-area">
+					<div class="age-area">
+						<label>年齢</label>
+						<input type="number" th:field="*{age}">
+					</div>
+					<div class="gender-area">
+						<label>性別&nbsp;</label>
+						<th:block th:if="*{sex}">
+							<p>♂</p>
+						</th:block>
+						<th:block th:if="!*{sex}">
+							<p>♀</p>
+						</th:block>
+					</div>
 
-        <input type="hidden" name="id" th:value="*{id}">
-        <input type="hidden" name="sex" th:value="*{sex}">
+					<div class="image-area">
+						<label class="file-label">
+							<input type="file" name="upload_file">
+							ペットの写真
+						</label>
+						<small>&nbsp;未選択</small>
+					</div>
+				</div>
 
-        <input type="submit" value="更新">
 
-      </form>
-    </div>
-    <script th:src="@{/js/pet/edit.js}"></script>
-    <th:block th:replace="fragment/footer :: copyRight"></th:block>
-  </div>
+
+				<label>特徴</label>
+				<textarea th:field="*{charmPoint}"></textarea>
+				<label>郵便番号</label>
+				<input type=text th:field="*{postCord}">
+				<label>住所</label>
+				<input type=text th:field="*{address}">
+
+				<input type="hidden" name="id" th:value="*{id}">
+				<input type="hidden" name="sex" th:value="*{sex}">
+
+				<input type="submit" value="更新">
+
+			</form>
+		</div>
+		<script th:src="@{/js/pet/edit.js}"></script>
+		<th:block th:replace="fragment/footer :: copyRight"></th:block>
+	</div>
 </body>
 
 </html>
