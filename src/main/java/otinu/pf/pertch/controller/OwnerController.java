@@ -67,7 +67,7 @@ public class OwnerController {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("registration");
 		String errorMessages = "";
-		
+
 		if (bindingResult.hasErrors()) {
 			for (FieldError error : bindingResult.getFieldErrors()) {
 				errorMessages += error.getDefaultMessage() + "\n";
@@ -123,15 +123,24 @@ public class OwnerController {
 		ModelAndView mv = new ModelAndView();
 		Owner currentUser = ownerService.getCurrentUser(principal);
 		Owner owner = ownerService.makeOwner(ownerForm, currentUser);
+		String errorMessages = "";
 
-		if (!bindingResult.hasErrors()) {
-			ownerService.updateOwner(owner);
-			redirectAttributes.addFlashAttribute("errorMessage", "マイページの更新が完了しました");
-		} else {
-			redirectAttributes.addFlashAttribute("errorMessage", "マイページの更新に失敗しました");
-			mv.setViewName("redirect:/pet/index");
+		// OwnerFormのメールアドレスなどは必ずバリデーションにかかるため、エラーを選別する
+		for (FieldError error : bindingResult.getFieldErrors()) {
+			if ("message".equals(error.getField()) || "contact".equals(error.getField())
+					|| "subContact".equals(error.getField())) {
+				errorMessages += error.getDefaultMessage() + "\n";
+			}
+		}
+		
+		if(!errorMessages.isEmpty()) {
+			mv.setViewName("owner/mypage");
+			mv.addObject("errorMessages", errorMessages);
 			return mv;
 		}
+		
+		ownerService.updateOwner(owner);
+		redirectAttributes.addFlashAttribute("errorMessage", "マイページの更新が完了しました");
 
 		mv.addObject("owner", owner);
 		mv.setViewName("owner/show");
