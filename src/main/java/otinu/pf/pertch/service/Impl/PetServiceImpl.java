@@ -124,7 +124,7 @@ public class PetServiceImpl implements PetService {
 	}
 
 	@Override
-	public Pet makePet(Pet pet, PetForm petForm, MultipartFile multipartFile, Principal principal) {
+	public Pet makePet(Pet pet, PetForm petForm, MultipartFile multipartFile, Principal principal) throws IOException {
 		pet.setId(petForm.getId());
 		pet.setName(petForm.getName());
 		pet.setAge(petForm.getAge());
@@ -139,9 +139,7 @@ public class PetServiceImpl implements PetService {
 			try {
 				this.settingImage(pet, multipartFile);
 			} catch (IOException e) {
-				System.out.println(Constant.UPLOAD_FILE_ENCODING_ERROR);
-				e.printStackTrace();
-				return pet;
+				throw e;
 			}
 		}
 

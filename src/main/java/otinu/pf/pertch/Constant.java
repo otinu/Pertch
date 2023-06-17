@@ -3,7 +3,7 @@ package otinu.pf.pertch;
 public class Constant {
 	
 	// 共通
-	public final static String UPLOAD_FILE_ENCODING_ERROR = "イメージデータのエンコーディング時に問題が発生しました";
+	public final static String UPLOAD_FILE_ENCODING_ERROR = "データ送信時に予期せぬエラーが発生しました";
 
 	// OwnerController
 	public final static String LOGIN_ERROR = "ログインに失敗しました";

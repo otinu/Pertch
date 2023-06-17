@@ -91,8 +91,11 @@ public class PetController {
 			redirectAttributes.addFlashAttribute("insertMessage", Constant.FINISH_PET_REGISTRATION);
 			return mv;
 		} catch (IOException e) {
-			System.out.println(Constant.UPLOAD_FILE_ENCODING_ERROR);
 			e.printStackTrace();
+			
+			String errorMessages = Constant.UPLOAD_FILE_ENCODING_ERROR;
+			mv.addObject("errorMessages", errorMessages);
+			mv.setViewName("pet/new");
 			return mv;
 		}
 	}
@@ -155,8 +158,20 @@ public class PetController {
 			return mv;
 		}
 
-		Pet pet = petService.makePet(new Pet(), petForm, multipartFile, principal);
-		petService.updatePet(pet);
+		try {
+			Pet pet = petService.makePet(new Pet(), petForm, multipartFile, principal);
+			petService.updatePet(pet);
+		} catch (IOException e) {
+			e.printStackTrace();
+			
+			String errorMessages = Constant.UPLOAD_FILE_ENCODING_ERROR;
+			mv.addObject("errorMessages", errorMessages);
+			mv.addObject("id", petForm.getId().toString());
+			mv.setViewName("pet/edit");
+			return mv;
+			
+		}
+		
 		redirectAttributes.addFlashAttribute("updateMessage", Constant.FINISH_PET_UPDATE);
 		mv.setViewName("redirect:/pet/index");
 		return mv;

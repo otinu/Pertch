@@ -27,7 +27,7 @@ public interface PetService {
 	
 	PetForm makePetForm(Pet pet);
 	
-	Pet makePet(Pet pet, PetForm petForm, MultipartFile multipartFile, Principal principal);
+	Pet makePet(Pet pet, PetForm petForm, MultipartFile multipartFile, Principal principal) throws IOException;
 	
 	Pet setFormToPet(Pet pet, PetForm petForm);
 	
