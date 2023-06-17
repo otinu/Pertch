@@ -1,5 +1,6 @@
 package otinu.pf.pertch.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,9 @@ public class PetCommentController {
 			Optional<PetForm> petFormOpt = petOpt.map(t -> petService.makePetForm(t));
 			petForm = petFormOpt.get();
 			mv.addObject("petForm", petForm);
+			
+			List<PetComment> petCommentList = petService.findPetComment(petId);
+			mv.addObject("petCommentList", petCommentList);
 
 			mv.setViewName(nextPath);
 			return mv;
