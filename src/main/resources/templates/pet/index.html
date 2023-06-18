@@ -29,53 +29,38 @@
 		</h2>
 
 		<th:block th:if="${not #strings.isEmpty(searchMessage)}">
-			<ul>
-				<li th:text="${searchMessage}"></li>
-			</ul>
+				<h4 th:text="${searchMessage}"></h4>
 		</th:block>
 
-
 		<form id="search" method="POST" th:action="@{/pet/search}" th:object="${petForm}" enctype="multipart/form-data">
-
-			<label>ペット名</label>
-			<input type=text th:field="*{name}">
-
-			<div class="TMP-age-area">
-				<label>年齢</label>
-				<input type="number" th:field="*{age}">
+			<div class="search-inputarea">
+				<div class="search-first-inputarea">
+					<label>ペット名</label>
+					<input type=text th:field="*{name}">
+					<label>年齢</label>
+					<input type="number" class="search-input-age" th:field="*{age}">
+					<label>性別</label>
+					<input type="radio" value="true" th:field="*{sex}">♂
+					<input type="radio" value="false" th:field="*{sex}">♀
+					<label>特徴</label>
+					<input type=text th:field="*{charmPoint}"></input>
+				</div>
+				<div class="search-second-inputarea">
+					
+					<label>郵便番号</label>
+					<input type=text th:field="*{postCord}">
+					<label>住所</label>
+					<input type=text th:field="*{address}">
+					<label>飼い主</label>
+					<input type=text th:field="*{owner.ownerName}">
+				</div>
+				<div>
+					<input type="submit" class="submit-button" value="検索">
+				</div>
 			</div>
 
-			<div class="TMP-gender-area">
-				<label>性別&nbsp;</label>
-				<br>
-				<div class="radio-button">
-					&nbsp;
-					<input type="radio" value="true" th:field="*{sex}">
-					♂&nbsp;
-				</div>
-				<div class="radio-button">
-					&nbsp;
-					<input type="radio" value="false" th:field="*{sex}">
-					♀
-				</div>
-			</div>
-
-			<label>特徴</label>
-			<input type=text th:field="*{charmPoint}"></input>
-			<label>郵便番号</label>
-			<input type=text th:field="*{postCord}">
-			<label>住所</label>
-			<input type=text th:field="*{address}">
-
-			<label>飼い主</label>
-			<input type=text th:field="*{owner.ownerName}">
-
-			<input type="submit" value="検索">
 
 		</form>
-
-
-
 
 		<div class="table-area">
 			<table border="1" th:unless="${#lists.isEmpty(list)}" style="table-layout: fixed;">
