@@ -20,6 +20,7 @@ public class Constant {
 	public final static String NO_PET_ERROR = "該当のペット情報が見つかりませんでした";
 	public final static String FINISH_PET_UPDATE = "ペット情報の更新が完了しました";
 	public final static String FINISH_PET_DELETE = "削除が完了しました";
+	public final static String SEARCH_NOT_FIND = "検索結果は0件でした";
 	
 	// PetCommentServiceImpl
 	public final static String LITERAL_T = "T";
@@ -36,5 +37,8 @@ public class Constant {
 	public final static String BASE64_PNG = "data:image/png;base64,";
 	public final static String BASE64_JPEG = "data:image/jpeg;base64,";
 	public final static String BASE64_GIF = "data:image/gif;base64,";
+	
+	// PetSearchServiceImpl
+	public final static Integer NOT_FIND_OWNER = 999999;
 
 }

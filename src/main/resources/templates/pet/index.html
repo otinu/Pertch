@@ -5,90 +5,135 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
-<link rel="stylesheet" th:href="@{/css/pet/index.css}">
-<link rel="stylesheet" th:href="@{/css/header/header.css}">
-<link rel="icon" type="image/png" th:href="@{../img/favicon-32x32.png}">
+	<link rel="stylesheet" th:href="@{/css/pet/index.css}">
+	<link rel="stylesheet" th:href="@{/css/header/header.css}">
+	<link rel="icon" type="image/png" th:href="@{../img/favicon-32x32.png}">
 
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.2.1/css/all.css" />
-<script defer src="https://use.fontawesome.com/releases/v6.2.1/js/all.js"></script>
-<meta charset="UTF-8">
-<title>Pertch</title>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.2.1/css/all.css" />
+	<script defer src="https://use.fontawesome.com/releases/v6.2.1/js/all.js"></script>
+	<meta charset="UTF-8">
+	<title>Pertch</title>
 </head>
+
 <body>
-  <th:block th:replace="fragment/header :: header"></th:block>
+	<th:block th:replace="fragment/header :: header"></th:block>
 
-  <div class="body-container">
-    <p class="action-message" th:if="${insertMessage}" th:text="${insertMessage}"></p>
-    <p class="action-message" th:if="${updateMessage}" th:text="*{updateMessage}"></p>
-    <p class="action-message" th:if="${deleteMessage}" th:text="*{deleteMessage}"></p>
-    <p class="alert-message" th:if="${errorMessage}" th:text="*{errorMessage}"></p>
+	<div class="body-container">
+		<p class="action-message" th:if="${insertMessage}" th:text="${insertMessage}"></p>
+		<p class="action-message" th:if="${updateMessage}" th:text="*{updateMessage}"></p>
+		<p class="action-message" th:if="${deleteMessage}" th:text="*{deleteMessage}"></p>
+		<p class="alert-message" th:if="${errorMessage}" th:text="*{errorMessage}"></p>
 
-    <h2 style="text-align: center;">
-      <i class="fa-solid fa-magnifying-glass-location fa-2x"></i> ペット一覧
-    </h2>
-    <div class="table-area">
-      <table border="1" th:unless="${#lists.isEmpty(list)}" style="table-layout: fixed;">
-        <tr>
-          <th>ペット名</th>
-          <th>年齢</th>
-          <th>性別</th>
-          <th>特徴</th>
-          <th>郵便番号</th>
-          <th>住所</th>
-          <th>飼い主</th>
-          <th>編集</th>
-          <th>削除</th>
-        </tr>
-        <tr th:each="pet : ${list}" align="center">
-          <td align="left">
-            <form id="pet-show" method="GET" th:action="@{/pet/show/{id}(id=${pet.id})}">
-              <a href="#" th:text="${pet.name}"></a>
-            </form>
-          </td>
-          <td th:text="${pet.age}"></td>
-          <th:block th:switch="${pet.sex}">
-            <td th:case=true>♂</td>
-            <td th:case=false>♀</td>
-          </th:block>
-          <td th:text="${pet.charmPoint}"></td>
-          <td th:text="${pet.postCord}"></td>
-          <td th:text="${pet.address}"></td>
-          <td>
-            <a th:href="@{/owner/show/{id}(id=${pet.owner.id})}" th:text="${pet.owner.ownerName}"></a>
-          </td>
-          <td>
-            <th:block th:if="${pet.owner.id == currentUser.id}">
-              <form method="POST" th:action="@{/pet/edit/{id}(id=${pet.id})}">
-                <button type="submit">
-                  <i class="fa-solid fa-pen-to-square"></i>
-                </button>
-              </form>
-            </th:block>
-          </td>
-          <td>
-            <th:block th:if="${pet.owner.id == currentUser.id}">
-              <form method="POST" th:action="@{/pet/delete}">
-                <input type="hidden" id="delete" name="id" th:value="${pet.id}">
-                <button type="submit" id="deleteBtn">
-                  <i class="fa-solid fa-trash"></i>
-                </button>
-              </form>
-            </th:block>
-          </td>
-        </tr>
-      </table>
-    </div>
+		<h2 style="text-align: center;">
+			<i class="fa-solid fa-magnifying-glass-location fa-2x"></i> ペット一覧
+		</h2>
 
-    <script th:src="@{/js/pet/index.js}"></script>
+		<th:block th:if="${not #strings.isEmpty(searchMessage)}">
+			<ul>
+				<li th:text="${searchMessage}"></li>
+			</ul>
+		</th:block>
 
-    <th:block th:replace="fragment/footer :: copyRight"></th:block>
-  </div>
+
+		<form id="search" method="POST" th:action="@{/pet/search}" th:object="${petForm}" enctype="multipart/form-data">
+
+			<label>ペット名</label>
+			<input type=text th:field="*{name}">
+
+			<div class="TMP-age-area">
+				<label>年齢</label>
+				<input type="number" th:field="*{age}">
+			</div>
+
+			<div class="TMP-gender-area">
+				<label>性別&nbsp;</label>
+				<br>
+				<div class="radio-button">
+					&nbsp;
+					<input type="radio" value="true" th:field="*{sex}">
+					♂&nbsp;
+				</div>
+				<div class="radio-button">
+					&nbsp;
+					<input type="radio" value="false" th:field="*{sex}">
+					♀
+				</div>
+			</div>
+
+			<label>特徴</label>
+			<input type=text th:field="*{charmPoint}"></input>
+			<label>郵便番号</label>
+			<input type=text th:field="*{postCord}">
+			<label>住所</label>
+			<input type=text th:field="*{address}">
+
+			<label>飼い主</label>
+			<input type=text th:field="*{owner.ownerName}">
+
+			<input type="submit" value="検索">
+
+		</form>
+
+
+
+
+		<div class="table-area">
+			<table border="1" th:unless="${#lists.isEmpty(list)}" style="table-layout: fixed;">
+				<tr>
+					<th>ペット名</th>
+					<th>年齢</th>
+					<th>性別</th>
+					<th>特徴</th>
+					<th>郵便番号</th>
+					<th>住所</th>
+					<th>飼い主</th>
+					<th>編集</th>
+					<th>削除</th>
+				</tr>
+				<tr th:each="pet : ${list}" align="center">
+					<td align="left">
+						<form id="pet-show" method="GET" th:action="@{/pet/show/{id}(id=${pet.id})}">
+							<a href="#" th:text="${pet.name}"></a>
+						</form>
+					</td>
+					<td th:text="${pet.age}"></td>
+					<th:block th:switch="${pet.sex}">
+						<td th:case=true>♂</td>
+						<td th:case=false>♀</td>
+					</th:block>
+					<td th:text="${pet.charmPoint}"></td>
+					<td th:text="${pet.postCord}"></td>
+					<td th:text="${pet.address}"></td>
+					<td>
+						<a th:href="@{/owner/show/{id}(id=${pet.owner.id})}" th:text="${pet.owner.ownerName}"></a>
+					</td>
+					<td>
+						<th:block th:if="${pet.owner.id == currentUser.id}">
+							<form method="POST" th:action="@{/pet/edit/{id}(id=${pet.id})}">
+								<button type="submit">
+									<i class="fa-solid fa-pen-to-square"></i>
+								</button>
+							</form>
+						</th:block>
+					</td>
+					<td>
+						<th:block th:if="${pet.owner.id == currentUser.id}">
+							<form method="POST" th:action="@{/pet/delete}">
+								<input type="hidden" id="delete" name="id" th:value="${pet.id}">
+								<button type="submit" id="deleteBtn">
+									<i class="fa-solid fa-trash"></i>
+								</button>
+							</form>
+						</th:block>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<script th:src="@{/js/pet/index.js}"></script>
+
+		<th:block th:replace="fragment/footer :: copyRight"></th:block>
+	</div>
 </body>
+
 </html>
-
-
-
-
-
-
-

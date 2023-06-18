@@ -1,3 +1,9 @@
+ul {
+    text-align: start;
+    margin: 2% auto 0 auto;
+    color: lightsalmon;
+}
+
 button:has(.fa-pen-to-square),
 button:has(.fa-trash) {
   background: none;

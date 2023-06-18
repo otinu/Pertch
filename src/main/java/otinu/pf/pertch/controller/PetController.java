@@ -3,6 +3,7 @@ package otinu.pf.pertch.controller;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import otinu.pf.pertch.Constant;
 import otinu.pf.pertch.entity.Owner;
@@ -27,6 +27,7 @@ import otinu.pf.pertch.entity.PetComment;
 import otinu.pf.pertch.form.PetCommentForm;
 import otinu.pf.pertch.form.PetForm;
 import otinu.pf.pertch.service.OwnerService;
+import otinu.pf.pertch.service.PetSearchService;
 import otinu.pf.pertch.service.PetService;
 
 @Controller
@@ -35,6 +36,9 @@ public class PetController {
 
 	@Autowired
 	PetService petService;
+	
+	@Autowired
+	PetSearchService petSearchService;
 
 	@Autowired
 	OwnerService ownerService;
@@ -92,7 +96,7 @@ public class PetController {
 			return mv;
 		} catch (IOException e) {
 			e.printStackTrace();
-			
+
 			String errorMessages = Constant.UPLOAD_FILE_ENCODING_ERROR;
 			mv.addObject("errorMessages", errorMessages);
 			mv.setViewName("pet/new");
@@ -138,7 +142,7 @@ public class PetController {
 	@PostMapping("/update")
 	public ModelAndView update(@Validated PetForm petForm, BindingResult bindingResult,
 			RedirectAttributes redirectAttributes, @RequestParam("upload_file") MultipartFile multipartFile,
-			Principal principal, UriComponentsBuilder uriBuilder) {
+			Principal principal) {
 
 		ModelAndView mv = new ModelAndView();
 		if (bindingResult.hasErrors()) {
@@ -149,7 +153,7 @@ public class PetController {
 			mv.setViewName("/pet/edit");
 			return mv;
 		}
-		
+
 		if (multipartFile.getSize() > Constant.UPLOAD_FILE_MAX_SIZE) {
 			String errorMessages = Constant.UPLOAD_FILE_SIZE_ERROR;
 			mv.addObject("errorMessages", errorMessages);
@@ -163,15 +167,15 @@ public class PetController {
 			petService.updatePet(pet);
 		} catch (IOException e) {
 			e.printStackTrace();
-			
+
 			String errorMessages = Constant.UPLOAD_FILE_ENCODING_ERROR;
 			mv.addObject("errorMessages", errorMessages);
 			mv.addObject("id", petForm.getId().toString());
 			mv.setViewName("pet/edit");
 			return mv;
-			
+
 		}
-		
+
 		redirectAttributes.addFlashAttribute("updateMessage", Constant.FINISH_PET_UPDATE);
 		mv.setViewName("redirect:/pet/index");
 		return mv;
@@ -182,6 +186,34 @@ public class PetController {
 		petService.deleteById(Integer.parseInt(id));
 		redirectAttributes.addFlashAttribute("deleteMessage", Constant.FINISH_PET_DELETE);
 		return "redirect:/pet/index";
+	}
+
+	@PostMapping("/search")
+	public ModelAndView search(@Validated PetForm petForm, BindingResult bindingResult, RedirectAttributes redirectAttributes, Principal principal) {
+		ModelAndView mv = new ModelAndView();
+		
+		String name = petForm.getName();
+		Integer age = petForm.getAge();
+		Boolean sex = petForm.getSex();
+		String charmPoint = petForm.getCharmPoint();
+		String postCord = petForm.getPostCord();
+		String address = petForm.getAddress();
+		String ownerName = petForm.getOwner().getOwnerName();
+		
+		List<Pet> petList = petSearchService.searchPet(name, age, sex, charmPoint, postCord, address, ownerName);
+		if(Objects.isNull(petList)) {
+			redirectAttributes.addFlashAttribute("searchMessage", Constant.SEARCH_NOT_FIND);
+			mv.setViewName("redirect:/pet/index");
+			return mv;
+		}
+		
+		mv.setViewName("pet/index");
+		mv.addObject("list", petList);
+		Owner currentUser = ownerService.getCurrentUser(principal);
+		mv.addObject("currentUser", currentUser);
+
+		
+		return mv;
 	}
 
 }

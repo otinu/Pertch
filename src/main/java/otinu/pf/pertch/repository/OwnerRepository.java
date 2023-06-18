@@ -11,7 +11,10 @@ public interface OwnerRepository extends JpaRepository<Owner, Integer> {
 	public Owner findByOwnerId(Integer id);
 	
 	@Query(value = "SELECT * FROM owner WHERE username = ?1", nativeQuery=true)
-	public Owner findByName(String name);
+	public Owner findByUserName(String name);
+	
+	@Query(value = "SELECT * FROM owner WHERE owner_name = ?1", nativeQuery=true)
+	public Owner findByOwnerName(String name);
 	
 	@Query(value = "SELECT COUNT(*) FROM owner WHERE username = ?1", nativeQuery=true)
 	public Integer countRecordByUserName(String name);
