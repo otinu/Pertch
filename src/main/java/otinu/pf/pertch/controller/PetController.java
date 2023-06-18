@@ -212,7 +212,6 @@ public class PetController {
 		Owner currentUser = ownerService.getCurrentUser(principal);
 		mv.addObject("currentUser", currentUser);
 
-		
 		return mv;
 	}
 

@@ -37,8 +37,5 @@ public class Constant {
 	public final static String BASE64_PNG = "data:image/png;base64,";
 	public final static String BASE64_JPEG = "data:image/jpeg;base64,";
 	public final static String BASE64_GIF = "data:image/gif;base64,";
-	
-	// PetSearchServiceImpl
-	public final static Integer NOT_FIND_OWNER = 999999;
 
 }

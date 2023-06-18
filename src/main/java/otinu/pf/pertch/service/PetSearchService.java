@@ -8,5 +8,8 @@ public interface PetSearchService {
 
 	List<Pet> searchPet(String name, Integer age, Boolean sex, String charmPoint, 
 			String postCord, String address, String ownerName);
+	
+	boolean isNonInput(String name, Integer age, Boolean sex, String charmPoint, String postCord,
+			String address, String ownerName);
 
 }

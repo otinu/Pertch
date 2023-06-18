@@ -66,7 +66,7 @@ button:hover {
 	padding: 1% 2%;
 	border: none;
 	border-radius: 10%;
-	background-color: #b0c4de;
+	background-color: rgb(104, 145, 162);
 	color: #fff;
 	font-weight: bold;
 	appearance: none;
@@ -75,13 +75,7 @@ button:hover {
 }
 
 .submit-button:hover {
-	background-color: rgb(104, 145, 162);
-}
-
-.submit-button:focus {
-	outline: 0;
-	background-color: #000;
-	border: 1% solid rgb(33, 150, 243);
+	background-color: rgb(33, 150, 243);
 }
 
 .search-input-age {
