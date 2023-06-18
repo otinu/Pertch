@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import otinu.pf.pertch.Constant;
 import otinu.pf.pertch.entity.Pet;
 import otinu.pf.pertch.entity.PetComment;
 import otinu.pf.pertch.form.PetCommentForm;
@@ -26,18 +27,16 @@ public class PetCommentServiceImpl implements PetCommentService {
 	public PetComment makePetComment(PetCommentForm petCommentForm, Pet pet) {
 		
 		String eventTimeString = petCommentForm.getEventTime();
-		eventTimeString = eventTimeString.replace("T", " ");
-		eventTimeString = eventTimeString.replace("-", "/");
+		eventTimeString = eventTimeString.replace(Constant.LITERAL_T, Constant.LITERAL_HALF_SPACE);
+		eventTimeString = eventTimeString.replace(Constant.LITERAL_BAR, Constant.LITERAL_SLASH);
 		
 		Date eventTime = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+		SimpleDateFormat sdf = new SimpleDateFormat(Constant.DATEFORMAT);
 		try {
 			eventTime = sdf.parse(eventTimeString);
 		} catch (ParseException e) {
-			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		}
-
 		
 		PetComment petComment = new PetComment();
 		petComment.setPet(pet);

@@ -13,6 +13,11 @@
 </head>
 
 <body>
+	
+	<th:block th:if="${not #strings.isEmpty(errorMessages)}">
+		<script th:inline="javascript">alert(/*[[${errorMessages}]]*/);</script>
+	</th:block>
+	
 	<th:block th:replace="fragment/header :: header"></th:block>
 
 	<div class="body-container">

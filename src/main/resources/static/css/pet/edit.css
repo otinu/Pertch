@@ -21,6 +21,12 @@ textarea {
   font-weight: bold;
 }
 
+ul {
+    text-align: start;
+    margin: 2% auto 0 auto;
+    color: lightsalmon;
+}
+
 input[type="text"]:hover,
 input[type="number"]:hover,
 textarea:hover {

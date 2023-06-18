@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Range;
@@ -36,15 +37,15 @@ public class PetForm {
 	private Boolean sex;
 	
 	/* 特徴 */
-	@Size(max = 200, message = "特徴は{max}文字までです")
+	@Size(max = 1000, message = "特徴は{max}文字までです")
 	private String charmPoint;
 	
 	/* 住処の郵便番号 */
-	@NotBlank(message="郵便番号は入力が必要です")
+	@Pattern(regexp = "^(?=.*[0-9]).{7,7}$", message = "郵便番号はハイフン抜きの7桁数字で入力が必要です")
 	private String postCord;
 	
 	/* 住処の住所 */
-	@Size(max = 99, message = "住所は{max}文字までです")
+	@Size(max = 50, message = "住所は{max}文字までです")
 	private String address;
 	
 	/* イメージ画像 */

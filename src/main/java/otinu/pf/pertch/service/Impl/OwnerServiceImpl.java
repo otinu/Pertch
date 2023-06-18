@@ -32,21 +32,25 @@ public class OwnerServiceImpl implements OwnerService {
 	}
 
 	@Override
-	public Owner findByName(String name) {
-		return repository.findByName(name);
+	public Owner findByUserName(String name) {
+		return repository.findByUserName(name);
 	}
-
+	
 	@Override
 	public Owner getCurrentUser(Principal principal) {
 		String loginUserName = principal.getName();
-		Owner owner = repository.findByName(loginUserName);
+		Owner owner = repository.findByUserName(loginUserName);
 		return owner;
-		//return repository.findByName(loginUserName);
 	}
 
 	@Override
 	public Owner findByOwnerId(Integer id) {
 		return repository.findByOwnerId(id);
+	}
+	
+	@Override
+	public Integer countRecordByUserName(String userName) {
+		return repository.countRecordByUserName(userName);
 	}
 	
 	public OwnerForm makeOwnerForm(Owner owner) {

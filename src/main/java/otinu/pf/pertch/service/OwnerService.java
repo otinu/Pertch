@@ -11,7 +11,9 @@ public interface OwnerService {
 
 	public Owner findByOwnerId(Integer id);
 
-	public Owner findByName(String name);
+	public Owner findByUserName(String name);
+	
+	public Integer countRecordByUserName(String userName);
 
 	public Owner getCurrentUser(Principal principal);
 	

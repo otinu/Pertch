@@ -19,14 +19,14 @@
   <main class="main">
     <form class="form" th:action="@{/registration}" method="post" th:object="${ownerForm}">
       <div class="form__item">
-        <label for="username">Name</label><input type="text" placeholder="お名前" th:field="*{ownerName}" />
+        <label for="username">Name</label><input type="text" placeholder="お名前" th:field="*{ownerName}" required />
       </div>
       <div class="form__item">
-        <label for="password">Password</label> <input type="password" placeholder="パスワード" autocomplete="off" th:field="*{password}" />
+        <label for="password">Password</label> <input type="password" placeholder="パスワード" autocomplete="off" th:field="*{password}" required />
       </div>
 
       <div class="form__item">
-        <label for="password">Email</label> <input type="text" placeholder="メールアドレス" th:field="*{username}" />
+        <label for="password">Email</label> <input type="text" placeholder="メールアドレス" th:field="*{username}" required />
       </div>
       <div class="form__item">
         <label for="password">Message</label>

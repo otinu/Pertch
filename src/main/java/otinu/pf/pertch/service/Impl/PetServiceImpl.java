@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import otinu.pf.pertch.Constant;
 import otinu.pf.pertch.entity.Pet;
 import otinu.pf.pertch.entity.PetComment;
 import otinu.pf.pertch.form.PetForm;
@@ -67,14 +68,14 @@ public class PetServiceImpl implements PetService {
 	public void settingImage(Pet pet, MultipartFile multipartFile) throws IOException {
 		String base64;
 		try {
-			base64 = new String(Base64.encodeBase64(multipartFile.getBytes()),"ASCII");
+			base64 = new String(Base64.encodeBase64(multipartFile.getBytes()), Constant.DATA_FORMAT);
 			String imageType = multipartFile.getContentType();
-			if(imageType.equals("image/png")) {
-				pet.setImage("data:image/png;base64," + base64);
-			} else if(imageType.equals("image/jpeg")) {
-				pet.setImage("data:image/jpeg;base64," + base64);
-			} else if(imageType.equals("image/gif")) {
-				pet.setImage("data:image/gif;base64," + base64);
+			if(imageType.equals(Constant.IMAGE_PNG)) {
+				pet.setImage(Constant.BASE64_PNG + base64);
+			} else if(imageType.equals(Constant.IMAGE_JPEG)) {
+				pet.setImage(Constant.BASE64_JPEG + base64);
+			} else if(imageType.equals(Constant.IMAGE_GIF)) {
+				pet.setImage(Constant.BASE64_GIF + base64);
 			}
 		} catch (IOException e) {
 			throw new IOException(e);
@@ -123,7 +124,7 @@ public class PetServiceImpl implements PetService {
 	}
 
 	@Override
-	public Pet makePet(Pet pet, PetForm petForm, MultipartFile multipartFile, Principal principal) {
+	public Pet makePet(Pet pet, PetForm petForm, MultipartFile multipartFile, Principal principal) throws IOException {
 		pet.setId(petForm.getId());
 		pet.setName(petForm.getName());
 		pet.setAge(petForm.getAge());
@@ -138,9 +139,7 @@ public class PetServiceImpl implements PetService {
 			try {
 				this.settingImage(pet, multipartFile);
 			} catch (IOException e) {
-				System.out.println("イメージデータのエンコーディング時に問題が発生しました。");
-				e.printStackTrace();
-				return pet;
+				throw e;
 			}
 		}
 
